@@ -1,0 +1,56 @@
+https://docs.google.com/spreadsheet/ccc?key=0Ar_YTOcXpvb9dGFIdHJlb0VmYXBORWRrcXFkeHNjcWc#gid=28
+
+2867	Broadcast Node	P4	1	135,000.00	67,500.00	
+2354	Neocoms 	6	
+17392	Data Chips 	6	
+17898	High-Tech Transmitters 	6
+
+2868	Integrity Response Drones	P4	1	135,000.00	67,500.00	
+2348	Gel-Matrix Biopaste 	6	
+2366	Hazmat Detection Systems 	6	
+9846	Planetary Vehicles 	6
+
+2869	Nano-Factory	P4	1	135,000.00	67,500.00	
+2360	Industrial Explosives 	6	
+17136	Ukomi Super Conductors 	6	
+2398	Reactive Metals 	40
+
+2870	Organic Mortar Applicators	P4	1	135,000.00	67,500.00	
+2344	Condensates 	6	
+9848	Robotics 	6	
+2393	Bacteria 	40
+2871	Recursive Computing Module	P4	1	135,000.00	67,500.00	
+2346	Synthetic Synapses 	6	
+9834	Guidance Systems 	6	
+12836	Transcranial Microcontrollers 	6
+
+2872	Self-Harmonizing Power Core	P4	1	135,000.00	67,500.00	
+2345	Camera Drones 	6	
+2352	Nuclear Reactors 	6	
+2361	Hermetic Membranes 	6
+
+2875	Sterile Conduits	P4	1	135,000.00	67,500.00	
+28974	Vaccines 	6	
+2351	Smartfab Units 	6	
+3645	Water	40
+
+2876	Wetware Mainframe	P4	1	135,000.00	67,500.00	
+2349	Supercomputers 	6	
+2358	Biotech Research Reports 	6	
+2367	Cryoprotectant Solution 	6
+
+3645	Water	P1 	20	50.00	25.00	2268	Aqueous Liquids 	3000
+3683	Oxygen	P1	20	50.00	25.00	2310	Noble Gas 	3000
+2393	Bacteria 	P1	20	50.00	25.00	2073	Micro Organisms 	3000
+2396	Biofuels 	P1	20	50.00	25.00	2288	Carbon Compounds 	3000
+3779	Biomass 	P1	20	50.00	25.00	2286	Planktic Colonies 	3000
+2401	Chiral Structures 	P1	20	50.00	25.00	2306	Non-CS Crystals 	3000
+2390	Electrolytes 	P1	20	50.00	25.00	2309	Ionic Solutions 	3000
+2397	Industrial Fibers 	P1	20	50.00	25.00	2305	Autotrophs 	3000
+2392	Oxidizing Compound 	P1	20	50.00	25.00	2311	Reactive Gas 	3000
+2389	Plasmoids 	P1	20	50.00	25.00	2308	Suspended Plasma 	3000
+2399	Precious Metals 	P1	20	50.00	25.00	2270	Noble Metals 	3000
+2395	Proteins 	P1	20	50.00	25.00	2287	Complex Organisms 	3000
+2398	Reactive Metals 	P1	20	50.00	25.00	2267	Base Metals 	3000
+9828	Silicon 	P1	20	50.00	25.00	2307	Felsic Magma 	3000
+2400	Toxic Metals 	P1	20	50.00	25.00	2272	Heavy Metals 	3000
