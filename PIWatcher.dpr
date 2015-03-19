@@ -12,7 +12,8 @@ uses
   uRTTIUtils in 'uRTTIUtils.pas',
   uWatcherGlobals in 'uWatcherGlobals.pas',
   uMarketOrders in 'uMarketOrders.pas',
-  ushared in 'ushared.pas';
+  ushared in 'ushared.pas',
+  uMarketHistory in 'uMarketHistory.pas';
 
 {$R *.res}
 

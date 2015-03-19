@@ -29,6 +29,17 @@ type
     respMarketOrders: TRESTResponse;
     xmlMarketOrders: TXMLDocument;
     BindingsList1: TBindingsList;
+    reqMarketHistory: TRESTRequest;
+    respMarketHistory: TRESTResponse;
+    mtMarketHistory: TFDMemTable;
+    mtMarketHistoryorderCount: TIntegerField;
+    mtMarketHistorylowPrice: TCurrencyField;
+    mtMarketHistoryhighPrice: TCurrencyField;
+    mtMarketHistoryavgPrice: TCurrencyField;
+    mtMarketHistoryvolume: TIntegerField;
+    mtMarketHistorydate: TDateTimeField;
+    dsMarketHistory: TDataSource;
+    resClientEVE: TRESTClient;
   private
     { Private declarations }
   public

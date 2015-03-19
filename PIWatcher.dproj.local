@@ -2,29 +2,31 @@
 <BorlandProject>
 	<Transactions>
     <Transaction>2015/03/14 16:45:01.000.201,=C:\Users\DSSDeveloper\Documents\Embarcadero\Studio\Projects\Unit4.pas</Transaction>
-    <Transaction>2015/03/14 16:45:52.000.967,C:\Source Code\PI Watcher\fMain.dfm=C:\Users\DSSDeveloper\Documents\Embarcadero\Studio\Projects\Unit4.dfm</Transaction>
-    <Transaction>2015/03/14 16:45:52.000.967,C:\Source Code\PI Watcher\fMain.pas=C:\Users\DSSDeveloper\Documents\Embarcadero\Studio\Projects\Unit4.pas</Transaction>
-    <Transaction>2015/03/14 16:45:57.000.990,C:\Source Code\PI Watcher\PIWatcher.dproj=C:\Users\DSSDeveloper\Documents\Embarcadero\Studio\Projects\Project3.dproj</Transaction>
+    <Transaction>2015/03/14 16:45:52.000.967,C:\Users\DSSDeveloper\Documents\Embarcadero\Studio\Projects\Unit4.pas=C:\Source Code\PI Watcher\fMain.pas</Transaction>
+    <Transaction>2015/03/14 16:45:52.000.967,C:\Users\DSSDeveloper\Documents\Embarcadero\Studio\Projects\Unit4.dfm=C:\Source Code\PI Watcher\fMain.dfm</Transaction>
+    <Transaction>2015/03/14 16:45:57.000.990,C:\Users\DSSDeveloper\Documents\Embarcadero\Studio\Projects\Project3.dproj=C:\Source Code\PI Watcher\PIWatcher.dproj</Transaction>
     <Transaction>2015/03/15 16:53:31.000.651,=C:\Source Code\PI Watcher\dData.pas</Transaction>
+    <Transaction>2015/03/15 16:54:00.000.356,=C:\Source Code\PI Watcher\fViewData.pas</Transaction>
     <Transaction>2015/03/15 16:54:00.000.251,=C:\Source Code\PI Watcher\fImportData.pas</Transaction>
     <Transaction>2015/03/15 16:54:00.000.365,=C:\Source Code\PI Watcher\uEveCentralPrice.pas</Transaction>
-    <Transaction>2015/03/15 16:54:00.000.356,=C:\Source Code\PI Watcher\fViewData.pas</Transaction>
     <Transaction>2015/03/15 17:48:42.000.478,=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
-    <Transaction>2015/03/15 17:49:02.000.719,C:\Source Code\PI Watcher\uPIPrice.pas=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
+    <Transaction>2015/03/15 17:49:02.000.719,C:\Source Code\PI Watcher\Unit1.pas=C:\Source Code\PI Watcher\uPIPrice.pas</Transaction>
     <Transaction>2015/03/16 09:21:53.000.271,=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
-    <Transaction>2015/03/16 09:22:00.000.985,C:\Source Code\PI Watcher\Unit1.pas=C:\Source Code\PI Watcher\uProfitCalculator.pas</Transaction>
+    <Transaction>2015/03/16 09:22:00.000.985,C:\Source Code\PI Watcher\uProfitCalculator.pas=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
     <Transaction>2015/03/16 09:45:12.000.041,=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
-    <Transaction>2015/03/16 09:45:19.000.446,C:\Source Code\PI Watcher\Unit1.pas=C:\Source Code\PI Watcher\uRTTIUtils.pas</Transaction>
+    <Transaction>2015/03/16 09:45:19.000.446,C:\Source Code\PI Watcher\uRTTIUtils.pas=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
     <Transaction>2015/03/16 11:20:31.000.229,=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
     <Transaction>2015/03/16 11:34:18.000.748,=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
     <Transaction>2015/03/16 11:44:37.000.905,=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
     <Transaction>2015/03/16 16:35:38.000.581,=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
-    <Transaction>2015/03/16 16:35:45.000.856,C:\Source Code\PI Watcher\uWatcherGlobals.pas=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
+    <Transaction>2015/03/16 16:35:45.000.856,C:\Source Code\PI Watcher\Unit1.pas=C:\Source Code\PI Watcher\uWatcherGlobals.pas</Transaction>
     <Transaction>2015/03/16 20:57:50.000.153,=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
-    <Transaction>2015/03/16 20:57:55.000.727,C:\Source Code\PI Watcher\uMarketOrders.pas=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
+    <Transaction>2015/03/16 20:57:55.000.727,C:\Source Code\PI Watcher\Unit1.pas=C:\Source Code\PI Watcher\uMarketOrders.pas</Transaction>
     <Transaction>2015/03/17 10:47:23.000.020,=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
-    <Transaction>2015/03/17 10:47:51.000.043,C:\Source Code\PI Watcher\Unit1.pas=C:\Source Code\Shared\ushared.pas</Transaction>
-    <Transaction>2015/03/17 12:45:14.736,C:\Source Code\Shared\ushared.pas=</Transaction>
-    <Transaction>2015/03/17 12:45:40.463,=C:\Source Code\PI Watcher\ushared.pas</Transaction>
+    <Transaction>2015/03/17 10:47:51.000.043,C:\Source Code\Shared\ushared.pas=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
+    <Transaction>2015/03/17 12:45:14.000.736,C:\Source Code\Shared\ushared.pas=</Transaction>
+    <Transaction>2015/03/17 12:45:40.000.463,=C:\Source Code\PI Watcher\ushared.pas</Transaction>
+    <Transaction>2015/03/19 16:36:06.000.490,=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
+    <Transaction>2015/03/19 16:36:14.000.916,C:\Source Code\PI Watcher\Unit1.pas=C:\Source Code\PI Watcher\uMarketHistory.pas</Transaction>
   </Transactions>
 </BorlandProject>

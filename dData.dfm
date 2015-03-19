@@ -1,7 +1,7 @@
 object dmData: TdmData
   OldCreateOrder = False
   Height = 416
-  Width = 282
+  Width = 433
   object fdmInputs: TFDMemTable
     Active = True
     FieldDefs = <
@@ -514,5 +514,76 @@ object dmData: TdmData
     OutputConverters = <>
     Left = 36
     Top = 133
+  end
+  object reqMarketHistory: TRESTRequest
+    Client = resClientEVE
+    Params = <
+      item
+        Kind = pkURLSEGMENT
+        name = 'regionid'
+        Options = [poAutoCreated]
+        Value = '10000002'
+      end
+      item
+        Kind = pkURLSEGMENT
+        name = 'typeid'
+        Options = [poAutoCreated]
+        Value = '27227'
+      end>
+    Resource = 'market/{regionid}/types/{typeid}/history/'
+    Response = respMarketHistory
+    SynchronizedEvents = False
+    Left = 337
+    Top = 64
+  end
+  object respMarketHistory: TRESTResponse
+    ContentType = 'application/vnd.ccp.eve.MarketTypeHistoryCollection-v1+json'
+    RootElement = 'items'
+    Left = 337
+    Top = 136
+  end
+  object mtMarketHistory: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired]
+    UpdateOptions.CheckRequired = False
+    AutoCommitUpdates = False
+    Left = 337
+    Top = 240
+    object mtMarketHistoryorderCount: TIntegerField
+      FieldName = 'orderCount'
+    end
+    object mtMarketHistorylowPrice: TCurrencyField
+      FieldName = 'lowPrice'
+    end
+    object mtMarketHistoryhighPrice: TCurrencyField
+      FieldName = 'highPrice'
+    end
+    object mtMarketHistoryavgPrice: TCurrencyField
+      FieldName = 'avgPrice'
+    end
+    object mtMarketHistoryvolume: TIntegerField
+      FieldName = 'volume'
+    end
+    object mtMarketHistorydate: TDateTimeField
+      FieldName = 'date'
+    end
+  end
+  object dsMarketHistory: TDataSource
+    DataSet = mtMarketHistory
+    Left = 337
+    Top = 312
+  end
+  object resClientEVE: TRESTClient
+    Accept = 'application/json, text/plain; q=0.9, text/html;q=0.8,'
+    AcceptCharset = 'UTF-8, *;q=0.8'
+    AcceptEncoding = 'identity'
+    BaseURL = 'https://public-crest.eveonline.com'
+    Params = <>
+    HandleRedirects = True
+    Left = 344
+    Top = 16
   end
 end

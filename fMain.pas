@@ -5,7 +5,9 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,uEveCentralPrice,System.Generics.Collections,
-  uPIPrice, Vcl.ComCtrls, Vcl.ExtCtrls;
+  uPIPrice, Vcl.ComCtrls, Vcl.ExtCtrls, VclTee.TeeGDIPlus, VCLTee.TeEngine,
+  VCLTee.Series, VCLTee.TeeProcs, VCLTee.Chart, VCLTee.DBChart, Vcl.Grids,
+  Vcl.DBGrids;
 
 type
   TfrmMain = class(TForm)
@@ -27,6 +29,11 @@ type
     Splitter3: TSplitter;
     Splitter5: TSplitter;
     lvMarketSell: TListView;
+    tsMarketHistoryChart: TTabSheet;
+    chtMarketHistory: TDBChart;
+    Series1: TLineSeries;
+    tsMarketHistory: TTabSheet;
+    DBGrid3: TDBGrid;
     procedure btnGetPricesClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -54,6 +61,7 @@ type
     procedure ParsePriceJSON(sJSON:string);
     function GetSelectedPIItem:TPIPrice;
     procedure ShowMarketORders(iTypeID: integer=0);
+    procedure DoShowMarketHistory;
   public
     { Public declarations }
   end;
@@ -65,7 +73,7 @@ const
 
 implementation
 uses uShared,dData,ioUtils,rest.json,system.json,fViewData,uProfitCalculator,
-  uMarketOrders,uWatcherglobals;
+  uMarketOrders,uWatcherglobals, uMarketHistory;
 {$R *.dfm}
 
 procedure TfrmMain.btnGetPricesClick(Sender: TObject);
@@ -121,6 +129,42 @@ begin
   lvMarketSell.CustomSort(nil,giSellOrdersSortCol);
   DrawMarketOrders(otBuy,lvMarketBuy);
   lvMarketBuy.CustomSort(nil,gibuyOrderSortCol);
+end;
+
+procedure TfrmMain.DoShowMarketHistory;
+var
+  ja:TJSONArray;
+  jv:TJSONValue;
+  jo:TJSONObject;
+  mh:TMarketHistory;
+begin
+  //try doing jsontoobject myself
+  {"volume_str":"1","orderCount":1,"lowPrice":1498998.98,"highPrice":14989978.98,
+  "avgPrice":14989978.98,"volume":1,
+  "orderCount_str":"1","date":"2014-03-31T00:00:00"}
+  ja := dmData.respMarketHistory.JSONValue as TJSONArray;
+  dmData.mtMarketHistory.Close;
+  dmData.mtMarketHistory.open;
+  dmData.mtMarketHistory.BeginBatch;
+  for jv in ja do
+  begin
+    jo := jv as TJSONObject;
+    mh := TJson.JsonToObject<TMarketHistory>(jo,[joDateFormatISO8601]);
+{
+    ForderCount:integer;
+    FlowPrice:currency;
+    FhighPrice:currency;
+    FavgPrice:currency;
+    Fvolume:integer;
+    Fdate:TDateTime;
+}
+    dmData.mtMarketHistory.InsertRecord([mh.ForderCount,mh.FlowPrice,mh.FhighPrice,
+      mh.FavgPrice,mh.Fvolume,mh.Fdate]);
+    mh.free;
+  end;
+  dmData.mtMarketHistory.EndBatch;
+  chtMarketHistory.RefreshData;
+
 end;
 
 procedure TfrmMain.DrawPrices;
@@ -301,6 +345,11 @@ begin
   end;
   if IsMarketOrderShowing then
     ShowMarketOrders;
+//Show market history
+  dmData.reqMarketHistory.Params.ParameterByName('typeid').value := inttostr(aPI.TypeID);
+  dmData.reqMarketHistory.Execute;
+  DoShowMarketHistory; //Not a Happy-Path, so we need to catch the response, parse and show it
+
 end;
 
 procedure TfrmMain.ParsePriceJSON(sJSON: string);

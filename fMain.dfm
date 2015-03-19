@@ -162,7 +162,7 @@ object frmMain: TfrmMain
     Top = 306
     Width = 789
     Height = 217
-    ActivePage = tsMarketOrders
+    ActivePage = tsDetails
     Align = alClient
     TabOrder = 2
     OnChange = pcMainChange
@@ -181,6 +181,10 @@ object frmMain: TfrmMain
     object tsMarketOrders: TTabSheet
       Caption = 'Market Orders'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Splitter3: TSplitter
         Left = 0
         Top = 89
@@ -245,6 +249,102 @@ object frmMain: TfrmMain
         ViewStyle = vsReport
         OnColumnClick = lvMarketSellColumnClick
         OnCompare = lvMarketSellCompare
+      end
+    end
+    object tsMarketHistory: TTabSheet
+      Caption = 'Market History'
+      ImageIndex = 3
+      object DBGrid3: TDBGrid
+        Left = 0
+        Top = 0
+        Width = 781
+        Height = 189
+        Align = alClient
+        DataSource = dmData.dsMarketHistory
+        TabOrder = 0
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'Tahoma'
+        TitleFont.Style = []
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'date'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'lowPrice'
+            Width = 100
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'highPrice'
+            Width = 100
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'avgPrice'
+            Width = 100
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'orderCount'
+            Width = 50
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'volume'
+            Width = 80
+            Visible = True
+          end>
+      end
+    end
+    object tsMarketHistoryChart: TTabSheet
+      Caption = 'Market History Chart'
+      ImageIndex = 2
+      object chtMarketHistory: TDBChart
+        Left = 0
+        Top = 0
+        Width = 781
+        Height = 189
+        Title.Text.Strings = (
+          'TDBChart')
+        View3D = False
+        Align = alClient
+        Color = clSilver
+        TabOrder = 0
+        AutoSize = True
+        DefaultCanvas = 'TGDIPlusCanvas'
+        PrintMargins = (
+          15
+          26
+          15
+          26)
+        ColorPaletteIndex = 6
+        object Series1: TLineSeries
+          DataSource = dmData.mtMarketHistory
+          SeriesColor = clBlack
+          Title = 'Average'
+          XLabelsSource = 'date'
+          Brush.BackColor = clDefault
+          DrawStyle = dsAll
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          XValues.DateTime = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'date'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'avgPrice'
+          Transparency = 34
+        end
       end
     end
   end
