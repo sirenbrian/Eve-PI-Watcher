@@ -79,6 +79,15 @@ object frmMain: TfrmMain
       TabOrder = 3
       OnClick = Button1Click
     end
+    object btnNameSearch: TButton
+      Left = 328
+      Top = 10
+      Width = 97
+      Height = 25
+      Caption = 'Test Name Search'
+      TabOrder = 4
+      OnClick = btnNameSearchClick
+    end
   end
   object pnlTop: TPanel
     Left = 0
@@ -181,10 +190,6 @@ object frmMain: TfrmMain
     object tsMarketOrders: TTabSheet
       Caption = 'Market Orders'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object Splitter3: TSplitter
         Left = 0
         Top = 89

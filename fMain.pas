@@ -34,6 +34,7 @@ type
     Series1: TLineSeries;
     tsMarketHistory: TTabSheet;
     DBGrid3: TDBGrid;
+    btnNameSearch: TButton;
     procedure btnGetPricesClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -54,6 +55,7 @@ type
       Data: Integer; var Compare: Integer);
     procedure lvMarketBuyCompare(Sender: TObject; Item1, Item2: TListItem;
       Data: Integer; var Compare: Integer);
+    procedure btnNameSearchClick(Sender: TObject);
   private
     { Private declarations }
     function IsMarketOrderShowing:boolean;
@@ -73,7 +75,7 @@ const
 
 implementation
 uses uShared,dData,ioUtils,rest.json,system.json,fViewData,uProfitCalculator,
-  uMarketOrders,uWatcherglobals, uMarketHistory;
+  uMarketOrders,uWatcherglobals, uMarketHistory, uLoadEveRefData, fSearch;
 {$R *.dfm}
 
 procedure TfrmMain.btnGetPricesClick(Sender: TObject);
@@ -84,6 +86,18 @@ begin
   sJSON:=dmData.respPrices.JSONValue.ToString;
   ParsePriceJSON(sJSON); //Will load the FPrices into memory
   DrawPrices;
+end;
+
+procedure TfrmMain.btnNameSearchClick(Sender: TObject);
+var
+  frm:TfrmSearch;
+begin
+  frm:=TfrmSearch.create(nil);
+  try
+    frm.showmodal;
+  finally
+    frm.free;
+  end;
 end;
 
 procedure TfrmMain.btnuseLastClick(Sender: TObject);
@@ -210,6 +224,8 @@ begin
   gibuyOrderSortCol :=0;
   gbSellOrdersSortAscending :=true; //lowest seller at the top
   gbBuyOrdersSortAscending := false; //highest buyer at the top
+  LoadGroups;
+  LoadTypes;
 end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);

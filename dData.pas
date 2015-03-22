@@ -40,6 +40,17 @@ type
     mtMarketHistorydate: TDateTimeField;
     dsMarketHistory: TDataSource;
     resClientEVE: TRESTClient;
+    fdmemGroups: TFDMemTable;
+    fdmemGroupsgroupID: TIntegerField;
+    fdmemGroupscategoryID: TIntegerField;
+    fdmemGroupsgroupName: TStringField;
+    fdmemGroupsdescription: TStringField;
+    fdmAllTypes: TFDMemTable;
+    fdmAllTypestypeID: TIntegerField;
+    fdmAllTypesgroupID: TIntegerField;
+    fdmAllTypestypeName: TStringField;
+    fdmAllTypesmarketGroupID: TIntegerField;
+    fdmAllTypesdescription: TStringField;
   private
     { Private declarations }
   public

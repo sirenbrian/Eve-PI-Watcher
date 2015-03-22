@@ -586,4 +586,59 @@ object dmData: TdmData
     Left = 344
     Top = 16
   end
+  object fdmemGroups: TFDMemTable
+    FieldDefs = <>
+    IndexDefs = <>
+    IndexFieldNames = 'groupID'
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired]
+    UpdateOptions.CheckRequired = False
+    AutoCommitUpdates = False
+    StoreDefs = True
+    Left = 48
+    Top = 312
+    object fdmemGroupsgroupID: TIntegerField
+      FieldName = 'groupID'
+    end
+    object fdmemGroupscategoryID: TIntegerField
+      FieldName = 'categoryID'
+    end
+    object fdmemGroupsgroupName: TStringField
+      FieldName = 'groupName'
+    end
+    object fdmemGroupsdescription: TStringField
+      FieldName = 'description'
+    end
+  end
+  object fdmAllTypes: TFDMemTable
+    Active = True
+    IndexFieldNames = 'typeID'
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired]
+    UpdateOptions.CheckRequired = False
+    AutoCommitUpdates = False
+    Left = 144
+    Top = 312
+    object fdmAllTypestypeID: TIntegerField
+      FieldName = 'typeID'
+    end
+    object fdmAllTypesgroupID: TIntegerField
+      FieldName = 'groupID'
+    end
+    object fdmAllTypestypeName: TStringField
+      FieldName = 'typeName'
+    end
+    object fdmAllTypesmarketGroupID: TIntegerField
+      FieldName = 'marketGroupID'
+    end
+    object fdmAllTypesdescription: TStringField
+      FieldName = 'description'
+    end
+  end
 end

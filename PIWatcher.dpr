@@ -13,16 +13,19 @@ uses
   uWatcherGlobals in 'uWatcherGlobals.pas',
   uMarketOrders in 'uMarketOrders.pas',
   ushared in 'ushared.pas',
-  uMarketHistory in 'uMarketHistory.pas';
+  uMarketHistory in 'uMarketHistory.pas',
+  uLoadEveRefData in 'uLoadEveRefData.pas',
+  fSearch in 'fSearch.pas' {frmSearch};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TdmData, dmData);
+  Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TForm2, Form2);
   Application.CreateForm(TfrmViewData, frmViewData);
+  Application.CreateForm(TfrmSearch, frmSearch);
   Application.Run;
 end.
