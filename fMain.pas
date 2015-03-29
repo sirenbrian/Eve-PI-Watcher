@@ -35,6 +35,8 @@ type
     tsMarketHistory: TTabSheet;
     DBGrid3: TDBGrid;
     btnNameSearch: TButton;
+    btnShowChildren: TButton;
+    Button2: TButton;
     procedure btnGetPricesClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -56,10 +58,12 @@ type
     procedure lvMarketBuyCompare(Sender: TObject; Item1, Item2: TListItem;
       Data: Integer; var Compare: Integer);
     procedure btnNameSearchClick(Sender: TObject);
+    procedure btnShowChildrenClick(Sender: TObject);
   private
     { Private declarations }
     function IsMarketOrderShowing:boolean;
-    procedure DrawPrices;
+    function IsMarketHistoryShowing:boolean;
+    procedure DrawPrices(iParentTypeID:integer=-1);
     procedure ParsePriceJSON(sJSON:string);
     function GetSelectedPIItem:TPIPrice;
     procedure ShowMarketORders(iTypeID: integer=0);
@@ -98,6 +102,15 @@ begin
   finally
     frm.free;
   end;
+end;
+
+procedure TfrmMain.btnShowChildrenClick(Sender: TObject);
+var
+  aPI:TPIPrice;
+begin
+  aPI := TPIPrice(lvPI.Selected.Data);
+
+  DrawPrices(aPI.typeid);
 end;
 
 procedure TfrmMain.btnuseLastClick(Sender: TObject);
@@ -151,11 +164,13 @@ var
   jv:TJSONValue;
   jo:TJSONObject;
   mh:TMarketHistory;
+  dtEarliestDate:TDateTime;
 begin
   //try doing jsontoobject myself
   {"volume_str":"1","orderCount":1,"lowPrice":1498998.98,"highPrice":14989978.98,
   "avgPrice":14989978.98,"volume":1,
   "orderCount_str":"1","date":"2014-03-31T00:00:00"}
+  dtEarliestDate := now - 180;
   ja := dmData.respMarketHistory.JSONValue as TJSONArray;
   dmData.mtMarketHistory.Close;
   dmData.mtMarketHistory.open;
@@ -172,8 +187,9 @@ begin
     Fvolume:integer;
     Fdate:TDateTime;
 }
-    dmData.mtMarketHistory.InsertRecord([mh.ForderCount,mh.FlowPrice,mh.FhighPrice,
-      mh.FavgPrice,mh.Fvolume,mh.Fdate]);
+    if mh.Fdate >= dtEarliestDate then
+      dmData.mtMarketHistory.InsertRecord([mh.ForderCount,mh.FlowPrice,mh.FhighPrice,
+        mh.FavgPrice,mh.Fvolume,mh.Fdate]);
     mh.free;
   end;
   dmData.mtMarketHistory.EndBatch;
@@ -181,16 +197,24 @@ begin
 
 end;
 
-procedure TfrmMain.DrawPrices;
+procedure TfrmMain.DrawPrices(iParentTypeID:integer=-1);
 var
   aPI:TPIPrice;
   cCostB,cCostS:extended;
+  bAdd:boolean;
 begin
   lvPI.items.clear;
   lvPI.items.BeginUpdate;
+
   try
     for aPI in FPrices do
     begin
+      if (iParentTypeID = -1) or (iParentTypeID = aPI.TypeID) then
+        bAdd := true
+      else
+        bAdd := dmData.IsParentOf(iParentTypeID,aPI.TypeID);
+      if not bAdd then
+        continue;
       //%n = float but with , seperators
       with lvPI.items.add do
       begin
@@ -248,6 +272,12 @@ begin
   result := nil;
   if lvPI.Selected <> nil then
     result := TPIPrice(lvPI.selected.Data);
+end;
+
+function TfrmMain.IsMarketHistoryShowing: boolean;
+begin
+  result := (pcMain.activepage = tsMarketHistory) or
+    (pcMain.activepage = tsMarketHistoryChart);
 end;
 
 function TfrmMain.IsMarketOrderShowing: boolean;
@@ -362,10 +392,12 @@ begin
   if IsMarketOrderShowing then
     ShowMarketOrders;
 //Show market history
-  dmData.reqMarketHistory.Params.ParameterByName('typeid').value := inttostr(aPI.TypeID);
-  dmData.reqMarketHistory.Execute;
-  DoShowMarketHistory; //Not a Happy-Path, so we need to catch the response, parse and show it
-
+  if (aPI<> nil) and IsMarketHistoryShowing then
+  begin
+    dmData.reqMarketHistory.Params.ParameterByName('typeid').value := inttostr(aPI.TypeID);
+    dmData.reqMarketHistory.Execute;
+    DoShowMarketHistory; //Not a Happy-Path, so we need to catch the response, parse and show it
+  end;
 end;
 
 procedure TfrmMain.ParsePriceJSON(sJSON: string);

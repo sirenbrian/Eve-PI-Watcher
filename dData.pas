@@ -58,6 +58,7 @@ type
     procedure FetchAllPrices;
     function GetNameByTypeID(iTypeID:integer):string;
     function GetLevelByTypeID(iTypeID:integer):integer;
+    function IsParentOf(iParentTypeID,iChildTypeID:integer):boolean;
   end;
 
 var
@@ -100,6 +101,16 @@ end;
 function TdmData.GetNameByTypeID(iTypeID: integer): string;
 begin
   result := fdmTypeIDs.Lookup('typeid',iTypeID,'TypeName');
+end;
+
+function TdmData.IsParentOf(iParentTypeID, iChildTypeID: integer): boolean;
+var
+  sFilter:string;
+begin
+  sFilter := format('(ParentTypeID=%d) and (ChildTypeID=%d)',[iParentTypeID,iChildTypeID]);
+  fdmInputs.filter := sFilter;
+  fdmInputs.Filtered:=true;
+  result := fdmInputs.recordcount=1;
 end;
 
 end.

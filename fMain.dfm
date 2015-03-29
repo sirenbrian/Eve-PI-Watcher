@@ -43,9 +43,10 @@ object frmMain: TfrmMain
     Height = 41
     Align = alTop
     TabOrder = 0
+    ExplicitTop = -5
     object btnGetPrices: TButton
-      Left = 192
-      Top = 11
+      Left = 152
+      Top = 10
       Width = 97
       Height = 25
       Caption = 'Fresh Prices!'
@@ -80,13 +81,31 @@ object frmMain: TfrmMain
       OnClick = Button1Click
     end
     object btnNameSearch: TButton
-      Left = 328
+      Left = 664
       Top = 10
       Width = 97
       Height = 25
       Caption = 'Test Name Search'
       TabOrder = 4
       OnClick = btnNameSearchClick
+    end
+    object btnShowChildren: TButton
+      Left = 264
+      Top = 10
+      Width = 75
+      Height = 25
+      Caption = 'Show Children'
+      TabOrder = 5
+      OnClick = btnShowChildrenClick
+    end
+    object Button2: TButton
+      Left = 352
+      Top = 10
+      Width = 75
+      Height = 25
+      Caption = 'Show All'
+      TabOrder = 6
+      OnClick = btnuseLastClick
     end
   end
   object pnlTop: TPanel
@@ -171,7 +190,7 @@ object frmMain: TfrmMain
     Top = 306
     Width = 789
     Height = 217
-    ActivePage = tsDetails
+    ActivePage = tsMarketHistory
     Align = alClient
     TabOrder = 2
     OnChange = pcMainChange
@@ -325,6 +344,7 @@ object frmMain: TfrmMain
         Color = clSilver
         TabOrder = 0
         AutoSize = True
+        ExplicitLeft = 2
         DefaultCanvas = 'TGDIPlusCanvas'
         PrintMargins = (
           15
