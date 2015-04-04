@@ -31,7 +31,7 @@ object frmViewData: TfrmViewData
     Top = 176
     Width = 377
     Height = 289
-    DataSource = dsTypes
+    DataSource = dsPITypes
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -47,14 +47,14 @@ object frmViewData: TfrmViewData
     TabOrder = 2
   end
   object dsInputs: TDataSource
-    DataSet = dmData.fdmInputs
+    DataSet = dmEveStatic.fdmInputs
     Left = 272
     Top = 48
   end
-  object dsTypes: TDataSource
-    DataSet = dmData.fdmTypeIDs
-    Left = 272
-    Top = 240
+  object dsPITypes: TDataSource
+    DataSet = dmData.fdmPITypeIDs
+    Left = 184
+    Top = 256
   end
   object BindingsList1: TBindingsList
     Methods = <>

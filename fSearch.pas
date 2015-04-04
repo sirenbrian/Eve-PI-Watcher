@@ -27,14 +27,14 @@ implementation
 
 {$R *.dfm}
 
-uses dData;
+uses dData, dEveStatic;
 
 procedure TfrmSearch.btnSearchClick(Sender: TObject);
 begin
   if length(txtSearch.text) > 3 then
   begin
-    dmData.fdmAllTypes.Filter := 'UPPER(typeName) like ''%'+uppercase(txtSearch.text)+'%''';
-    dmData.fdmAllTypes.Filtered := true;
+    dmEveStatic.fdmAllTypes.Filter := 'UPPER(typeName) like ''%'+uppercase(txtSearch.text)+'%''';
+    dmEveStatic.fdmAllTypes.Filtered := true;
   end;
 end;
 

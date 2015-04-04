@@ -13,7 +13,7 @@ type
     DBGrid1: TDBGrid;
     dsInputs: TDataSource;
     DBGrid2: TDBGrid;
-    dsTypes: TDataSource;
+    dsPITypes: TDataSource;
     Memo1: TMemo;
     BindingsList1: TBindingsList;
     LinkControlToField1: TLinkControlToField;
@@ -29,5 +29,7 @@ var
 implementation
 
 {$R *.dfm}
+
+uses dEveStatic;
 
 end.

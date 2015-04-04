@@ -13,18 +13,14 @@ uses
 
 type
   TdmData = class(TDataModule)
-    fdmInputs: TFDMemTable;
-    fdmInputsParentTypeID: TIntegerField;
-    fdmInputsChildTypeID: TIntegerField;
-    fdmInputsQuantity: TIntegerField;
-    fdmTypeIDs: TFDMemTable;
-    fdmTypeIDsTypeName: TStringField;
-    fdmTypeIDsPILevel: TSmallintField;
-    fdmTypeIDsTypeID: TIntegerField;
+    fdmPITypeIDs: TFDMemTable;
+    fdmPITypeIDsTypeName: TStringField;
+    fdmPITypeIDsPILevel: TSmallintField;
+    fdmPITypeIDsTypeID: TIntegerField;
     resClient: TRESTClient;
     reqPrices: TRESTRequest;
     respPrices: TRESTResponse;
-    fdmTypeIDsOutputQty: TIntegerField;
+    fdmPITypeIDsOutputQty: TIntegerField;
     reqMarketOrders: TRESTRequest;
     respMarketOrders: TRESTResponse;
     xmlMarketOrders: TXMLDocument;
@@ -40,25 +36,13 @@ type
     mtMarketHistorydate: TDateTimeField;
     dsMarketHistory: TDataSource;
     resClientEVE: TRESTClient;
-    fdmemGroups: TFDMemTable;
-    fdmemGroupsgroupID: TIntegerField;
-    fdmemGroupscategoryID: TIntegerField;
-    fdmemGroupsgroupName: TStringField;
-    fdmemGroupsdescription: TStringField;
-    fdmAllTypes: TFDMemTable;
-    fdmAllTypestypeID: TIntegerField;
-    fdmAllTypesgroupID: TIntegerField;
-    fdmAllTypestypeName: TStringField;
-    fdmAllTypesmarketGroupID: TIntegerField;
-    fdmAllTypesdescription: TStringField;
   private
+
     { Private declarations }
   public
     { Public declarations }
-    procedure FetchAllPrices;
-    function GetNameByTypeID(iTypeID:integer):string;
-    function GetLevelByTypeID(iTypeID:integer):integer;
-    function IsParentOf(iParentTypeID,iChildTypeID:integer):boolean;
+    function GetLevelByTypeID(iTypeID: integer): integer;
+    procedure FetchPIPrices;
   end;
 
 var
@@ -72,45 +56,32 @@ uses strutils,ioutils;
 
 { TdmData }
 
-procedure TdmData.FetchAllPrices;
+procedure TdmData.FetchPIPrices;
 var
   sTypes:string;
   p:TRESTRequestParameter;
 begin
-  fdmTypeIDs.first;
+  fdmPITypeIDs.first;
   stypes := '';
   p := reqPrices.Params.ParameterByName('typeid');
   sTypes:='';
-  while not fdmTypeIDs.eof do
+  while not fdmPITypeIDs.eof do
   begin
-    stypes:=sTypes+fdmTypeIDsTypeID.AsString;
-    if fdmTypeIDs.RecNo < fdmTypeIDs.RecordCount then
+    stypes:=sTypes+fdmPITypeIDsTypeID.AsString;
+    if fdmPITypeIDs.RecNo < fdmPITypeIDs.RecordCount then
       sTypes:=sTypes+',';
-    fdmTypeIDs.next;
+    fdmPITypeIDs.next;
   end;
   p.Value:= sTypes;
   reqPrices.execute;
-  TFile.WriteAllText('lastjson.txt',respPrices.content);
+  TFile.WriteAllText('lastpijson.txt',respPrices.content);
 end;
 
 function TdmData.GetLevelByTypeID(iTypeID: integer): integer;
 begin
-  result := fdmTypeIDs.Lookup('typeid',iTypeID,'PILevel')-1;
+  result := fdmPITypeIDs.Lookup('typeid',iTypeID,'PILevel')-1;
 end;
 
-function TdmData.GetNameByTypeID(iTypeID: integer): string;
-begin
-  result := fdmTypeIDs.Lookup('typeid',iTypeID,'TypeName');
-end;
 
-function TdmData.IsParentOf(iParentTypeID, iChildTypeID: integer): boolean;
-var
-  sFilter:string;
-begin
-  sFilter := format('(ParentTypeID=%d) and (ChildTypeID=%d)',[iParentTypeID,iChildTypeID]);
-  fdmInputs.filter := sFilter;
-  fdmInputs.Filtered:=true;
-  result := fdmInputs.recordcount=1;
-end;
 
 end.

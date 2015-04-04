@@ -10,6 +10,7 @@ object frmMain: TfrmMain
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  Menu = MainMenu1
   OldCreateOrder = False
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -18,7 +19,7 @@ object frmMain: TfrmMain
   TextHeight = 13
   object Splitter1: TSplitter
     Left = 0
-    Top = 291
+    Top = 305
     Width = 792
     Height = 15
     Cursor = crVSplit
@@ -26,189 +27,46 @@ object frmMain: TfrmMain
     Beveled = True
     Color = clMoneyGreen
     ParentColor = False
-    ExplicitTop = 200
+    ExplicitLeft = -8
+    ExplicitTop = 211
   end
   object Splitter5: TSplitter
     Left = 0
-    Top = 306
-    Height = 217
+    Top = 320
+    Height = 203
     ExplicitLeft = 632
     ExplicitTop = 272
     ExplicitHeight = 100
   end
-  object Panel1: TPanel
-    Left = 0
-    Top = 0
-    Width = 792
-    Height = 41
-    Align = alTop
-    TabOrder = 0
-    ExplicitTop = -5
-    object btnGetPrices: TButton
-      Left = 152
-      Top = 10
-      Width = 97
-      Height = 25
-      Caption = 'Fresh Prices!'
-      TabOrder = 0
-      OnClick = btnGetPricesClick
-    end
-    object btnuseLast: TButton
-      Left = 8
-      Top = 10
-      Width = 129
-      Height = 25
-      Caption = 'Read Prices From File'
-      TabOrder = 1
-      OnClick = btnuseLastClick
-    end
-    object btnViewData: TButton
-      Left = 448
-      Top = 9
-      Width = 75
-      Height = 25
-      Caption = 'View Tables'
-      TabOrder = 2
-      OnClick = btnViewDataClick
-    end
-    object Button1: TButton
-      Left = 536
-      Top = 10
-      Width = 113
-      Height = 25
-      Caption = 'View Raw JSON'
-      TabOrder = 3
-      OnClick = Button1Click
-    end
-    object btnNameSearch: TButton
-      Left = 664
-      Top = 10
-      Width = 97
-      Height = 25
-      Caption = 'Test Name Search'
-      TabOrder = 4
-      OnClick = btnNameSearchClick
-    end
-    object btnShowChildren: TButton
-      Left = 264
-      Top = 10
-      Width = 75
-      Height = 25
-      Caption = 'Show Children'
-      TabOrder = 5
-      OnClick = btnShowChildrenClick
-    end
-    object Button2: TButton
-      Left = 352
-      Top = 10
-      Width = 75
-      Height = 25
-      Caption = 'Show All'
-      TabOrder = 6
-      OnClick = btnuseLastClick
-    end
-  end
-  object pnlTop: TPanel
-    Left = 0
-    Top = 41
-    Width = 792
-    Height = 250
-    Align = alTop
-    TabOrder = 1
-    object Splitter2: TSplitter
-      Left = 451
-      Top = 1
-      Width = 7
-      Height = 248
-      Color = clMoneyGreen
-      ParentColor = False
-      ExplicitLeft = 433
-      ExplicitTop = 6
-      ExplicitHeight = 206
-    end
-    object lvPI: TListView
-      Left = 1
-      Top = 1
-      Width = 450
-      Height = 248
-      Align = alLeft
-      Columns = <
-        item
-          Caption = 'Lvl'
-          Width = 25
-        end
-        item
-          Caption = 'Name'
-          Width = 85
-        end
-        item
-          Caption = 'Sell'
-          Width = 85
-        end
-        item
-          Caption = 'Buy'
-          Width = 85
-        end
-        item
-          Caption = 'Make (B)'
-          Width = 85
-        end
-        item
-          Caption = 'Make (S)'
-          Width = 85
-        end
-        item
-          Caption = 'Profit (B)'
-          Width = 75
-        end
-        item
-          Caption = 'Profit (S)'
-          Width = 75
-        end>
-      HideSelection = False
-      MultiSelect = True
-      ReadOnly = True
-      RowSelect = True
-      TabOrder = 0
-      ViewStyle = vsReport
-      OnColumnClick = lvPIColumnClick
-      OnCompare = lvPICompare
-      OnSelectItem = lvPISelectItem
-    end
-    object memInputReport: TMemo
-      Left = 458
-      Top = 1
-      Width = 333
-      Height = 248
-      Align = alClient
-      ScrollBars = ssVertical
-      TabOrder = 1
-    end
-  end
   object pcMain: TPageControl
     Left = 3
-    Top = 306
+    Top = 320
     Width = 789
-    Height = 217
-    ActivePage = tsMarketHistory
+    Height = 203
+    ActivePage = tsDetails
     Align = alClient
-    TabOrder = 2
+    TabOrder = 0
     OnChange = pcMainChange
+    ExplicitTop = 208
+    ExplicitHeight = 315
     object tsDetails: TTabSheet
       Caption = 'Details'
+      ExplicitHeight = 189
       object memDetails: TMemo
         Left = 0
         Top = 0
         Width = 781
-        Height = 189
+        Height = 175
         Align = alClient
         ScrollBars = ssVertical
         TabOrder = 0
+        ExplicitHeight = 189
       end
     end
     object tsMarketOrders: TTabSheet
       Caption = 'Market Orders'
       ImageIndex = 1
+      ExplicitHeight = 189
       object Splitter3: TSplitter
         Left = 0
         Top = 89
@@ -226,7 +84,7 @@ object frmMain: TfrmMain
         Left = 0
         Top = 98
         Width = 781
-        Height = 91
+        Height = 77
         Align = alClient
         Columns = <
           item
@@ -247,6 +105,7 @@ object frmMain: TfrmMain
         ViewStyle = vsReport
         OnColumnClick = lvMarketBuyColumnClick
         OnCompare = lvMarketBuyCompare
+        ExplicitHeight = 91
       end
       object lvMarketSell: TListView
         Left = 0
@@ -278,11 +137,12 @@ object frmMain: TfrmMain
     object tsMarketHistory: TTabSheet
       Caption = 'Market History'
       ImageIndex = 3
+      ExplicitHeight = 189
       object DBGrid3: TDBGrid
         Left = 0
         Top = 0
         Width = 781
-        Height = 189
+        Height = 175
         Align = alClient
         DataSource = dmData.dsMarketHistory
         TabOrder = 0
@@ -332,11 +192,12 @@ object frmMain: TfrmMain
     object tsMarketHistoryChart: TTabSheet
       Caption = 'Market History Chart'
       ImageIndex = 2
+      ExplicitHeight = 189
       object chtMarketHistory: TDBChart
         Left = 0
         Top = 0
         Width = 781
-        Height = 189
+        Height = 175
         Title.Text.Strings = (
           'TDBChart')
         View3D = False
@@ -344,7 +205,7 @@ object frmMain: TfrmMain
         Color = clSilver
         TabOrder = 0
         AutoSize = True
-        ExplicitLeft = 2
+        ExplicitHeight = 189
         DefaultCanvas = 'TGDIPlusCanvas'
         PrintMargins = (
           15
@@ -372,5 +233,214 @@ object frmMain: TfrmMain
         end
       end
     end
+  end
+  object PageControl1: TPageControl
+    Left = 0
+    Top = 0
+    Width = 792
+    Height = 305
+    ActivePage = TabSheet1
+    Align = alTop
+    TabOrder = 1
+    object TabSheet1: TTabSheet
+      Caption = 'PI Watcher'
+      ExplicitWidth = 281
+      ExplicitHeight = 165
+      object Panel1: TPanel
+        Left = 0
+        Top = 0
+        Width = 784
+        Height = 41
+        Align = alTop
+        TabOrder = 0
+        ExplicitTop = 8
+        object btnGetPrices: TButton
+          Left = 152
+          Top = 10
+          Width = 97
+          Height = 25
+          Caption = 'Fresh Prices!'
+          TabOrder = 0
+          OnClick = btnGetPricesClick
+        end
+        object btnuseLast: TButton
+          Left = 8
+          Top = 10
+          Width = 129
+          Height = 25
+          Caption = 'Read Prices From File'
+          TabOrder = 1
+          OnClick = btnuseLastClick
+        end
+        object btnViewData: TButton
+          Left = 448
+          Top = 9
+          Width = 75
+          Height = 25
+          Caption = 'View Tables'
+          TabOrder = 2
+          OnClick = btnViewDataClick
+        end
+        object Button1: TButton
+          Left = 536
+          Top = 10
+          Width = 113
+          Height = 25
+          Caption = 'View Raw JSON'
+          TabOrder = 3
+          OnClick = Button1Click
+        end
+        object btnNameSearch: TButton
+          Left = 664
+          Top = 10
+          Width = 97
+          Height = 25
+          Caption = 'Test Name Search'
+          TabOrder = 4
+          OnClick = btnNameSearchClick
+        end
+        object btnShowChildren: TButton
+          Left = 264
+          Top = 10
+          Width = 75
+          Height = 25
+          Caption = 'Show Children'
+          TabOrder = 5
+          OnClick = btnShowChildrenClick
+        end
+        object Button2: TButton
+          Left = 352
+          Top = 10
+          Width = 75
+          Height = 25
+          Caption = 'Show All'
+          TabOrder = 6
+          OnClick = btnuseLastClick
+        end
+      end
+      object pnlTop: TPanel
+        Left = 0
+        Top = 41
+        Width = 784
+        Height = 250
+        Align = alTop
+        TabOrder = 1
+        ExplicitTop = 27
+        object Splitter2: TSplitter
+          Left = 451
+          Top = 1
+          Width = 7
+          Height = 248
+          Color = clMoneyGreen
+          ParentColor = False
+          ExplicitLeft = 433
+          ExplicitTop = 6
+          ExplicitHeight = 206
+        end
+        object lvPI: TListView
+          Left = 1
+          Top = 1
+          Width = 450
+          Height = 248
+          Align = alLeft
+          Columns = <
+            item
+              Caption = 'Lvl'
+              Width = 25
+            end
+            item
+              Caption = 'Name'
+              Width = 85
+            end
+            item
+              Caption = 'Sell'
+              Width = 85
+            end
+            item
+              Caption = 'Buy'
+              Width = 85
+            end
+            item
+              Caption = 'Make (B)'
+              Width = 85
+            end
+            item
+              Caption = 'Make (S)'
+              Width = 85
+            end
+            item
+              Caption = 'Profit (B)'
+              Width = 75
+            end
+            item
+              Caption = 'Profit (S)'
+              Width = 75
+            end>
+          HideSelection = False
+          MultiSelect = True
+          ReadOnly = True
+          RowSelect = True
+          TabOrder = 0
+          ViewStyle = vsReport
+          OnColumnClick = lvPIColumnClick
+          OnCompare = lvPICompare
+          OnSelectItem = lvPISelectItem
+        end
+        object memInputReport: TMemo
+          Left = 458
+          Top = 1
+          Width = 325
+          Height = 248
+          Align = alClient
+          ScrollBars = ssVertical
+          TabOrder = 1
+        end
+      end
+    end
+    object tsAnyItem: TTabSheet
+      Caption = 'Any Item'
+      ImageIndex = 1
+      ExplicitWidth = 281
+      ExplicitHeight = 165
+      object Panel2: TPanel
+        Left = 0
+        Top = 0
+        Width = 784
+        Height = 41
+        Align = alTop
+        TabOrder = 0
+        ExplicitLeft = 184
+        ExplicitTop = 64
+        ExplicitWidth = 185
+      end
+      object DBGrid1: TDBGrid
+        Left = 0
+        Top = 41
+        Width = 784
+        Height = 236
+        Align = alClient
+        TabOrder = 1
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'Tahoma'
+        TitleFont.Style = []
+      end
+    end
+  end
+  object MainMenu1: TMainMenu
+    Left = 384
+    Top = 264
+    object File1: TMenuItem
+      Caption = '&File'
+      object ManageStatic1: TMenuItem
+        Caption = '&Manage Static'
+        OnClick = ManageStatic1Click
+      end
+    end
+  end
+  object DataSource1: TDataSource
+    Left = 240
+    Top = 208
   end
 end

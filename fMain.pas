@@ -7,20 +7,11 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,uEveCentralPrice,System.Generics.Collections,
   uPIPrice, Vcl.ComCtrls, Vcl.ExtCtrls, VclTee.TeeGDIPlus, VCLTee.TeEngine,
   VCLTee.Series, VCLTee.TeeProcs, VCLTee.Chart, VCLTee.DBChart, Vcl.Grids,
-  Vcl.DBGrids;
+  Vcl.DBGrids, Vcl.Menus, Data.DB;
 
 type
   TfrmMain = class(TForm)
-    Panel1: TPanel;
-    btnGetPrices: TButton;
-    btnuseLast: TButton;
-    btnViewData: TButton;
     Splitter1: TSplitter;
-    pnlTop: TPanel;
-    lvPI: TListView;
-    memInputReport: TMemo;
-    Splitter2: TSplitter;
-    Button1: TButton;
     pcMain: TPageControl;
     tsDetails: TTabSheet;
     memDetails: TMemo;
@@ -34,9 +25,27 @@ type
     Series1: TLineSeries;
     tsMarketHistory: TTabSheet;
     DBGrid3: TDBGrid;
+    MainMenu1: TMainMenu;
+    File1: TMenuItem;
+    ManageStatic1: TMenuItem;
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    tsAnyItem: TTabSheet;
+    Panel1: TPanel;
+    btnGetPrices: TButton;
+    btnuseLast: TButton;
+    btnViewData: TButton;
+    Button1: TButton;
     btnNameSearch: TButton;
     btnShowChildren: TButton;
     Button2: TButton;
+    pnlTop: TPanel;
+    Splitter2: TSplitter;
+    lvPI: TListView;
+    memInputReport: TMemo;
+    Panel2: TPanel;
+    DBGrid1: TDBGrid;
+    DataSource1: TDataSource;
     procedure btnGetPricesClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -59,6 +68,7 @@ type
       Data: Integer; var Compare: Integer);
     procedure btnNameSearchClick(Sender: TObject);
     procedure btnShowChildrenClick(Sender: TObject);
+    procedure ManageStatic1Click(Sender: TObject);
   private
     { Private declarations }
     function IsMarketOrderShowing:boolean;
@@ -75,18 +85,19 @@ type
 var
   frmMain: TfrmMain;
 const
-  LASTJSON='lastjson.txt';
+  LASTJSON='lastpijson.txt';
 
 implementation
 uses uShared,dData,ioUtils,rest.json,system.json,fViewData,uProfitCalculator,
-  uMarketOrders,uWatcherglobals, uMarketHistory, uLoadEveRefData, fSearch;
+  uMarketOrders,uWatcherglobals, uMarketHistory, fSearch,
+  fEveStatic, dEveStatic;
 {$R *.dfm}
 
 procedure TfrmMain.btnGetPricesClick(Sender: TObject);
 var
   sJSON:string;
 begin
-  dmData.FetchAllPrices;
+  dmData.FetchPIPrices;
   sJSON:=dmData.respPrices.JSONValue.ToString;
   ParsePriceJSON(sJSON); //Will load the FPrices into memory
   DrawPrices;
@@ -205,21 +216,22 @@ var
 begin
   lvPI.items.clear;
   lvPI.items.BeginUpdate;
-
+  //Get a list of the typeIDs that are inputs into iParentTypeID.
+  //Only draw each item in FPrices if its in that list.
   try
     for aPI in FPrices do
     begin
       if (iParentTypeID = -1) or (iParentTypeID = aPI.TypeID) then
         bAdd := true
       else
-        bAdd := dmData.IsParentOf(iParentTypeID,aPI.TypeID);
+        bAdd := dmEveStatic.IsParentOf(iParentTypeID,aPI.TypeID);
       if not bAdd then
         continue;
       //%n = float but with , seperators
       with lvPI.items.add do
       begin
         caption := inttostr(aPI.PILevel);
-        subitems.add(dmData.GetNameByTypeID(aPI.TypeID));
+        subitems.add(dmEveStatic.GetNameByTypeID(aPI.TypeID));
         subitems.add(format('%n',[aPI.sell.min])); //sell
         subitems.add(format('%n',[aPI.buy.max])); //buy
         //make (buy mats)
@@ -248,8 +260,8 @@ begin
   gibuyOrderSortCol :=0;
   gbSellOrdersSortAscending :=true; //lowest seller at the top
   gbBuyOrdersSortAscending := false; //highest buyer at the top
-  LoadGroups;
-  LoadTypes;
+  //LoadGroups;
+  //LoadTypes;
 end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
@@ -371,7 +383,7 @@ var
 begin
   if Item = nil then
     exit;
-
+  aPI:=nil;
   memInputReport.text := '';
   memDetails.text := '';
 
@@ -400,6 +412,18 @@ begin
   end;
 end;
 
+procedure TfrmMain.ManageStatic1Click(Sender: TObject);
+var
+  frm:TfrmEveStatic;
+begin
+  frm:=TfrmEveStatic.create(nil);
+  try
+    frm.showmodal;
+  finally
+    frm.free;
+  end;
+end;
+
 procedure TfrmMain.ParsePriceJSON(sJSON: string);
 var
   ja:TJSONArray;
@@ -414,11 +438,10 @@ begin
     jo := jv as TJSONObject;
     aItem := TJSON.JSONToObject<TPIPrice>(jo);
     aItem.RawJSON := TJSON.ObjectToJsonString(aItem);
-    aItem.Name := dmData.GetNameByTypeID(aItem.TypeID);
+    aItem.Name := dmEveStatic.GetNameByTypeID(aItem.TypeID);
     aItem.PILevel := dmData.GetLevelByTypeID(aItem.TypeID);
     FPrices.add(aItem);
   end;
-
 end;
 
 procedure TfrmMain.pcMainChange(Sender: TObject);

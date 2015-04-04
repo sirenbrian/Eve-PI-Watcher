@@ -1,10 +1,11 @@
 program PIWatcher;
 
+
+
 uses
   Vcl.Forms,
   fMain in 'fMain.pas' {frmMain},
   dData in 'dData.pas' {dmData: TDataModule},
-  fImportData in 'fImportData.pas' {Form2},
   fViewData in 'fViewData.pas' {frmViewData},
   uEveCentralPrice in 'uEveCentralPrice.pas',
   uPIPrice in 'uPIPrice.pas',
@@ -14,8 +15,9 @@ uses
   uMarketOrders in 'uMarketOrders.pas',
   ushared in 'ushared.pas',
   uMarketHistory in 'uMarketHistory.pas',
-  uLoadEveRefData in 'uLoadEveRefData.pas',
-  fSearch in 'fSearch.pas' {frmSearch};
+  fSearch in 'fSearch.pas' {frmSearch},
+  dEveStatic in 'dEveStatic.pas',
+  fEveStatic in 'fEveStatic.pas';
 
 {$R *.res}
 
@@ -23,9 +25,8 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TdmData, dmData);
+  Application.CreateForm(TdmEveStatic, dmEveStatic);
   Application.CreateForm(TfrmMain, frmMain);
-  Application.CreateForm(TForm2, Form2);
   Application.CreateForm(TfrmViewData, frmViewData);
-  Application.CreateForm(TfrmSearch, frmSearch);
   Application.Run;
 end.

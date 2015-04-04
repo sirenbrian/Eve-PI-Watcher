@@ -44,7 +44,7 @@ object frmSearch: TfrmSearch
   end
   object dsAllTypes: TDataSource
     AutoEdit = False
-    DataSet = dmData.fdmAllTypes
+    DataSet = dmEveStatic.fdmAllTypes
     Left = 168
     Top = 168
   end
