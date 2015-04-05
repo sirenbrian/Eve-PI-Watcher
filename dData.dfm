@@ -1,7 +1,7 @@
 object dmData: TdmData
   OldCreateOrder = False
-  Height = 416
-  Width = 433
+  Height = 474
+  Width = 492
   object fdmPITypeIDs: TFDMemTable
     Active = True
     FieldDefs = <
@@ -38,8 +38,8 @@ object dmData: TdmData
     UpdateOptions.CheckUpdatable = False
     AutoCommitUpdates = False
     StoreDefs = True
-    Left = 24
-    Top = 80
+    Left = 32
+    Top = 304
     Content = {
       414442530E001350D1120000FF00010001FF02FF03040014000000660064006D
       00540079007000650049004400730005000A0000005400610062006C00650006
@@ -237,7 +237,7 @@ object dmData: TdmData
     BaseURL = 'http://api.eve-central.com'
     Params = <>
     HandleRedirects = True
-    Left = 96
+    Left = 144
     Top = 16
   end
   object reqPrices: TRESTRequest
@@ -361,5 +361,87 @@ object dmData: TdmData
     HandleRedirects = True
     Left = 344
     Top = 16
+  end
+  object fdmWatchList: TFDMemTable
+    OnCalcFields = fdmWatchListCalcFields
+    FieldDefs = <>
+    IndexDefs = <>
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired]
+    UpdateOptions.CheckRequired = False
+    AutoCommitUpdates = False
+    StoreDefs = True
+    Left = 32
+    Top = 368
+    object fdmWatchListtypeID: TIntegerField
+      FieldName = 'typeID'
+    end
+    object fdmWatchListName: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'typeName'
+      Calculated = True
+    end
+    object fdmWatchListMinSell: TCurrencyField
+      FieldName = 'MinSell'
+    end
+    object fdmWatchListMaxBuy: TCurrencyField
+      FieldName = 'MaxBuy'
+    end
+    object fdmWatchListDiffPercent: TFloatField
+      FieldKind = fkCalculated
+      FieldName = 'DiffPercent'
+      Calculated = True
+    end
+    object fdmWatchListDiffISK: TCurrencyField
+      FieldKind = fkCalculated
+      FieldName = 'DiffISK'
+      Calculated = True
+    end
+    object fdmWatchListLowBar: TCurrencyField
+      FieldName = 'LowBar'
+    end
+    object fdmWatchListHighBar: TCurrencyField
+      FieldName = 'HighBar'
+    end
+  end
+  object fdmBuildList: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired]
+    UpdateOptions.CheckRequired = False
+    AutoCommitUpdates = False
+    Left = 112
+    Top = 368
+  end
+  object fdmMaterialsWeUse: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired]
+    UpdateOptions.CheckRequired = False
+    AutoCommitUpdates = False
+    Left = 200
+    Top = 376
+  end
+  object dsWatchList: TDataSource
+    DataSet = fdmWatchList
+    Left = 32
+    Top = 424
+  end
+  object dsBuildList: TDataSource
+    DataSet = fdmBuildList
+    Left = 112
+    Top = 424
+  end
+  object dsMaterialsWeUse: TDataSource
+    DataSet = fdmMaterialsWeUse
+    Left = 200
+    Top = 424
   end
 end

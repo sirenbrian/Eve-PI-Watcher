@@ -47,11 +47,8 @@ object frmMain: TfrmMain
     Align = alClient
     TabOrder = 0
     OnChange = pcMainChange
-    ExplicitTop = 208
-    ExplicitHeight = 315
     object tsDetails: TTabSheet
       Caption = 'Details'
-      ExplicitHeight = 189
       object memDetails: TMemo
         Left = 0
         Top = 0
@@ -60,13 +57,11 @@ object frmMain: TfrmMain
         Align = alClient
         ScrollBars = ssVertical
         TabOrder = 0
-        ExplicitHeight = 189
       end
     end
     object tsMarketOrders: TTabSheet
       Caption = 'Market Orders'
       ImageIndex = 1
-      ExplicitHeight = 189
       object Splitter3: TSplitter
         Left = 0
         Top = 89
@@ -105,7 +100,6 @@ object frmMain: TfrmMain
         ViewStyle = vsReport
         OnColumnClick = lvMarketBuyColumnClick
         OnCompare = lvMarketBuyCompare
-        ExplicitHeight = 91
       end
       object lvMarketSell: TListView
         Left = 0
@@ -137,7 +131,6 @@ object frmMain: TfrmMain
     object tsMarketHistory: TTabSheet
       Caption = 'Market History'
       ImageIndex = 3
-      ExplicitHeight = 189
       object DBGrid3: TDBGrid
         Left = 0
         Top = 0
@@ -192,7 +185,6 @@ object frmMain: TfrmMain
     object tsMarketHistoryChart: TTabSheet
       Caption = 'Market History Chart'
       ImageIndex = 2
-      ExplicitHeight = 189
       object chtMarketHistory: TDBChart
         Left = 0
         Top = 0
@@ -205,7 +197,6 @@ object frmMain: TfrmMain
         Color = clSilver
         TabOrder = 0
         AutoSize = True
-        ExplicitHeight = 189
         DefaultCanvas = 'TGDIPlusCanvas'
         PrintMargins = (
           15
@@ -239,13 +230,11 @@ object frmMain: TfrmMain
     Top = 0
     Width = 792
     Height = 305
-    ActivePage = TabSheet1
+    ActivePage = tsAnyItem
     Align = alTop
     TabOrder = 1
     object TabSheet1: TTabSheet
       Caption = 'PI Watcher'
-      ExplicitWidth = 281
-      ExplicitHeight = 165
       object Panel1: TPanel
         Left = 0
         Top = 0
@@ -253,7 +242,6 @@ object frmMain: TfrmMain
         Height = 41
         Align = alTop
         TabOrder = 0
-        ExplicitTop = 8
         object btnGetPrices: TButton
           Left = 152
           Top = 10
@@ -325,7 +313,6 @@ object frmMain: TfrmMain
         Height = 250
         Align = alTop
         TabOrder = 1
-        ExplicitTop = 27
         object Splitter2: TSplitter
           Left = 451
           Top = 1
@@ -400,8 +387,10 @@ object frmMain: TfrmMain
     object tsAnyItem: TTabSheet
       Caption = 'Any Item'
       ImageIndex = 1
-      ExplicitWidth = 281
-      ExplicitHeight = 165
+      ExplicitTop = 22
+      DesignSize = (
+        784
+        277)
       object Panel2: TPanel
         Left = 0
         Top = 0
@@ -409,22 +398,93 @@ object frmMain: TfrmMain
         Height = 41
         Align = alTop
         TabOrder = 0
-        ExplicitLeft = 184
-        ExplicitTop = 64
-        ExplicitWidth = 185
+        object btnPopulateWatchList: TButton
+          Left = 16
+          Top = 8
+          Width = 75
+          Height = 25
+          Caption = 'Populate'
+          TabOrder = 0
+          OnClick = btnPopulateWatchListClick
+        end
       end
-      object DBGrid1: TDBGrid
-        Left = 0
+      object dbgWatchList: TDBGrid
+        Left = 192
         Top = 41
-        Width = 784
+        Width = 592
         Height = 236
-        Align = alClient
+        Align = alRight
+        DataSource = dmData.dsWatchList
         TabOrder = 1
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
         TitleFont.Height = -11
         TitleFont.Name = 'Tahoma'
         TitleFont.Style = []
+      end
+      object txtSearch: TEdit
+        Left = 3
+        Top = 72
+        Width = 102
+        Height = 21
+        TabOrder = 2
+        OnKeyPress = txtSearchKeyPress
+      end
+      object btnSearch: TButton
+        Left = 111
+        Top = 70
+        Width = 75
+        Height = 25
+        Caption = 'Search'
+        TabOrder = 3
+        OnClick = btnSearchClick
+      end
+      object DBGrid1: TDBGrid
+        Left = 3
+        Top = 109
+        Width = 170
+        Height = 132
+        Anchors = [akLeft, akTop, akRight, akBottom]
+        DataSource = dsAllTypes
+        TabOrder = 4
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'Tahoma'
+        TitleFont.Style = []
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'typeName'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'description'
+            Visible = True
+          end>
+      end
+      object Button3: TButton
+        Left = 40
+        Top = 250
+        Width = 125
+        Height = 25
+        Anchors = [akTop, akBottom]
+        Caption = 'Add To WatchList'
+        TabOrder = 5
+        OnClick = Button3Click
+      end
+    end
+    object tsManufacture: TTabSheet
+      Caption = 'Manufacture'
+      ImageIndex = 2
+      object Panel3: TPanel
+        Left = 0
+        Top = 0
+        Width = 784
+        Height = 41
+        Align = alTop
+        TabOrder = 0
       end
     end
   end
@@ -438,9 +498,18 @@ object frmMain: TfrmMain
         OnClick = ManageStatic1Click
       end
     end
+    object Actions1: TMenuItem
+      Caption = 'Actions'
+      object InitBuildandWatch1: TMenuItem
+        Caption = 'Init Build and Watch'
+        OnClick = InitBuildandWatch1Click
+      end
+    end
   end
-  object DataSource1: TDataSource
-    Left = 240
-    Top = 208
+  object dsAllTypes: TDataSource
+    AutoEdit = False
+    DataSet = dmEveStatic.fdmAllTypes
+    Left = 160
+    Top = 168
   end
 end

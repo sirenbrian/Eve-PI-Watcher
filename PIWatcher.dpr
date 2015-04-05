@@ -16,8 +16,8 @@ uses
   ushared in 'ushared.pas',
   uMarketHistory in 'uMarketHistory.pas',
   fSearch in 'fSearch.pas' {frmSearch},
-  dEveStatic in 'dEveStatic.pas',
-  fEveStatic in 'fEveStatic.pas';
+  fEveStatic in 'fEveStatic.pas',
+  dEveStatic in 'dEveStatic.pas';
 
 {$R *.res}
 

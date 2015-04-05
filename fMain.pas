@@ -44,8 +44,17 @@ type
     lvPI: TListView;
     memInputReport: TMemo;
     Panel2: TPanel;
+    tsManufacture: TTabSheet;
+    Panel3: TPanel;
+    dbgWatchList: TDBGrid;
+    Actions1: TMenuItem;
+    InitBuildandWatch1: TMenuItem;
+    btnPopulateWatchList: TButton;
+    txtSearch: TEdit;
+    btnSearch: TButton;
     DBGrid1: TDBGrid;
-    DataSource1: TDataSource;
+    dsAllTypes: TDataSource;
+    Button3: TButton;
     procedure btnGetPricesClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -69,12 +78,18 @@ type
     procedure btnNameSearchClick(Sender: TObject);
     procedure btnShowChildrenClick(Sender: TObject);
     procedure ManageStatic1Click(Sender: TObject);
+    procedure InitBuildandWatch1Click(Sender: TObject);
+    procedure btnPopulateWatchListClick(Sender: TObject);
+    procedure btnSearchClick(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure txtSearchKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     function IsMarketOrderShowing:boolean;
     function IsMarketHistoryShowing:boolean;
     procedure DrawPrices(iParentTypeID:integer=-1);
     procedure ParsePriceJSON(sJSON:string);
+    procedure ParsePriceWatchList(sJSON:string);
     function GetSelectedPIItem:TPIPrice;
     procedure ShowMarketORders(iTypeID: integer=0);
     procedure DoShowMarketHistory;
@@ -86,11 +101,12 @@ var
   frmMain: TfrmMain;
 const
   LASTJSON='lastpijson.txt';
-
+  WATCHLIST='watch.bin';
+  BUILDLIST='build.bin';
 implementation
 uses uShared,dData,ioUtils,rest.json,system.json,fViewData,uProfitCalculator,
   uMarketOrders,uWatcherglobals, uMarketHistory, fSearch,
-  fEveStatic, dEveStatic;
+  FireDAC.Stan.Intf, dEveStatic;
 {$R *.dfm}
 
 procedure TfrmMain.btnGetPricesClick(Sender: TObject);
@@ -112,6 +128,24 @@ begin
     frm.showmodal;
   finally
     frm.free;
+  end;
+end;
+
+procedure TfrmMain.btnPopulateWatchListClick(Sender: TObject);
+var
+  sJSON:string;
+begin
+  dmData.FetchWatchListPrices;
+  sJSON:=dmData.respPrices.JSONValue.ToString;
+  ParsePriceWatchList(sJSON); //Will load the FPrices into memory
+end;
+
+procedure TfrmMain.btnSearchClick(Sender: TObject);
+begin
+  if length(txtSearch.text) >= 3 then
+  begin
+    dmEveStatic.fdmAllTypes.Filter := 'UPPER(typeName) like ''%'+uppercase(txtSearch.text)+'%''';
+    dmEveStatic.fdmAllTypes.Filtered := true;
   end;
 end;
 
@@ -156,6 +190,13 @@ begin
   ShowMarketOrders;
 end;
 
+procedure TfrmMain.Button3Click(Sender: TObject);
+begin
+  dmData.fdmWatchList.Append;
+  dmData.fdmWatchListtypeID.asinteger := dmEveStatic.fdmAllTypestypeID.asinteger;
+  dmData.fdmWatchList.Post;
+end;
+
 procedure TfrmMain.ShowMarketORders(iTypeID:integer=0);
 begin
   lvMarketSell.items.clear;
@@ -167,6 +208,12 @@ begin
   lvMarketSell.CustomSort(nil,giSellOrdersSortCol);
   DrawMarketOrders(otBuy,lvMarketBuy);
   lvMarketBuy.CustomSort(nil,gibuyOrderSortCol);
+end;
+
+procedure TfrmMain.txtSearchKeyPress(Sender: TObject; var Key: Char);
+begin
+  if ord(key) = VK_RETURN then
+    btnSearchclick(nil);
 end;
 
 procedure TfrmMain.DoShowMarketHistory;
@@ -224,14 +271,14 @@ begin
       if (iParentTypeID = -1) or (iParentTypeID = aPI.TypeID) then
         bAdd := true
       else
-        bAdd := dmEveStatic.IsParentOf(iParentTypeID,aPI.TypeID);
+        bAdd := dmData.IsParentOf(iParentTypeID,aPI.TypeID);
       if not bAdd then
         continue;
       //%n = float but with , seperators
       with lvPI.items.add do
       begin
         caption := inttostr(aPI.PILevel);
-        subitems.add(dmEveStatic.GetNameByTypeID(aPI.TypeID));
+        subitems.add(dmData.GetNameByTypeID(aPI.TypeID));
         subitems.add(format('%n',[aPI.sell.min])); //sell
         subitems.add(format('%n',[aPI.buy.max])); //buy
         //make (buy mats)
@@ -260,13 +307,25 @@ begin
   gibuyOrderSortCol :=0;
   gbSellOrdersSortAscending :=true; //lowest seller at the top
   gbBuyOrdersSortAscending := false; //highest buyer at the top
-  //LoadGroups;
-  //LoadTypes;
+{  if FileExists(BUILDLIST) then
+  begin
+    dmData.fdmBuildList.CreateDataSet;
+    dmData.fdmBuildList.LoadFromFile(BUILDLIST);
+  end;
+  }
+  if FileExists(WATCHLIST) then
+  begin
+    dmData.fdmWatchList.CreateDataSet;
+    dmData.fdmWatchList.LoadFromFile(WATCHLIST);
+  end;
+
 end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
 begin
   FPRices.free;
+  dmData.fdmBuildList.SaveToFile(BUILDLIST,sfbinary);
+  dmData.fdmWatchList.SaveToFile(WATCHLIST,sfbinary);
 end;
 
 procedure TfrmMain.FormShow(Sender: TObject);
@@ -284,6 +343,20 @@ begin
   result := nil;
   if lvPI.Selected <> nil then
     result := TPIPrice(lvPI.selected.Data);
+end;
+
+procedure TfrmMain.InitBuildandWatch1Click(Sender: TObject);
+begin
+  with dmData.fdmWatchList do
+  begin
+    if not Active then
+      Active := true;
+    Append;
+    fieldbyname('typeID').asinteger := 2454;
+    Append;
+    fieldbyname('typeID').asinteger := 2456;
+    Post;
+  end;
 end;
 
 function TfrmMain.IsMarketHistoryShowing: boolean;
@@ -413,15 +486,17 @@ begin
 end;
 
 procedure TfrmMain.ManageStatic1Click(Sender: TObject);
-var
-  frm:TfrmEveStatic;
+//var
+//  frm:TfrmEveStatic;
 begin
+{
   frm:=TfrmEveStatic.create(nil);
   try
     frm.showmodal;
   finally
     frm.free;
   end;
+  }
 end;
 
 procedure TfrmMain.ParsePriceJSON(sJSON: string);
@@ -437,11 +512,38 @@ begin
   begin
     jo := jv as TJSONObject;
     aItem := TJSON.JSONToObject<TPIPrice>(jo);
-    aItem.RawJSON := TJSON.ObjectToJsonString(aItem);
-    aItem.Name := dmEveStatic.GetNameByTypeID(aItem.TypeID);
+//    aItem.RawJSON := TJSON.ObjectToJsonString(aItem);
+    aItem.Name := dmData.GetNameByTypeID(aItem.TypeID);
     aItem.PILevel := dmData.GetLevelByTypeID(aItem.TypeID);
     FPrices.add(aItem);
   end;
+end;
+
+procedure TfrmMain.ParsePriceWatchList(sJSON: string);
+var
+  ja:TJSONArray;
+  jv:TJSONValue;
+  jo:TJSONObject;
+  aItem:TPIPrice;
+begin
+  ja := TJSONObject.ParseJSONValue(sJSON) as TJSONArray;
+
+  for jv in ja do
+  begin
+    jo := jv as TJSONObject;
+    aItem := TJSON.JSONToObject<TPIPrice>(jo);
+//    aItem.RawJSON := TJSON.ObjectToJsonString(aItem);
+    aItem.Name := dmData.GetNameByTypeID(aItem.TypeID);
+    with dmData.fdmWatchList do
+    begin
+      Locate('typeID',aItem.TypeID);
+      dmData.fdmWatchList.Edit;
+      FieldByName('MinSell').AsCurrency := aItem.sell.min;
+      FieldByName('MaxBuy').AsCurrency := aItem.buy.max;
+    end;
+    aItem.free;
+  end;
+  dmData.fdmWatchList.Post;
 end;
 
 procedure TfrmMain.pcMainChange(Sender: TObject);

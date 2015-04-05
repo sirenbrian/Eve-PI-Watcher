@@ -36,35 +36,76 @@ type
     mtMarketHistorydate: TDateTimeField;
     dsMarketHistory: TDataSource;
     resClientEVE: TRESTClient;
+    fdmWatchList: TFDMemTable;
+    fdmBuildList: TFDMemTable;
+    fdmMaterialsWeUse: TFDMemTable;
+    dsWatchList: TDataSource;
+    dsBuildList: TDataSource;
+    dsMaterialsWeUse: TDataSource;
+    fdmWatchListtypeID: TIntegerField;
+    fdmWatchListMinSell: TCurrencyField;
+    fdmWatchListMaxBuy: TCurrencyField;
+    fdmWatchListDiffPercent: TFloatField;
+    fdmWatchListDiffISK: TCurrencyField;
+    fdmWatchListLowBar: TCurrencyField;
+    fdmWatchListHighBar: TCurrencyField;
+    fdmWatchListName: TStringField;
+    procedure fdmWatchListCalcFields(DataSet: TDataSet);
   private
-
+    procedure FetchECPrices(sTypeIDs:string;sfilename:string='');
     { Private declarations }
   public
     { Public declarations }
     function GetLevelByTypeID(iTypeID: integer): integer;
     procedure FetchPIPrices;
+    procedure FetchWatchListPrices;
+    procedure LoadGroups;
+    procedure LoadTypes;
+    function GetNameByTypeID(iTypeID:integer):string;
+
+
+    function IsParentOf(iParentTypeID,iChildTypeID:integer):boolean;
   end;
 
 var
   dmData: TdmData;
 
 implementation
-uses strutils,ioutils;
+uses strutils,ioutils, dEveStatic, System.Types;
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 {$R *.dfm}
 
 { TdmData }
 
+procedure TdmData.fdmWatchListCalcFields(DataSet: TDataSet);
+begin
+  if fdmWatchListTypeID.asinteger > 0 then
+  begin
+    fdmWatchListName.asstring := GetNameByTypeID(fdmWatchListTypeID.asinteger);
+    fdmWatchListDiffISK.AsCurrency := fdmWatchlistMinSell.ascurrency-fdmWatchlistMaxBuy.ascurrency;
+    if fdmWatchlistMaxBuy.ascurrency > 0 then
+      fdmWatchListDiffPercent.AsFloat := round((fdmWatchListDiffISK.AsCurrency / fdmWatchlistMaxBuy.ascurrency)*100);
+  end;
+end;
+
+procedure TdmData.FetchECPrices(sTypeIDs, sfilename: string);
+var
+  p:TRESTRequestParameter;
+begin
+  p := reqPrices.Params.ParameterByName('typeid');
+  p.Value:= sTypeIDs;
+  reqPrices.execute;
+  if sfileName>'' then
+    TFile.WriteAllText(sFileName,respPrices.content);
+end;
+
 procedure TdmData.FetchPIPrices;
 var
   sTypes:string;
-  p:TRESTRequestParameter;
 begin
   fdmPITypeIDs.first;
   stypes := '';
-  p := reqPrices.Params.ParameterByName('typeid');
-  sTypes:='';
   while not fdmPITypeIDs.eof do
   begin
     stypes:=sTypes+fdmPITypeIDsTypeID.AsString;
@@ -72,9 +113,24 @@ begin
       sTypes:=sTypes+',';
     fdmPITypeIDs.next;
   end;
-  p.Value:= sTypes;
-  reqPrices.execute;
-  TFile.WriteAllText('lastpijson.txt',respPrices.content);
+  FetchECPrices(sTypes,'lastpijson.txt');
+end;
+
+procedure TdmData.FetchWatchListPrices;
+  //go through fdmWatchList and use the typeIDs to get prices from eve central.
+var
+  sTypes:string;
+begin
+  fdmWatchList.first;
+  stypes := '';
+  while not fdmWatchList.eof do
+  begin
+    stypes:=sTypes+fdmWatchListtypeID.AsString;
+    if fdmWatchList.RecNo < fdmWatchList.RecordCount then
+      sTypes:=sTypes+',';
+    fdmWatchList.next;
+  end;
+  FetchECPrices(sTypes,'lastwatchlistjson.txt');
 end;
 
 function TdmData.GetLevelByTypeID(iTypeID: integer): integer;
@@ -82,6 +138,78 @@ begin
   result := fdmPITypeIDs.Lookup('typeid',iTypeID,'PILevel')-1;
 end;
 
+function TdmData.GetNameByTypeID(iTypeID: integer): string;
+begin
+  dmEveStatic.fdmAllTypes.filtered := false;
+  result := dmEveStatic.fdmAllTypes.Lookup('typeid',iTypeID,'TypeName');
+end;
+
+function TdmData.IsParentOf(iParentTypeID, iChildTypeID: integer): boolean;
+var
+  sFilter:string;
+begin
+  sFilter := format('(ParentTypeID=%d) and (ChildTypeID=%d)',[iParentTypeID,iChildTypeID]);
+  dmEveStatic.fdmInputs.filter := sFilter;
+  dmEveStatic.fdmInputs.Filtered:=true;
+  result := dmEveStatic.fdmInputs.recordcount=1;
+end;
+
+procedure TdmData.LoadGroups;
+var
+  slRead:TStringList;
+  ilp:integer;
+  aValues:Tstringdynarray;
+begin
+  //read from invGroups.txt and load into dmEveStatic.fdmemGroups
+  //int int str str
+  //use tfilestream later
+  //and obviously make one loading point, passing in # and types of fields
+  slRead := TStringList.create;
+  slRead.loadfromfile('invGroups.txt');
+  dmEveStatic.fdmemGroups.Active := true;
+  dmEveStatic.fdmemGroups.BeginBatch();
+  try
+    for ilp := 0 to slRead.count-1 do
+    begin
+      if (slREad[ilp] = '') or (ilp = 0) then
+        continue;
+      aValues:=SplitString(slRead[ilp],#9);
+      dmEveStatic.fdmemGroups.InsertRecord([aValues[0],aValues[1],aValues[2],aValues[3]]);
+    end;
+  finally
+    dmEveStatic.fdmemGroups.EndBatch;
+    slRead.free;
+  end;
+end;
+
+procedure TdmData.LoadTypes;
+var
+  slRead:TStringList;
+  ilp:integer;
+  aValues:Tstringdynarray;
+begin
+  //read from invTypes.txt and load into dmData.fdmemGroups
+  //int int str int
+  slRead := TStringList.create;
+  slRead.loadfromfile('invTypes.txt');
+  dmEveStatic.fdmAllTypes.Active := true;
+  dmEveStatic.fdmAllTypes.BeginBatch();
+  try
+    for ilp := 0 to slRead.count-1 do
+    begin
+      if (slREad[ilp] = '') or (ilp = 0) then
+        continue;
+      aValues:=SplitString(slRead[ilp],#9);
+      if aVAlues[3] = 'NULL' then
+        aValues[3] := '';
+      dmEveStatic.fdmAllTypes.InsertRecord([aValues[0],aValues[1],aValues[2],
+        aValues[3]]);
+    end;
+  finally
+    dmEveStatic.fdmAllTypes.EndBatch;
+    slRead.free;
+  end;
+end;
 
 
 end.

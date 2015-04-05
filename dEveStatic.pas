@@ -18,15 +18,15 @@ type
     fdmAllTypestypeName: TStringField;
     fdmAllTypesmarketGroupID: TIntegerField;
     fdmAllTypesdescription: TStringField;
+    fdmInputs: TFDMemTable;
+    fdmInputsParentTypeID: TIntegerField;
+    fdmInputsChildTypeID: TIntegerField;
+    fdmInputsQuantity: TIntegerField;
     fdmemGroups: TFDMemTable;
     fdmemGroupsgroupID: TIntegerField;
     fdmemGroupscategoryID: TIntegerField;
     fdmemGroupsgroupName: TStringField;
     fdmemGroupsdescription: TStringField;
-    fdmInputs: TFDMemTable;
-    fdmInputsParentTypeID: TIntegerField;
-    fdmInputsChildTypeID: TIntegerField;
-    fdmInputsQuantity: TIntegerField;
   private
     { Private declarations }
   public

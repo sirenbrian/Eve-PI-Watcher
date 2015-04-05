@@ -110,8 +110,8 @@
             <Form>frmSearch</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="dEveStatic.pas"/>
         <DCCReference Include="fEveStatic.pas"/>
+        <DCCReference Include="dEveStatic.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
