@@ -9,7 +9,7 @@ function CostToBuildMaterialsSell(iTypeID:integer):extended;
 function InputReport(iTypeID:integer):string;
 
 implementation
-uses sysutils;
+uses sysutils, dEveStatic;
 
 function CostToBuildMaterialsBuy(iTypeID:integer):extended;
 var
@@ -17,7 +17,7 @@ var
   cTotal:currency;
 begin
 
-  with dmData.fdmInputs do
+  with dmEveStatic.fdmInputs do
   begin
     Filter:='ParentTypeID='+inttostr(iTypeID);
     Filtered:=true;
@@ -25,14 +25,14 @@ begin
     cTotal:=0.0;
     while not eof do
     begin
-      aInputPI := GetPIByTypeID(dmData.fdmInputsChildTypeID.Value);
-      cTotal:= cTotal +dmData.fdmInputsQuantity.value * aInputPI.buy.max;
+      aInputPI := GetPIByTypeID(dmEveStatic.fdmInputsChildTypeID.Value);
+      cTotal:= cTotal +dmEveStatic.fdmInputsQuantity.value * aInputPI.buy.max;
       next;
     end;
   end;
   //that's how much you spent to make X units of output (PI lvl 4, x=1. Lvl 3, x=3 etc)
-  dmData.fdmTypeIDs.Locate('typeID',itypeID);
-  result := cTotal / (dmData.fdmTypeIDsOutputQty.Value)
+  dmData.fdmPITypeIDs.Locate('typeID',itypeID);
+  result := cTotal / (dmData.fdmPITypeIDsOutputQty.Value)
 end;
 
 function CostToBuildMaterialsSell(iTypeID:integer):extended;
@@ -40,7 +40,7 @@ var
   aInputPI:TPIPrice;
   cTotal:currency;
 begin
-  with dmData.fdmInputs do
+  with dmEveStatic.fdmInputs do
   begin
     Filter:='ParentTypeID='+inttostr(iTypeID);
     Filtered:=true;
@@ -48,14 +48,14 @@ begin
     cTotal := 0.0;
     while not eof do
     begin
-      aInputPI := GetPIByTypeID(dmData.fdmInputsChildTypeID.Value);
-      cTotal:= cTotal+dmData.fdmInputsQuantity.value * aInputPI.sell.min;
+      aInputPI := GetPIByTypeID(dmEveStatic.fdmInputsChildTypeID.Value);
+      cTotal:= cTotal+dmEveStatic.fdmInputsQuantity.value * aInputPI.sell.min;
       next;
     end;
   end;
   //that's how much you spent to make X units of output (PI lvl 4, x=1. Lvl 3, x=3 etc)
-  dmData.fdmTypeIDs.Locate('typeID',itypeID);
-  result := cTotal / (dmData.fdmTypeIDsOutputQty.Value)
+  dmData.fdmPITypeIDs.Locate('typeID',itypeID);
+  result := cTotal / (dmData.fdmPITypeIDsOutputQty.Value)
 
 end;
 
@@ -64,7 +64,7 @@ begin
     //Cost of parent item's sell price minus cost of building one from inputs
     //one level below it.
   //So we'll get the right output quantity
-  dmData.fdmTypeIDs.Locate('typeID',itypeID);
+  dmData.fdmPITypeIDs.Locate('typeID',itypeID);
   result := GetPIByTypeID(iTypeID).sell.min - cCost;
 end;
 
@@ -79,12 +79,12 @@ begin
   //Inputs
   //Item 1: 6 nuclear reactors @ 49,000 each: (6X49);
   //items 2: ditto
-  with dmData.fdmInputs do
+  with dmEveStatic.fdmInputs do
   begin
     Filter:='ParentTypeID='+inttostr(iTypeID);
     Filtered:=true;
     first;
-    result := UpperCase(dmData.GetNameByTypeID(iTypeID))+ ' ('+
+    result := UpperCase(dmEveStatic.GetNameByTypeID(iTypeID))+ ' ('+
       inttostr(iTypeID)+')'+
       #13#10;
     cInputTotalSellCost :=0.0;
@@ -92,36 +92,36 @@ begin
     sFormat:='%d @ %n each = %n';
     while not eof do
     begin
-      aInputPI := GetPIByTypeID(dmData.fdmInputsChildTypeID.Value);
+      aInputPI := GetPIByTypeID(dmEveStatic.fdmInputsChildTypeID.Value);
       //sell
       result := result + aInputPI.Name+' ('+inttostr(aInputPI.TypeID)+ ')'+#13#10;
-      cInputCost := dmData.fdmInputsQuantity.value *aInputPI.Sell.Min;
+      cInputCost := dmEveStatic.fdmInputsQuantity.value *aInputPI.Sell.Min;
       cInputTotalSellCost := cInputTotalSellCost+cInputCost;
       result := result + format(sFormat,
-        [dmData.fdmInputsQuantity.value,
+        [dmEveStatic.fdmInputsQuantity.value,
         aInputPI.Sell.Min,
         cInputCost])+#13#10;
 
       //buy
-      cInputCost := dmData.fdmInputsQuantity.value *aInputPI.buy.max;
+      cInputCost := dmEveStatic.fdmInputsQuantity.value *aInputPI.buy.max;
       cInputTotalBuyCost := cInputTotalBuyCost+cInputCost;
 
       result := result + format(sFormat,
-        [dmData.fdmInputsQuantity.value,
+        [dmEveStatic.fdmInputsQuantity.value,
         aInputPI.Buy.Max,
-        (dmData.fdmInputsQuantity.value *aInputPI.Buy.Max)])+#13#10;
+        (dmEveStatic.fdmInputsQuantity.value *aInputPI.Buy.Max)])+#13#10;
       result := result + '- - - - - - - -'+#13#10;
       next;
     end;
-    dmData.fdmTypeIDs.locate('typeID',itypeID);
-    result := result + format('Produces %d units',[dmData.fdmTypeIDsOutputQty.value])+#13#10;
+    dmData.fdmPITypeIDs.locate('typeID',itypeID);
+    result := result + format('Produces %d units',[dmData.fdmPITypeIDsOutputQty.value])+#13#10;
 
     result := result + format('Total Cost From Sell %n @ %n each',[
       cInputTotalSellCost,
-      (cInputTotalSellCost/dmData.fdmTypeIDsOutputQty.value)])+#13#10;
+      (cInputTotalSellCost/dmData.fdmPITypeIDsOutputQty.value)])+#13#10;
     result := result + format('Total Cost From Buy %n @ %n each',[
       cInputTotalBuyCost,
-      (cInputTotalBuyCost/dmData.fdmTypeIDsOutputQty.value)
+      (cInputTotalBuyCost/dmData.fdmPITypeIDsOutputQty.value)
       ])+#13#10#13#10;
   end;
 end;

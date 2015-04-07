@@ -94,10 +94,6 @@
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
-        <DCCReference Include="fImportData.pas">
-            <Form>Form2</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="fViewData.pas">
             <Form>frmViewData</Form>
             <FormType>dfm</FormType>
@@ -110,6 +106,13 @@
         <DCCReference Include="uMarketOrders.pas"/>
         <DCCReference Include="ushared.pas"/>
         <DCCReference Include="uMarketHistory.pas"/>
+        <DCCReference Include="fSearch.pas">
+            <Form>frmSearch</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="fEveStatic.pas"/>
+        <DCCReference Include="dEveStatic.pas"/>
+        <DCCReference Include="uMarketGroups.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

@@ -9,9 +9,6 @@ uses
 
 type
   TForm2 = class(TForm)
-    FDBatchMove1: TFDBatchMove;
-    FDBatchMoveTextReader1: TFDBatchMoveTextReader;
-    FDBatchMoveDataSetWriter1: TFDBatchMoveDataSetWriter;
   private
     { Private declarations }
   public

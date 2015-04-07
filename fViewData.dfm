@@ -31,7 +31,7 @@ object frmViewData: TfrmViewData
     Top = 176
     Width = 377
     Height = 289
-    DataSource = dsTypes
+    DataSource = dsPITypes
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -39,34 +39,56 @@ object frmViewData: TfrmViewData
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
   end
-  object Memo1: TMemo
-    Left = 536
-    Top = 176
-    Width = 265
-    Height = 289
+  object DBGrid3: TDBGrid
+    Left = 464
+    Top = 24
+    Width = 320
+    Height = 185
+    DataSource = dsAlltypes
     TabOrder = 2
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+  end
+  object DBGrid4: TDBGrid
+    Left = 464
+    Top = 280
+    Width = 320
+    Height = 185
+    DataSource = DataSource1
+    TabOrder = 3
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
   end
   object dsInputs: TDataSource
-    DataSet = dmData.fdmInputs
+    DataSet = dmEveStatic.fdmInputs
     Left = 272
     Top = 48
   end
-  object dsTypes: TDataSource
-    DataSet = dmData.fdmTypeIDs
-    Left = 272
-    Top = 240
+  object dsPITypes: TDataSource
+    DataSet = dmData.fdmPITypeIDs
+    Left = 184
+    Top = 256
   end
   object BindingsList1: TBindingsList
     Methods = <>
     OutputConverters = <>
     Left = 20
     Top = 5
-    object LinkControlToField1: TLinkControlToField
-      Category = 'Quick Bindings'
-      DataSource = dmData.respPrices
-      FieldName = 'Content'
-      Control = Memo1
-      Track = False
-    end
+  end
+  object dsAlltypes: TDataSource
+    DataSet = dmEveStatic.fdmAllTypes
+    Left = 512
+    Top = 88
+  end
+  object DataSource1: TDataSource
+    DataSet = dmEveStatic.fdmemGroups
+    Left = 472
+    Top = 240
   end
 end

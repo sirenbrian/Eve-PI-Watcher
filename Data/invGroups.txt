@@ -1,0 +1,998 @@
+﻿groupID	categoryID	groupName	description 
+0	0	#System	
+1	1	Character	
+2	1	Corporation	
+3	2	Region	
+4	2	Constellation	
+5	2	Solar System	
+6	2	Sun	
+7	2	Planet	
+8	2	Moon	
+9	2	Asteroid Belt	
+10	2	Stargate	
+11	2	Asteroid OLD	
+12	2	Cargo Container	
+13	2	Ring	
+14	2	Biomass	Corpse of human. Can be sold for clone production.
+15	3	Station	
+16	3	Station Services	
+17	4	Money	
+18	4	Mineral	
+19	1	Faction	
+20	4	Drug	Drug
+23	5	Clone	
+24	5	Voucher	
+25	6	Frigate	
+26	6	Cruiser	
+27	6	Battleship	
+28	6	Industrial	
+29	6	Capsule	
+30	6	Titan	The collective name for these behemoths is Titans, the largest spacefaring vessels ever constructed. The sheer cost in resources, manpower and time, as well as the necessary technological knowledge, makes construction of a Titan-class vessel a venture only empires can usually fathom. Some of these mammoth vessels have taken decades to assemble. Many are over a century old themselves, and the three mammoth Jovian motherships, the first Titans, have origins pre-dating modern space travel. They are
+31	6	Shuttle	
+32	1	Alliance	
+38	7	Shield Extender	
+39	7	Shield Recharger	
+40	7	Shield Booster	
+41	7	Remote Shield Booster	
+43	7	Capacitor Recharger	
+46	7	Propulsion Module	
+47	7	Cargo Scanner	
+48	7	Ship Scanner	
+49	7	Survey Scanner	
+52	7	Warp Scrambler	
+53	7	Energy Weapon	
+54	7	Mining Laser	Mining Laser
+55	7	Projectile Weapon	
+56	7	Missile Launcher	
+57	7	Shield Power Relay	These module usually act on the power and/or capacitor requirements of modules.
+59	7	Gyrostabilizer	Uses gyroscopes and inertial dampeners to reduce recoil and stabilize the weapon while firing
+60	7	Damage Control	Reinforcement are modules that increase the "armorHP" of some module group or specific module type. It typically only defines a passive effect.
+61	7	Capacitor Battery	Supplement the ships built-in power battery and provides defense against enemy energy leech and energy neutralizer effects.
+62	7	Armor Repair Unit	
+63	7	Hull Repair Unit	
+65	7	Stasis Web	Reduces max speed of a target ship.
+67	7	Remote Capacitor Transmitter	Transfers some of our energy to the target ships.
+68	7	Energy Vampire	
+71	7	Energy Destabilizer	Target ship loses power.
+72	7	Smart Bomb	Smart Bomb
+74	7	Hybrid Weapon	Hybrid
+76	7	Capacitor Booster	In times of danger and need, being able to boost your power supply can save your skin.  Don't leave home without one of these.  And don't forget to feed it.
+77	7	Shield Hardener	Increases the resistance of the shield to damages of specified types.
+78	7	Reinforced Bulkhead	
+80	7	ECM Burst	Clears all targets on all ships(excluding self) wihin range.
+82	7	Passive Targeting System	Targets ship quietly (as in does not alert other ship to the fact rhat its been targeted).
+83	8	Projectile Ammo	Projectile Ammo
+85	8	Hybrid Charge	
+86	8	Frequency Crystal	the frequency of Laser weapon
+87	8	Capacitor Booster Charge	Capacitor Booster Charge
+88	8	Light Defender Missile	
+89	8	Torpedo	Torrpedo
+90	8	Bomb	Remote triggered. Have no internal Thrust or Guidance. Are dropped at 80% of ship current speed
+92	8	Mine	
+94	10	Trading	
+95	10	Trade Session	
+96	7	Automated Targeting System	Targets all hostile ships within range.
+97	18	Proximity Drone	ProximityDrone
+98	7	Armor Coating	
+99	11	Sentry Gun	Protecting the weak and upholding the law, these shining examples of fabrication maintain the peace.
+100	18	Combat Drone	
+101	18	Mining Drone	Mines.
+104	9	Clone Blueprint	
+105	9	Frigate Blueprint	
+106	9	Cruiser Blueprint	
+107	9	Battleship Blueprint	
+108	9	Industrial Blueprint	
+109	9	Capsule Blueprint	
+110	9	Titan Blueprint	
+111	9	Shuttle Blueprint	
+118	9	Shield Extender Blueprint	
+119	9	Shield Recharger Blueprint	
+120	9	Shield Booster Blueprint	
+121	9	Remote Shield Booster Blueprint	
+123	9	Capacitor Recharger Blueprint	
+126	9	Propulsion Module Blueprint	
+127	9	Cargo Scanner Blueprint	
+128	9	Ship Scanner Blueprint	
+129	9	Survey Scanner Blueprint	
+130	9	ECM Blueprint	
+131	9	ECCM Blueprint	
+132	9	Warp Scrambler Blueprint	
+133	9	Energy Weapon Blueprint	
+134	9	Mining Laser Blueprint	
+135	9	Projectile Weapon Blueprint	
+136	9	Missile Launcher Blueprint	
+137	9	Power Manager Blueprint	
+139	9	Fast Loader Blueprint	
+140	9	Damage Control Blueprint	
+141	9	Capacitor Battery Blueprint	
+142	9	Armor Repair Unit Blueprint	
+143	9	Hull Repair Unit Blueprint	
+145	9	Stasis Web Blueprint	
+147	9	Remote Capacitor Transmitter Blueprint	
+148	9	Energy Vampire Blueprint	
+151	9	Energy Destabilizer Blueprint	
+152	9	Smart Bomb Blueprint	
+154	9	Hybrid Weapon Blueprint	
+156	9	Capacitor Booster Blueprint	
+157	9	Shield Hardener Blueprint	
+158	9	Hull Mods Blueprint	
+160	9	ECM Burst Blueprint	
+161	9	Passive Targeting System Blueprint	
+162	9	Automated Targeting System Blueprint	
+163	9	Armor Coating Blueprint	
+165	9	Projectile Ammo Blueprint	
+166	9	Missile Blueprint	
+167	9	Hybrid Charge Blueprint	
+168	9	Frequency Crystal Blueprint	
+169	9	Capacitor Booster Charge Blueprint	
+170	9	Defender Missile Blueprint	
+172	9	Bomb Blueprint	
+174	9	Mine Blueprint	
+175	9	Proximity Drone Blueprint	
+176	9	Combat Drone Blueprint	
+177	9	Mining Drone Blueprint	
+178	9	Drug Blueprint	
+180	11	Protective Sentry Gun	Defends all within its observation range who get attacked.
+182	11	Police Drone	Ho hum.
+185	11	Pirate Drone	
+186	2	Wreck	Shipwrecks and stuff like that
+190	14	Bloodline Bonus	Bonuses for the given bloodlines.
+191	14	Physical Benefit	Physical Benefit
+192	14	Physical Handicap	Physical Handicap.
+193	14	Phobia Handicap	Phobia handicap
+194	14	Social Handicap	Social handicap.
+195	14	Amarr Education	Bonuses for having various Amarr educations.
+196	14	Caldari Education	Bonuses for having various Caldari educations.
+197	14	Gallente Education	Bonuses for having a variety of Gallente educations.
+198	14	Minmatar Education	A variety of bonuses for having a Minmatar education.
+199	14	Career Bonus	Bonus for taking a career or some sh1t.
+201	7	ECM	Electronic Countermeasure
+202	7	ECCM	
+203	7	Sensor Backup Array	An upgrade to the electronics capacilities of the ship 1.
+205	7	Heat Sink	
+208	7	Remote Sensor Damper	Electronic Warfare System 2
+209	7	Remote Tracking Computer	Remote Tracking Computer, formerly known as Tracking Links.
+210	7	Signal Amplifier	
+211	7	Tracking Enhancer	
+212	7	Sensor Booster	Boosts the Range, Speed and Max targets of electronics module
+213	7	Tracking Computer	On command adjust the effectiveness of the sensor functions of the electronics of the users ship.
+218	9	Heat Sink Blueprint	
+223	9	Sensor Booster Blueprint	
+224	9	Tracking Computer Blueprint	
+225	7	Cheat Module Group	For limited distribution.  Speed up testing.
+226	2	Large Collidable Object	
+227	2	Cloud	
+237	6	Rookie ship	These are the rookie frigates, read: n00be ships yo!
+255	16	Gunnery	
+256	16	Missiles	
+257	16	Spaceship Command	
+258	16	Leadership	
+266	16	Corporation Management	
+267	17	Obsolete Books	
+268	16	Production	
+269	16	Rigging	
+270	16	Science	
+272	16	Electronic Systems	
+273	16	Drones	
+274	16	Trade	
+275	16	Navigation	
+278	16	Social	
+279	11	LCO Drone	
+280	17	General	
+281	17	Frozen	
+282	17	Radioactive	
+283	17	Livestock	
+284	17	Biohazard	
+285	7	CPU Enhancer	
+286	11	Minor Threat	
+287	11	Rogue Drone	These drones can be found by wrecks, mineral deposits and various other hang-outs for junk metal gone bad.
+288	11	Faction Drone	
+289	7	Projected ECCM	ECCM Projector 
+290	7	Remote Sensor Booster	Electronic Warfare System 2
+291	7	Tracking Disruptor	
+295	7	Shield Amplifier	
+296	9	Shield Amplifier Blueprint	
+297	11	Convoy	
+298	11	Convoy Drone	
+299	18	Repair Drone	Repair drones reapair the structure and armor of ships
+300	20	Cyberimplant	
+301	11	Concord Drone	
+302	7	Magnetic Field Stabilizer	
+303	20	Booster	
+304	20	DNA Mutator	
+305	2	Comet	
+306	11	Spawn Container	
+307	2	Construction Platform	
+308	7	Countermeasure Launcher	
+309	7	Autopilot	
+310	2	Beacon	This is a group for Beacons. Beacons are fixed global objects with no functionality
+311	23	Reprocessing Array	
+312	2	Planetary Cloud	
+313	17	Drugs	This group contains commodities that are drugs or 'boosters'.
+314	17	Miscellaneous	Miscellaneos special mission items that should not be on the market and not available from random missions.
+315	7	Warp Core Stabilizer	
+316	7	Gang Coordinator	
+317	7	Computer Interface Node	
+318	2	Landmark	Landmarks are used on the map for locations that are not physical objects neccesarily, such as important areas and regions, political borders and so on.
+319	11	Large Collidable Structure	
+321	7	Shield Disruptor	
+323	11	Billboard	
+324	6	Assault Frigate	Da Leet Frigates 
+
+325	7	Remote Armor Repairer	
+326	7	Armor Plating Energized	
+328	7	Armor Hardener	
+329	7	Armor Reinforcer	
+330	7	Cloaking Device	
+332	17	Tool	Tools used in manufacturing and Research
+333	17	Datacores	
+334	17	Construction Components	components for use i item construction
+335	11	Temporary Cloud	
+336	2	Mobile Sentry Gun	
+337	11	Mission Drone	
+338	7	Shield Boost Amplifier	
+339	7	Auxiliary Power Core	
+340	2	Secure Cargo Container	
+341	7	Signature Scrambling	
+342	9	Anti Warp Scrambler Blueprint	
+343	9	Tracking Disruptor Blueprint	
+344	9	Tracking Enhancer Blueprint	
+345	9	Remote Tracking Computer Blueprint	
+346	9	Co-Processor Blueprint	
+347	9	Signal Amplifier Blueprint	
+348	9	Armor Hardener Blueprint	
+349	9	Armor Reinforcer Blueprint	
+350	9	Remote Armor Repairer Blueprint	
+352	9	Auxiliary Power Core Blueprint	
+353	7	QA Module	
+355	17	Refinables	Group for mineral compounds and alloys that can be refined into valuable minerals.
+356	9	Tool Blueprint	
+357	7	DroneBayExpander	
+358	6	Heavy Assault Cruiser	
+360	9	Shield Boost Amplifier Blueprint	
+361	22	Mobile Warp Disruptor	Self powered warp disruptors.  Do not require a control tower.
+363	23	Ship Maintenance Array	
+364	23	Mobile Storage	
+365	23	Control Tower	
+366	2	Warp Gate	
+367	7	Ballistic Control system	
+368	2	Global Warp Disruptor	Prevents warping into the radius it covers.
+369	17	Ship Logs	
+370	17	Criminal Tags	Items such as Dog Tags that NPC pirates drop.
+371	9	Mobile Warp Disruptor Blueprint	
+372	8	Advanced Autocannon Ammo	
+373	8	Advanced Railgun Charge	
+374	8	Advanced Beam Laser Crystal	
+375	8	Advanced Pulse Laser Crystal	
+376	8	Advanced Artillery Ammo	
+377	8	Advanced Blaster Charge	
+378	7	Cruise Control	
+379	7	Target Painter	
+380	6	Deep Space Transport	
+381	6	Elite Battleship	
+382	2	Shipping Crates	Shipping Crate
+383	11	Destructible Sentry Gun	Sentry guns inside scenarios, usually owned by pirate factions, that can be destroyed by players.
+384	8	Light Missile	Light Missile Charges
+385	8	Heavy Missile	Heavy Missile Charges
+386	8	Cruise Missile	
+387	8	Rocket	
+394	8	FoF Light Missile	
+395	8	FoF Heavy Missile	
+396	8	FoF Cruise Missile	
+397	23	Assembly Array	Deployable Assembly Array
+400	9	Ballistic Control System Blueprint	
+401	9	Cloaking Device Blueprint	
+404	23	Silo	Used to store or provide resources of a specific type.
+405	7	Anti Cloaking Pulse	Broadcast a signal in all directions within a limited range that cause all the cloaked objects within it to decloak.
+406	7	Smartbomb Supercharger	Modules that boost the Damage of Smartbombs
+407	7	Drone Control Unit	
+408	9	Drone Control Unit Blueprint	
+409	17	Empire Insignia Drops	The insignia drops are implemented to replace the "bounty" feature for Empire mission drones, such as Navy ships.  Insignias are traded in to agents for money (will be implemented in Shiva).
+410	9	Anti Cloaking Pulse Blueprint	
+411	2	Force Field	A spherical barrier, maybe placed around something.
+413	23	Laboratory	
+414	23	Mobile Power Core	
+416	23	Moon Mining	
+417	23	Mobile Missile Sentry	
+418	23	Mobile Shield Generator	
+419	6	Combat Battlecruiser	
+420	6	Destroyer	
+422	4	Gas Isotopes	Gas Isotopes harvested from gas clouds.
+423	4	Ice Product	
+425	8	Orbital Assault Unit	
+426	23	Mobile Projectile Sentry	
+427	4	Moon Materials	Stuff Harvested directly from Moons
+428	4	Intermediate Materials	Stuff made from moon materials in a reactor
+429	4	Composite	
+430	23	Mobile Laser Sentry	
+435	11	Deadspace Overseer	
+436	24	Simple Reaction	
+438	23	Mobile Reactor	
+439	23	Electronic Warfare Battery	Group for mobile racial ECM.
+440	23	Sensor Dampening Battery	Deployable Sensor Dampener
+441	23	Stasis Webification Battery	Deployable Stasis Webber
+443	23	Warp Scrambling Battery	Deployable warp jammers.
+444	23	Shield Hardening Array	Increases control tower shield resistances
+445	23	Force Field Array	Projects a shield around structures outside the range of a control tower.
+446	11	Customs Official	
+447	9	Construction Component Blueprints	
+448	2	Audit Log Secure Container	
+449	23	Mobile Hybrid Sentry	
+450	25	Arkonor	
+451	25	Bistot	
+452	25	Crokite	
+453	25	Dark Ochre	
+454	25	Hedbergite	
+455	25	Hemorphite	
+456	25	Jaspet	
+457	25	Kernite	
+458	25	Plagioclase	
+459	25	Pyroxeres	
+460	25	Scordite	
+461	25	Spodumain	
+462	25	Veldspar	
+463	6	Mining Barge	Mining Barges
+464	7	Strip Miner	
+465	25	Ice	
+467	25	Gneiss	
+468	25	Mercoxit	
+469	25	Omber	
+470	18	Unanchoring Drone	
+471	23	Corporate Hangar Array	A Corp Hangar in space.
+472	7	System Scanner	
+473	23	Tracking Array	Increases Optimal Range and Tracking Speed of all Turret Sentries
+474	17	Acceleration Gate Keys	Contains keys, passcards, cyphers and other objects required to open locked acceleration gates in deadspace complexes.
+475	7	Microwarpdrive	
+476	8	Citadel Torpedo	
+477	9	Mining Barge Blueprint	
+478	9	System Scanner Blueprint	
+479	8	Scanner Probe	
+480	23	Stealth Emitter Array	
+481	7	Scan Probe Launcher	
+482	8	Mining Crystal	
+483	7	Frequency Mining Laser	
+484	24	Complex Reactions	
+485	6	Dreadnought	
+486	9	Scan Probe Blueprint	
+487	9	Destroyer Blueprint	
+489	9	Battlecruiser Blueprint	
+490	9	Strip Miner Blueprint	
+492	8	Survey Probe	
+493	17	Overseer Personal Effects	
+494	11	Deadspace Overseer's Structure	This structure belongs to the overseer of this deadspace pocket.
+495	11	Deadspace Overseer's Sentry	This sentry is controlled by the overseer of this deadspace pocket.
+496	11	Deadspace Overseer's Belongings	This container is tagged as the property of this deadspace pocket's overseer.
+497	8	Fuel	
+498	8	Modifications	
+499	7	New EW Testing	
+500	8	Festival Charges	Festival Charges
+501	7	Festival Launcher	Festival Launcher
+502	2	Cosmic Signature	Disturbances and other anomalies in the electromagnetic or gravity field
+503	9	Elite Industrial Blueprint	
+504	9	Target Painter Blueprint	
+505	16	Fake Skills	This group is for fake skills used for bonuses.
+506	7	Missile Launcher Cruise	
+507	7	Missile Launcher Rocket	
+508	7	Missile Launcher Torpedo	
+509	7	Missile Launcher Light	
+510	7	Missile Launcher Heavy	
+511	7	Missile Launcher Rapid Light	
+512	7	Missile Launcher Defender	
+513	6	Freighter	
+514	7	ECM Stabilizer	
+515	7	Siege Module	
+516	9	Siege Module Blueprint	
+517	2	Agents in Space	Piiiiiigs iiiiiin Spaaaaaaaace.....
+518	7	Anti Ballistic Defense System	
+519	25	Terran Artifacts	
+520	11	Storyline Frigate	
+521	17	Identification	
+522	11	Storyline Cruiser	
+523	11	Storyline Battleship	
+524	7	Missile Launcher Citadel	
+525	9	Freighter Blueprint	
+526	17	Commodities	
+527	11	Storyline Mission Frigate	
+528	17	Artifacts and Prototypes	Artifacts of ancient cultures in the world of eve.
+530	17	Materials and Compounds	Alloys and Special materials used in manufacture of Ancient technology
+532	9	Gang Coordinator Blueprint	
+533	11	Storyline Mission Cruiser	
+534	11	Storyline Mission Battleship	
+535	9	Construction Platform Blueprint	
+536	17	Station Components	
+537	9	Dreadnought Blueprint	
+538	7	Data Miners	
+540	6	Command Ship	
+541	6	Interdictor	
+543	6	Exhumer	
+544	18	Cap Drain Drone	
+545	18	Warp Scrambling Drone	
+546	7	Mining Upgrade	
+547	6	Carrier	
+548	8	Interdiction Probe	
+549	18	Fighter Drone	
+550	11	Asteroid Angel Cartel Frigate	
+551	11	Asteroid Angel Cartel Cruiser	
+552	11	Asteroid Angel Cartel Battleship	
+553	11	Asteroid Angel Cartel Officer	
+554	11	Asteroid Angel Cartel Hauler	
+555	11	Asteroid Blood Raiders Cruiser	
+556	11	Asteroid Blood Raiders Battleship	
+557	11	Asteroid Blood Raiders Frigate	
+558	11	Asteroid Blood Raiders Hauler	
+559	11	Asteroid Blood Raiders Officer	
+560	11	Asteroid Guristas Battleship	
+561	11	Asteroid Guristas Cruiser	
+562	11	Asteroid Guristas Frigate	
+563	11	Asteroid Guristas Hauler	
+564	11	Asteroid Guristas Officer	
+565	11	Asteroid Sansha's Nation Battleship	
+566	11	Asteroid Sansha's Nation Cruiser	
+567	11	Asteroid Sansha's Nation Frigate	
+568	11	Asteroid Sansha's Nation Hauler	
+569	11	Asteroid Sansha's Nation Officer	
+570	11	Asteroid Serpentis Battleship	
+571	11	Asteroid Serpentis Cruiser	
+572	11	Asteroid Serpentis Frigate	
+573	11	Asteroid Serpentis Hauler	
+574	11	Asteroid Serpentis Officer	
+575	11	Asteroid Angel Cartel Destroyer	
+576	11	Asteroid Angel Cartel BattleCruiser	
+577	11	Asteroid Blood Raiders Destroyer	
+578	11	Asteroid Blood Raiders BattleCruiser	
+579	11	Asteroid Guristas Destroyer	
+580	11	Asteroid Guristas BattleCruiser	
+581	11	Asteroid Sansha's Nation Destroyer	
+582	11	Asteroid Sansha's Nation BattleCruiser	
+583	11	Asteroid Serpentis Destroyer	
+584	11	Asteroid Serpentis BattleCruiser	
+585	7	Remote Hull Repairer	Modules used to repair damaged hull of friendly vessels
+586	7	Drone Modules	
+588	7	Super Weapon	
+589	7	Interdiction Sphere Launcher	
+590	7	Jump Portal Generator	
+593	11	Deadspace Angel Cartel BattleCruiser	
+594	11	Deadspace Angel Cartel Battleship	
+595	11	Deadspace Angel Cartel Cruiser	
+596	11	Deadspace Angel Cartel Destroyer	
+597	11	Deadspace Angel Cartel Frigate	
+602	11	Deadspace Blood Raiders BattleCruiser	
+603	11	Deadspace Blood Raiders Battleship	
+604	11	Deadspace Blood Raiders Cruiser	
+605	11	Deadspace Blood Raiders Destroyer	
+606	11	Deadspace Blood Raiders Frigate	
+611	11	Deadspace Guristas BattleCruiser	
+612	11	Deadspace Guristas Battleship	
+613	11	Deadspace Guristas Cruiser	
+614	11	Deadspace Guristas Destroyer	
+615	11	Deadspace Guristas Frigate	
+620	11	Deadspace Sansha's Nation BattleCruiser	
+621	11	Deadspace Sansha's Nation Battleship	
+622	11	Deadspace Sansha's Nation Cruiser	
+623	11	Deadspace Sansha's Nation Destroyer	
+624	11	Deadspace Sansha's Nation Frigate	
+629	11	Deadspace Serpentis BattleCruiser	
+630	11	Deadspace Serpentis Battleship	
+631	11	Deadspace Serpentis Cruiser	
+632	11	Deadspace Serpentis Destroyer	
+633	11	Deadspace Serpentis Frigate	
+638	7	Navigation Computer	
+639	18	Electronic Warfare Drone	
+640	18	Logistic Drone	
+641	18	Stasis Webifying Drone	
+642	7	Super Gang Enhancer	
+643	9	Carrier Blueprint	
+644	7	Drone Navigation Computer	
+645	7	Drone Damage Modules	
+646	7	Drone Tracking Modules	
+647	7	Drone Control Range Module	
+648	8	Advanced Rocket	
+649	2	Freight Container	Freight Containers are commonly used in Freighter-class ships to accomodate their massive cargobays.
+650	7	Tractor Beam	
+651	9	Super Weapon Blueprint	
+652	17	Lease	Each 'Starbase Code Cycle' equals 1 hour of operation of a control tower in the sovereign space of the entity that issued the code. If no Starbase Code Cycle is available during a Control Tower consumption cycle, it should be considered as it has no fuel and therefore offlined.
+653	8	Advanced Light Missile	
+654	8	Advanced Heavy Assault Missile	
+655	8	Advanced Heavy Missile	
+656	8	Advanced Cruise Missile	
+657	8	Advanced Torpedo	
+658	7	Cynosural Field	
+659	6	Supercarrier	Supercarrier
+660	7	Energy Vampire Slayer	
+661	24	Simple Biochemical Reactions	
+662	24	Complex Biochemical Reactions	
+663	8	Mercoxit Mining Crystal	
+665	11	Mission Amarr Empire Frigate	
+666	11	Mission Amarr Empire Battlecruiser	
+667	11	Mission Amarr Empire Battleship	
+668	11	Mission Amarr Empire Cruiser	
+669	11	Mission Amarr Empire Destroyer	
+670	11	Mission Amarr Empire Other	
+671	11	Mission Caldari State Frigate	
+672	11	Mission Caldari State Battlecruiser	
+673	11	Mission Caldari State Cruiser	
+674	11	Mission Caldari State Battleship	
+675	11	Mission Caldari State Other	
+676	11	Mission Caldari State Destroyer	
+677	11	Mission Gallente Federation Frigate	
+678	11	Mission Gallente Federation Cruiser	
+679	11	Mission Gallente Federation Destroyer	
+680	11	Mission Gallente Federation Battleship	
+681	11	Mission Gallente Federation Battlecruiser	
+682	11	Mission Gallente Federation Other	
+683	11	Mission Minmatar Republic Frigate	
+684	11	Mission Minmatar Republic Destroyer	
+685	11	Mission Minmatar Republic Battlecruiser	
+686	11	Mission Minmatar Republic Other	
+687	11	Mission Khanid Frigate	
+688	11	Mission Khanid Destroyer	
+689	11	Mission Khanid Cruiser	
+690	11	Mission Khanid Battlecruiser	
+691	11	Mission Khanid Battleship	
+692	11	Mission Khanid Other	
+693	11	Mission CONCORD Frigate	
+694	11	Mission CONCORD Destroyer	
+695	11	Mission CONCORD Cruiser	
+696	11	Mission CONCORD Battlecruiser	
+697	11	Mission CONCORD Battleship	
+698	11	Mission CONCORD Other	
+699	11	Mission Mordu Frigate	
+700	11	Mission Mordu Destroyer	
+701	11	Mission Mordu Cruiser	
+702	11	Mission Mordu Battlecruiser	
+703	11	Mission Mordu Battleship	
+704	11	Mission Mordu Other	
+705	11	Mission Minmatar Republic Cruiser	
+706	11	Mission Minmatar Republic Battleship	
+707	23	Jump Portal Array	
+709	23	Scanner Array	
+710	23	Logistics Array	
+711	2	Harvestable Cloud	
+712	4	Biochemical Material	
+715	11	Destructible Agents In Space	
+716	17	Data Interfaces	
+718	9	Booster Blueprints	
+721	20	Temp	
+722	9	Advanced Hybrid Charge Blueprint	
+723	9	Tractor Beam Blueprint	
+724	9	Implant Blueprints	
+725	9	Advanced Projectile Ammo Blueprint	
+726	9	Advanced Frequency Crystal Blueprint	
+727	9	Mining Crystal Blueprint	
+728	35	Decryptors - Amarr	
+729	35	Decryptors - Minmatar	
+730	35	Decryptors - Gallente	
+731	35	Decryptors - Caldari	
+732	17	Decryptors - Sleepers	
+733	17	Decryptors - Yan Jung	
+734	17	Decryptors - Takmahl	
+735	17	Decryptors - Talocan	
+737	7	Gas Cloud Harvester	
+738	20	Cyber Armor	Implants relating to armor. 
+739	20	Cyber Drones	Implants relating to drones
+740	20	Cyber Electronic Systems	Implants relating to electronic warfare
+741	20	Cyber Engineering	Implants related to capacitor
+742	20	Cyber Gunnery	Implants relating to gunnery
+743	20	Cyber Production	Implants related to mining, refining and manufacturing.
+744	20	Cyber Leadership	Implants relating to gangs
+745	20	Cyber Learning	Implants relating to character attributes.
+746	20	Cyber Missile	Implants relating to missile launcher operation.
+747	20	Cyber Navigation	Implants relating to speed mods. 
+748	20	Cyber Science	Implants related to research.
+749	20	Cyber Shields	Implants relating to shields. 
+750	20	Cyber Social	Implants relating to agents.
+751	20	Cyber Trade	Implants related to trading.
+753	7	ECM Enhancer	
+754	4	Salvaged Materials	
+755	11	Asteroid Rogue Drone BattleCruiser	
+756	11	Asteroid Rogue Drone Battleship	
+757	11	Asteroid Rogue Drone Cruiser	
+758	11	Asteroid Rogue Drone Destroyer	
+759	11	Asteroid Rogue Drone Frigate	
+760	11	Asteroid Rogue Drone Hauler	
+761	11	Asteroid Rogue Drone Swarm	
+762	7	Inertial Stabilizer	
+763	7	Nanofiber Internal Structure	
+764	7	Overdrive Injector System	
+765	7	Expanded Cargohold	
+766	7	Power Diagnostic System	
+767	7	Capacitor Power Relay	
+768	7	Capacitor Flux Coil	
+769	7	Reactor Control Unit	
+770	7	Shield Flux Coil	
+771	7	Missile Launcher Heavy Assault	
+772	8	Heavy Assault Missile	
+773	7	Rig Armor	
+774	7	Rig Shield	
+775	7	Rig Energy Weapon	
+776	7	Rig Hybrid Weapon	
+777	7	Rig Projectile Weapon	
+778	7	Rig Drones	
+779	7	Rig Launcher	
+781	7	Rig Core	
+782	7	Rig Navigation	
+783	20	Cyber X Specials	
+784	11	Large Collidable Ship	
+786	7	Rig Electronic Systems	
+787	9	Rig Blueprint	
+789	11	Asteroid Angel Cartel Commander Frigate	
+790	11	Asteroid Angel Cartel Commander Cruiser	
+791	11	Asteroid Blood Raiders Commander Cruiser	
+792	11	Asteroid Blood Raiders Commander Frigate	
+793	11	Asteroid Angel Cartel Commander BattleCruiser	
+794	11	Asteroid Angel Cartel Commander Destroyer	
+795	11	Asteroid Blood Raiders Commander BattleCruiser	
+796	11	Asteroid Blood Raiders Commander Destroyer	
+797	11	Asteroid Guristas Commander BattleCruiser	
+798	11	Asteroid Guristas Commander Cruiser	
+799	11	Asteroid Guristas Commander Destroyer	
+800	11	Asteroid Guristas Commander Frigate	
+801	11	Deadspace Rogue Drone BattleCruiser	
+802	11	Deadspace Rogue Drone Battleship	
+803	11	Deadspace Rogue Drone Cruiser	
+804	11	Deadspace Rogue Drone Destroyer	
+805	11	Deadspace Rogue Drone Frigate	
+806	11	Deadspace Rogue Drone Swarm	
+807	11	Asteroid Sansha's Nation Commander BattleCruiser	
+808	11	Asteroid Sansha's Nation Commander Cruiser	
+809	11	Asteroid Sansha's Nation Commander Destroyer	
+810	11	Asteroid Sansha's Nation Commander Frigate	
+811	11	Asteroid Serpentis Commander BattleCruiser	
+812	11	Asteroid Serpentis Commander Cruiser	
+813	11	Asteroid Serpentis Commander Destroyer	
+814	11	Asteroid Serpentis Commander Frigate	
+815	7	Clone Vat Bay	
+816	11	Mission Generic Battleships	Remnants of the "Mission Drones" and "Faction Drones" groups. Contains NPC's that do not fall under other categories. Holds Battleship sized entities.
+817	11	Mission Generic Cruisers	Remnants of the "Mission Drones" and "Faction Drones" groups. Contains NPC's that do not fall under other categories. Holds Cruiser sized entities.
+818	11	Mission Generic Frigates	Remnants of the "Mission Drones" and "Faction Drones" groups. Contains NPC's that do not fall under other categories. Holds Frigate sized NPC's
+819	11	Deadspace Overseer Frigate	
+820	11	Deadspace Overseer Cruiser	
+821	11	Deadspace Overseer Battleship	
+822	11	Mission Thukker Battlecruiser	
+823	11	Mission Thukker Battleship	
+824	11	Mission Thukker Cruiser	
+825	11	Mission Thukker Destroyer	
+826	11	Mission Thukker Frigate	
+827	11	Mission Thukker Other	
+828	11	Mission Generic Battle Cruisers	Remnants of the "Mission Drones" and "Faction Drones" groups. Contains NPC's that do not fall under other categories. Holds Battle Cruiser sized entities.
+829	11	Mission Generic Destroyers	Remnants of the "Mission Drones" and "Faction Drones" groups. Contains NPC's that do not fall under other categories. Holds Destroyer sized entities.
+830	6	Covert Ops	
+831	6	Interceptor	
+832	6	Logistics	
+833	6	Force Recon Ship	
+834	6	Stealth Bomber	
+835	2	Station Upgrade Platform	
+836	2	Station Improvement Platform	
+837	23	Energy Neutralizing Battery	Deployable Energy Neutralizer
+838	23	Cynosural Generator Array	
+839	23	Cynosural System Jammer	
+840	23	Structure Repair Array	
+841	9	Structures - Control Tower Blueprints	
+842	7	Remote ECM Burst	
+843	11	Asteroid Rogue Drone Commander BattleCruiser	
+844	11	Asteroid Rogue Drone Commander Battleship	
+845	11	Asteroid Rogue Drone Commander Cruiser	
+846	11	Asteroid Rogue Drone Commander Destroyer	
+847	11	Asteroid Rogue Drone Commander Frigate	
+848	11	Asteroid Angel Cartel Commander Battleship	
+849	11	Asteroid Blood Raiders Commander Battleship	
+850	11	Asteroid Guristas Commander Battleship	
+851	11	Asteroid Sansha's Nation Commander Battleship	
+852	11	Asteroid Serpentis Commander Battleship	
+853	9	Structures - Laser Battery Blueprints	
+854	9	Structures - Projectile Battery Blueprints	
+855	9	Structures - Hybrid Battery Blueprints	
+856	9	Structures - ECM Jamming Array Blueprints	
+857	9	Structures - Warp Scrambling Battery Blueprints	
+858	9	Structures - Stasis Webification Battery Blueprints	
+859	9	Structures - Sensor Dampening Array Blueprints	
+860	9	Structures - Energy Neutralizing Battery Blueprints	
+861	11	Mission Fighter Drone	
+862	7	Missile Launcher Bomb	
+863	8	Bomb ECM	
+864	8	Bomb Energy	
+865	11	Mission Amarr Empire Carrier	
+866	11	Mission Caldari State Carrier	
+867	11	Mission Gallente Federation Carrier	
+868	11	Mission Minmatar Republic Carrier	
+870	9	Remote Hull Repairer Blueprint	
+871	9	Structures - Missile Battery Blueprints	
+872	5	Outpost Improvements	
+873	17	Capital Construction Components	Capital Construction Components
+874	2	Destructible Station Services	
+875	11	Mission Faction Transports	
+876	5	Outpost Upgrades	
+877	23	Target Painting Battery	
+878	7	Cloak Enhancements	Module group for modules that affect cloaking devices
+879	17	Slave Reception	
+880	17	Sleeper Components	
+881	24	Freedom Programs	
+882	24	Enslavement Programs	
+883	6	Capital Industrial Ship	
+884	17	Test Compressed Ore	
+885	2	Cosmic Anomaly	
+886	4	Rogue Drone Components	
+888	9	Ore Compression Blueprints	
+889	9	Ore Enhancement Blueprints	
+890	9	Ice Compression Blueprints	
+891	9	Structures - Mobile Laboratory Blueprints	
+892	8	Planet Satellites	
+893	6	Electronic Attack Ship	
+894	6	Heavy Interdiction Cruiser	
+896	7	Rig Security Transponder	
+897	2	Covert Beacon	
+898	6	Black Ops	
+899	7	Warp Disrupt Field Generator	
+900	6	Marauder	
+901	7	Mining Enhancer	
+902	6	Jump Freighter	
+903	25	Ancient Compressed Ice	
+904	7	Rig Mining	
+905	7	Covert Cynosural Field Generator	
+906	6	Combat Recon Ship	
+907	8	Tracking Script	
+908	8	Warp Disruption Script	
+909	8	Tracking Disruption Script	
+910	8	Sensor Booster Script	
+911	8	Sensor Dampener Script	
+912	9	Script Blueprint	
+913	17	Advanced Capital Construction Components	
+914	9	Advanced Capital Construction Component Blueprints	
+915	9	Capital Construction Blueprints	
+916	8	Nanite Repair Paste	
+917	9	Data Miner Blueprint	
+918	9	Scan Probe Launcher Blueprint	
+920	2	Effect Beacon	
+922	11	Capture Point	
+924	11	Mission Faction Battleship	
+925	11	FW Infrastructure Hub	
+927	11	Mission Faction Industrials	
+934	11	Zombie Entities	
+935	26	WorldSpace	Group for worldspaces
+937	29	Decorations	
+940	49	Furniture	Furniture
+941	6	Industrial Command Ship	
+943	5	Game Time	
+944	9	Capital Industrial Ship Blueprint	
+945	9	Industrial Command Ship Blueprint	
+952	11	Mission Container	Containers that can be deployed in dungeons and accept items to be placed into them. Can have triggers that check if specific item is placed in it (for mission completion for instance).
+954	32	Defensive Systems	
+955	32	Electronic Systems	
+956	32	Offensive Systems	
+957	32	Propulsion Systems	
+958	32	Engineering Systems	
+959	11	Deadspace Sleeper Sleepless Sentinel	Sleeper large NPCs for the Apocrypha expansion encountered in the most difficult wormhole systems.
+960	11	Deadspace Sleeper Awakened Sentinel	Sleeper medium NPCs for the Apocrypha expansion encountered in the most difficutly wormhole systems.
+961	11	Deadspace Sleeper Emergent Sentinel	Sleeper small NPCs for the Apocrypha expansion encountered in the most difficult wormhole systems.
+963	6	Strategic Cruiser	
+964	17	Hybrid Tech Components	Components used to build tech III hulls and subsystems
+965	9	Hybrid Component Blueprints	
+966	4	Ancient Salvage	
+967	4	Wormhole Minerals	
+971	34	Sleeper Propulsion Relics	
+972	8	Obsolete Probes	This is a holding group for probes that we're not using under the revised mechanics
+973	9	Subsystem Blueprints	
+974	4	Hybrid Polymers	
+976	63	Festival Charges Expired	Melted Snowballs, fireworks, and other festival charges
+977	24	Hybrid Reactions	
+979	35	Decryptors - Hybrid	
+982	11	Deadspace Sleeper Sleepless Defender	Sleeper large NPCs for the Apocrypha expansion encountered in the medium difficutly wormhole systems.
+983	11	Deadspace Sleeper Sleepless Patroller	Sleeper large NPCs for the Apocrypha expansion encountered in the easiest difficulty wormhole systems.
+984	11	Deadspace Sleeper Awakened Defender	Sleeper medium NPCs for the Apocrypha expansion encountered in the average difficutly wormhole systems.
+985	11	Deadspace Sleeper Awakened Patroller	Sleeper medium NPCs for the Apocrypha expansion encountered in the easiest difficutly wormhole systems.
+986	11	Deadspace Sleeper Emergent Defender	Sleeper small NPCs for the Apocrypha expansion encountered in the medium difficulty wormhole systems.
+987	11	Deadspace Sleeper Emergent Patroller	Sleeper small NPCs for the Apocrypha expansion encountered in the easiest difficutly wormhole systems.
+988	2	Wormhole	This is a group for all the various Wormhole types
+990	34	Sleeper Electronics Relics	
+991	34	Sleeper Offensive Relics	
+992	34	Sleeper Engineering Relics	
+993	34	Sleeper Defensive Relics	
+995	2	Secondary Sun	Objects making up part of a multi-celestial grouping
+996	9	Strategic Cruiser Blueprints	
+997	34	Sleeper Hull Relics	
+1003	40	Territorial Claim Unit	Sovereignty Claim structure group, this group will display anywhere in the system.
+1004	40	Defense Bunkers	Structures that can be anchored once sovereignty is claimed.
+1005	40	Sovereignty Blockade Unit	Disruptor generators, these will be globally visible in the solar system. 
+1006	11	Mission Faction Cruiser	
+1007	11	Mission Faction Frigate	
+1010	8	Compact Citadel Torpedo	Citadel torpedoes for fighter-bombers
+1012	40	Infrastructure Hub	
+1013	9	Supercarrier Blueprints	
+1016	39	Strategic Upgrades	Upgrades enhancing the mobility and/or transportation capacity.
+1019	8	Citadel Cruise	
+1020	39	Industrial Upgrades	
+1021	39	Military Upgrades	
+1022	6	Prototype Exploration Ship	
+1023	18	Fighter Bomber	
+1025	46	Orbital Infrastructure	
+1026	41	Extractors	
+1027	41	Command Centers	
+1028	41	Processors	
+1029	41	Storage Facilities	
+1030	41	Spaceports	
+1031	17	Planetary Resources	
+1032	42	Planet Solid	These metallic resources include precious metals like gold and silver. 
+1033	42	Planet Liquid-Gas	These gasses can be extracted from planets. 
+1034	43	Refined Commodities	This is a placeholder group for commodities. 
+1035	42	Planet Organic	This group contains living things that can be harvested or collected from a planet. 
+1036	41	Planetary Links	
+1040	43	Specialized Commodities	Specialized commodities
+1041	43	Advanced Commodities	Final Commodities
+1042	43	Basic Commodities	
+1045	9	Sovereignty Structure Blueprint	
+1046	9	Nanite Repair Paste Blueprint	
+1048	9	Structure Blueprint	
+1051	11	Incursion Sansha's Nation Industrial	Sansha's Nation industrial NPCs encountered in the Invasion feature.
+1052	11	Incursion Sansha's Nation Capital	Sansha's Nation frigate NPCs encountered in the Invasion feature (winter 2010) in Headquarters systems.
+1053	11	Incursion Sansha's Nation Frigate	Sansha's Nation frigate NPCs encountered in the Invasion feature (winter 2010) in Assault systems.
+1054	11	Incursion Sansha's Nation Cruiser	Sansha's Nation frigate NPCs encountered in the Invasion feature (winter 2010) in Vanguard systems.
+1056	11	Incursion Sansha's Nation Battleship	Sansha's Nation cruiser NPCs encountered in the Invasion feature (winter 2010) in Assault systems.
+1063	41	Extractor Control Units	
+1067	26	MaterialZone	An area of a wall that can have its textures change to deliver different wall patterns and bounced color into the room.
+1068	26	DetailMesh	This is the art you see in the customizable for that chunk of wall and may be swapped out with other chunks of wall that change the look of the space but NOT the function in terms of collision, pathing, and the Target Mesh.
+1071	2	Flashpoint	Points of conflict on a planet.
+1073	46	Test Orbitals	These are test objects, not meant for public release.
+1079	49	Generic	
+1081	41	Mercenary Bases	DUST ground structures - FOBs, etc.
+1082	41	Capsuleer Bases	EVE Ground objectives - SCCs, Shield Generators, etc.
+1083	30	Eyewear	Eyewear
+1084	30	Tattoos	The tattoos that can be placed on a avatar.
+1085	30	Piercings	These are those spiky bits that get shoved in peoples heads.... 
+1086	30	Scars	these are scars that are non free form placement. 
+1087	30	Mid Layer	The clothing that goes into the mid layer.
+1088	30	Outer	These are the outer layer clothing options. 
+1089	30	Tops	The top layer clothing
+1090	30	Bottoms	The pants options. 
+1091	30	Footwear	Footwear
+1092	30	Hair Styles	the hair styles that are itemized
+1093	30	Makeup	the make up that players can buy.
+1105	53	Lens Flares	
+1106	46	Orbital Construction Platform	These objects are used to build other space objects near planets.
+1107	53	Particle Systems	
+1108	53	Animated Lights	
+1109	29	Audio	Audio
+1110	54	Point Lights	
+1111	54	Box Lights	
+1112	54	Spot Lights	
+1118	17	Surface Infrastructure Prefab Units	These mechanically self assembling structures are used to erect surface constructions.
+1121	29	Perception Points	
+1122	7	Salvager	
+1123	9	Salvager Blueprint	
+1126	59	PhysicalPortals	
+1136	4	Fuel Block	Pre-packed blocks of fuel for self-sustaining structures.
+1137	9	Fuel Block Blueprint	
+1139	9	Mining Laser Upgrade Blueprint	
+1141	17	Research Data	Test text. 
+1142	9	Cap Drain Drone Blueprint	
+1143	9	Electronic Warfare Drone Blueprint	
+1144	9	Logistic Drone Blueprint	
+1145	9	Fighter Bomber Blueprint	
+1146	9	Fighter Drone Blueprint	
+1147	9	Stasis Webifying Drone Blueprint	
+1149	22	Mobile Jump Disruptor	
+1150	7	Armor Resistance Shift Hardener	
+1151	9	Armor Resistance Shift Hardener Blueprint	
+1152	9	Drone Damage Module Blueprint	
+1153	8	Shield Booster Script	
+1154	7	Target Breaker	Chance of breaking target lock of those targeting you, chance increases the more are targeting you.
+1155	9	Target Breaker Blueprint	
+1156	7	Fueled Shield Booster	
+1157	9	Fueled Shield Booster Blueprint	
+1158	8	Heavy Defender Missile	
+1159	18	Salvage Drone	
+1160	9	Survey Probe Blueprints	Survey Probe Blueprints
+1162	9	Container Blueprints	Container Blueprints
+1165	2	Satellite	
+1166	11	FW Minmatar Republic Frigate	FW Minmatar Republic Frigate
+1167	11	FW Caldari State Frigate	
+1168	11	FW Gallente Federation Frigate	
+1169	11	FW Amarr Empire Frigate	
+1174	11	Asteroid Rogue Drone Officer	
+1175	11	FW Amarr Empire Destroyer	
+1176	11	FW Caldari State Destroyer	
+1177	11	FW Gallente Federation Destroyer	
+1178	11	FW Minmatar Republic Destroyer	
+1179	11	FW Amarr Empire Cruiser	
+1180	11	FW Caldari State Cruiser	
+1181	11	FW Gallente Federation Cruiser	
+1182	11	FW Minmatar Republic Cruiser	
+1183	11	FW Amarr Empire Battlecruiser	
+1184	11	FW Caldari State Battlecruiser	
+1185	11	FW Gallente Federation Battlecruiser	
+1186	11	FW Minmatar Republic Battlecruiser	
+1189	7	Micro Jump Drive	
+1190	9	Salvage Drone Blueprint	
+1191	9	Micro Jump Drive Blueprint	
+1194	63	Special Edition Commodities	Special Edition Commodities
+1195	63	Tournament Cards: New Eden Open YC 114	Tournament Cards: New Eden Open YC 114
+1197	9	Special Edition Commodity Blueprints	Special Edition Commodity Blueprints
+1198	2	Orbital Target	Orbital targets are locations on the ground lockable by ships.
+1199	7	Fueled Armor Repairer	
+1200	9	Fueled Armor Repairer Blueprint	
+1201	6	Attack Battlecruiser	
+1202	6	Blockade Runner	
+1206	17	Security Tags	
+1207	11	Scatter Container	No longer scatters but in this group as they keep the same entity class to maintain dungeon despawning fixes
+1209	16	Shields	
+1210	16	Armor	
+1212	23	Personal Hangar	
+1213	16	Targeting	
+1216	16	Engineering	
+1217	16	Scanning	
+1218	16	Resource Processing	
+1220	16	Neural Enhancement	
+1222	9	ECM Stabilizer Blueprint	
+1223	7	Scanning Upgrade	Modules that boost scan probing
+1224	9	Scanning Upgrade Blueprint	
+1225	63	Tournament Cards: Alliance Tournament All Stars	
+1226	7	Survey Probe Launcher	
+1227	9	Survey Probe Launcher Blueprint	
+1228	20	Cyber Targeting	
+1229	20	Cyber Resource Processing	
+1230	20	Cyber Scanning	
+1231	20	Cyber Biology	
+1232	7	Rig Resource Processing	
+1233	7	Rig Scanning	
+1234	7	Rig Targeting	
+1238	7	Scanning Upgrade Time	
+1239	9	Scanning Upgrade Time Blueprint	
+1240	16	Subsystems	
+1241	16	Planet Management	
+1245	7	Missile Launcher Rapid Heavy	
+1246	22	Mobile Depot	
+1247	22	Mobile Siphon Unit	A deployable structure that must be deployed around a POS. Steals materials from the POS.
+1248	17	Empire Bounty Reimbursement Tags	Tags that can be turned in for ISK in some empire stations.
+1249	22	Mobile Cyno Inhibitor	
+1250	22	Mobile Tractor Unit	
+1252	11	Ghost Sites Angel Cartel Cruiser	
+1255	11	Ghost Sites Blood Raiders Cruiser	
+1259	11	Ghost Sites Guristas Cruiser	
+1262	11	Ghost Sites Serpentis Cruiser	
+1265	11	Ghost Sites Sanshas Cruiser	
+1267	9	Mobile Siphon Unit Blueprint	
+1268	9	Mobile Cynosural Inhibitor Blueprint	
+1269	9	Mobile Depot Blueprint	
+1270	9	Mobile Tractor Unit Blueprint	
+1271	30	Prosthetics	
+1273	22	Encounter Surveillance System	
+1274	22	Mobile Decoy Unit	
+1275	22	Mobile Scan Inhibitor	
+1276	22	Mobile Micro Jump Unit	
+1277	9	Encounter Surveillance System Blueprint	
+1282	23	Compression Array	
+1283	6	Expedition Frigate	
+1285	11	Asteroid Mordus Legion Commander Frigate	
+1286	11	Asteroid Mordus Legion Commander Cruiser	
+1287	11	Asteroid Mordus Legion Commander Battleship	
+1288	11	Ghost Sites Mordu's Legion	
+1289	7	Warp Accelerator	
+1292	7	Drone Tracking Enhancer	
+1293	9	Mobile Scan Inhibitor Blueprint	
+1294	9	Mobile Micro Jump Unit Blueprint	
+1295	9	Mobile Decoy Unit Blueprint	
+1297	22	Mobile Vault	
+1299	7	Jump Drive Economizer	
+1301	5	Services	A group for items that act as character services vouchers
+1304	35	Generic Decryptor	
+1305	6	Tactical Destroyer	
+1306	7	Ship Modifiers	
+1307	11	Roaming Sleepers Cruiser	
+1308	7	Rig Anchor	
+1309	9	Tactical Destroyer Blueprint	
+1310	11	Drifters Battleship	
+350858	350001	Infantry Weapons	
+351064	350001	Infantry Dropsuits	
+351121	350001	Infantry Modules	
+351210	350001	Infantry Vehicles	
+351648	350001	Infantry Skills	
+351844	350001	Infantry Equipment	
+354641	350001	Infantry Skill Enhancers	
+354753	350001	Infantry Installations	
+364204	350001	Surface Infrastructure	
+367487	350001	Services 	
+367580	350001	Agents	
+367594	350001	Visual Customization	
+367774	350001	Salvage Containers	
+367776	350001	Salvage Decryptors	
+368656	350001	Battle Salvage	
+368666	350001	Warbarge	

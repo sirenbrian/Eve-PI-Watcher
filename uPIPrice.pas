@@ -3,11 +3,12 @@ unit uPIPrice;
 interface
 uses uEveCentralPrice,system.generics.collections;
 
+
+
 type TPIPrice=class(TItemClass)
 public
-  RawJSON:string;
-  Name:string;
   PILevel:integer; //in data it's 1-5, but most people use 0 to 4
+  Name:string;
   function TypeID:integer;
   function AsString:string;
   function AsStringBasic:string;
@@ -56,8 +57,6 @@ begin
   result := result + format('Buy.Volume: %n',[Buy.Volume])+#13#10;
   result := result + format('Buy.StdDev: %f',[Buy.stddev])+#13#10;
   result := result + format('Buy.Variance: %f',[Buy.variance])+#13#10#13#10#13#10;
-
-  result := result + RawJSON;
 end;
 
 function TPIPrice.AsStringBasic: string;

@@ -7,20 +7,11 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,uEveCentralPrice,System.Generics.Collections,
   uPIPrice, Vcl.ComCtrls, Vcl.ExtCtrls, VclTee.TeeGDIPlus, VCLTee.TeEngine,
   VCLTee.Series, VCLTee.TeeProcs, VCLTee.Chart, VCLTee.DBChart, Vcl.Grids,
-  Vcl.DBGrids;
+  Vcl.DBGrids, Vcl.Menus, Data.DB,uMarketGroups;
 
 type
   TfrmMain = class(TForm)
-    Panel1: TPanel;
-    btnGetPrices: TButton;
-    btnuseLast: TButton;
-    btnViewData: TButton;
     Splitter1: TSplitter;
-    pnlTop: TPanel;
-    lvPI: TListView;
-    memInputReport: TMemo;
-    Splitter2: TSplitter;
-    Button1: TButton;
     pcMain: TPageControl;
     tsDetails: TTabSheet;
     memDetails: TMemo;
@@ -34,6 +25,38 @@ type
     Series1: TLineSeries;
     tsMarketHistory: TTabSheet;
     DBGrid3: TDBGrid;
+    MainMenu1: TMainMenu;
+    File1: TMenuItem;
+    ManageStatic1: TMenuItem;
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    tsAnyItem: TTabSheet;
+    Panel1: TPanel;
+    btnGetPrices: TButton;
+    btnuseLast: TButton;
+    btnViewData: TButton;
+    Button1: TButton;
+    btnNameSearch: TButton;
+    btnShowChildren: TButton;
+    Button2: TButton;
+    pnlTop: TPanel;
+    Splitter2: TSplitter;
+    lvPI: TListView;
+    memInputReport: TMemo;
+    Panel2: TPanel;
+    tsManufacture: TTabSheet;
+    Panel3: TPanel;
+    dbgWatchList: TDBGrid;
+    Actions1: TMenuItem;
+    InitBuildandWatch1: TMenuItem;
+    btnPopulateWatchList: TButton;
+    txtSearch: TEdit;
+    btnSearch: TButton;
+    DBGrid1: TDBGrid;
+    dsAllTypes: TDataSource;
+    Button3: TButton;
+    btnDeleteFromWatchList: TButton;
+    tvMarketGroups: TTreeView;
     procedure btnGetPricesClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -54,14 +77,31 @@ type
       Data: Integer; var Compare: Integer);
     procedure lvMarketBuyCompare(Sender: TObject; Item1, Item2: TListItem;
       Data: Integer; var Compare: Integer);
+    procedure btnNameSearchClick(Sender: TObject);
+    procedure btnShowChildrenClick(Sender: TObject);
+    procedure ManageStatic1Click(Sender: TObject);
+    procedure InitBuildandWatch1Click(Sender: TObject);
+    procedure btnPopulateWatchListClick(Sender: TObject);
+    procedure btnSearchClick(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure txtSearchKeyPress(Sender: TObject; var Key: Char);
+    procedure btnDeleteFromWatchListClick(Sender: TObject);
+    procedure tvMarketGroupsExpanded(Sender: TObject; Node: TTreeNode);
+    procedure tvMarketGroupsClick(Sender: TObject);
   private
     { Private declarations }
+    FMarketGroups:TMarketGroupManager;
     function IsMarketOrderShowing:boolean;
-    procedure DrawPrices;
+    function IsMarketHistoryShowing:boolean;
+    procedure DrawPrices(iParentTypeID:integer=-1);
     procedure ParsePriceJSON(sJSON:string);
+    procedure ParsePriceWatchList(sJSON:string);
     function GetSelectedPIItem:TPIPrice;
     procedure ShowMarketORders(iTypeID: integer=0);
     procedure DoShowMarketHistory;
+    procedure RenderGroupToTreeNode(aParentNode: TTreeNode);
+    procedure RenderRootMarketGroupsToTree;
+    procedure DoExtractMarketGroups;
   public
     { Public declarations }
   end;
@@ -69,21 +109,68 @@ type
 var
   frmMain: TfrmMain;
 const
-  LASTJSON='lastjson.txt';
-
+  LASTJSON='lastpijson.txt';
+  WATCHLIST='watch.bin';
+  BUILDLIST='build.bin';
 implementation
 uses uShared,dData,ioUtils,rest.json,system.json,fViewData,uProfitCalculator,
-  uMarketOrders,uWatcherglobals, uMarketHistory;
+  uMarketOrders,uWatcherglobals, uMarketHistory, fSearch,
+  FireDAC.Stan.Intf, dEveStatic;
 {$R *.dfm}
+
+procedure TfrmMain.btnDeleteFromWatchListClick(Sender: TObject);
+begin
+  if dmData.fdmWatchList.RecNo>-1 then
+    dmData.fdmWatchlist.Delete;
+end;
 
 procedure TfrmMain.btnGetPricesClick(Sender: TObject);
 var
   sJSON:string;
 begin
-  dmData.FetchAllPrices;
+  dmData.FetchPIPrices;
   sJSON:=dmData.respPrices.JSONValue.ToString;
   ParsePriceJSON(sJSON); //Will load the FPrices into memory
   DrawPrices;
+end;
+
+procedure TfrmMain.btnNameSearchClick(Sender: TObject);
+var
+  frm:TfrmSearch;
+begin
+  frm:=TfrmSearch.create(nil);
+  try
+    frm.showmodal;
+  finally
+    frm.free;
+  end;
+end;
+
+procedure TfrmMain.btnPopulateWatchListClick(Sender: TObject);
+var
+  sJSON:string;
+begin
+  dmData.FetchWatchListPrices;
+  sJSON:=dmData.respPrices.JSONValue.ToString;
+  ParsePriceWatchList(sJSON); //Will load the FPrices into memory
+end;
+
+procedure TfrmMain.btnSearchClick(Sender: TObject);
+begin
+  if length(txtSearch.text) >= 3 then
+  begin
+    dmEveStatic.fdmAllTypes.Filter := 'UPPER(typeName) like ''%'+uppercase(txtSearch.text)+'%''';
+    dmEveStatic.fdmAllTypes.Filtered := true;
+  end;
+end;
+
+procedure TfrmMain.btnShowChildrenClick(Sender: TObject);
+var
+  aPI:TPIPrice;
+begin
+  aPI := TPIPrice(lvPI.Selected.Data);
+
+  DrawPrices(aPI.typeid);
 end;
 
 procedure TfrmMain.btnuseLastClick(Sender: TObject);
@@ -118,6 +205,15 @@ begin
   ShowMarketOrders;
 end;
 
+procedure TfrmMain.Button3Click(Sender: TObject);
+begin
+  if not dmData.fdmWatchList.active then
+    dmData.fdmWatchList.active := true;
+  dmData.fdmWatchList.Append;
+  dmData.fdmWatchListtypeID.asinteger := dmEveStatic.fdmAllTypestypeID.asinteger;
+  dmData.fdmWatchList.Post;
+end;
+
 procedure TfrmMain.ShowMarketORders(iTypeID:integer=0);
 begin
   lvMarketSell.items.clear;
@@ -131,17 +227,44 @@ begin
   lvMarketBuy.CustomSort(nil,gibuyOrderSortCol);
 end;
 
+procedure TfrmMain.tvMarketGroupsClick(Sender: TObject);
+var
+  aGroup:TMarketGroup;
+  sGroupID:string;
+begin
+  if tvMarketGroups.selected = nil then
+    exit;
+  aGroup:=TMarketGroup(tvMarketGroups.selected.data);
+  sGroupID:=aGroup.GroupID;
+  dmEveStatic.fdmAllTypes.filter := 'groupID='+sGroupID;
+  dmEveStatic.fdmAllTypes.filtered := true;
+end;
+
+procedure TfrmMain.tvMarketGroupsExpanded(Sender: TObject; Node: TTreeNode);
+begin
+  //User wants to see the contents, so draw them.
+  RenderGroupToTreeNode(Node);
+end;
+
+procedure TfrmMain.txtSearchKeyPress(Sender: TObject; var Key: Char);
+begin
+  if ord(key) = VK_RETURN then
+    btnSearchclick(nil);
+end;
+
 procedure TfrmMain.DoShowMarketHistory;
 var
   ja:TJSONArray;
   jv:TJSONValue;
   jo:TJSONObject;
   mh:TMarketHistory;
+  dtEarliestDate:TDateTime;
 begin
   //try doing jsontoobject myself
   {"volume_str":"1","orderCount":1,"lowPrice":1498998.98,"highPrice":14989978.98,
   "avgPrice":14989978.98,"volume":1,
   "orderCount_str":"1","date":"2014-03-31T00:00:00"}
+  dtEarliestDate := now - 180;
   ja := dmData.respMarketHistory.JSONValue as TJSONArray;
   dmData.mtMarketHistory.Close;
   dmData.mtMarketHistory.open;
@@ -158,8 +281,9 @@ begin
     Fvolume:integer;
     Fdate:TDateTime;
 }
-    dmData.mtMarketHistory.InsertRecord([mh.ForderCount,mh.FlowPrice,mh.FhighPrice,
-      mh.FavgPrice,mh.Fvolume,mh.Fdate]);
+    if mh.Fdate >= dtEarliestDate then
+      dmData.mtMarketHistory.InsertRecord([mh.ForderCount,mh.FlowPrice,mh.FhighPrice,
+        mh.FavgPrice,mh.Fvolume,mh.Fdate]);
     mh.free;
   end;
   dmData.mtMarketHistory.EndBatch;
@@ -167,16 +291,25 @@ begin
 
 end;
 
-procedure TfrmMain.DrawPrices;
+procedure TfrmMain.DrawPrices(iParentTypeID:integer=-1);
 var
   aPI:TPIPrice;
   cCostB,cCostS:extended;
+  bAdd:boolean;
 begin
   lvPI.items.clear;
   lvPI.items.BeginUpdate;
+  //Get a list of the typeIDs that are inputs into iParentTypeID.
+  //Only draw each item in FPrices if its in that list.
   try
     for aPI in FPrices do
     begin
+      if (iParentTypeID = -1) or (iParentTypeID = aPI.TypeID) then
+        bAdd := true
+      else
+        bAdd := dmData.IsParentOf(iParentTypeID,aPI.TypeID);
+      if not bAdd then
+        continue;
       //%n = float but with , seperators
       with lvPI.items.add do
       begin
@@ -203,6 +336,7 @@ end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
+  FMarketGroups:= TMarketGroupManager.create;
   FPrices := TObjectList<TPIPrice>.create;
   giTypesSortCol := 0; //PI Level
   gbTypesSortAscending := false;//go down from the top
@@ -210,11 +344,30 @@ begin
   gibuyOrderSortCol :=0;
   gbSellOrdersSortAscending :=true; //lowest seller at the top
   gbBuyOrdersSortAscending := false; //highest buyer at the top
+{  if FileExists(BUILDLIST) then
+  begin
+    dmData.fdmBuildList.CreateDataSet;
+    dmData.fdmBuildList.LoadFromFile(BUILDLIST);
+  end;
+  }
+  if FileExists(WATCHLIST) then
+  begin
+    dmData.fdmWatchList.CreateDataSet;
+    dmData.fdmWatchList.LoadFromFile(WATCHLIST);
+  end;
+  DoExtractMarketGroups;
+//  cdsMarketGroups.LoadFromFile('marketgroups.xml');
+  RenderRootMarketGroupsToTree; //Draw just the root nodes to the tree
+
 end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
 begin
   FPRices.free;
+  FMarketGroups.free;
+
+  dmData.fdmBuildList.SaveToFile(BUILDLIST,sfbinary);
+  dmData.fdmWatchList.SaveToFile(WATCHLIST,sfbinary);
 end;
 
 procedure TfrmMain.FormShow(Sender: TObject);
@@ -232,6 +385,26 @@ begin
   result := nil;
   if lvPI.Selected <> nil then
     result := TPIPrice(lvPI.selected.Data);
+end;
+
+procedure TfrmMain.InitBuildandWatch1Click(Sender: TObject);
+begin
+  with dmData.fdmWatchList do
+  begin
+    if not Active then
+      Active := true;
+    Append;
+    fieldbyname('typeID').asinteger := 2454;
+    Append;
+    fieldbyname('typeID').asinteger := 2456;
+    Post;
+  end;
+end;
+
+function TfrmMain.IsMarketHistoryShowing: boolean;
+begin
+  result := (pcMain.activepage = tsMarketHistory) or
+    (pcMain.activepage = tsMarketHistoryChart);
 end;
 
 function TfrmMain.IsMarketOrderShowing: boolean;
@@ -325,7 +498,7 @@ var
 begin
   if Item = nil then
     exit;
-
+  aPI:=nil;
   memInputReport.text := '';
   memDetails.text := '';
 
@@ -346,10 +519,26 @@ begin
   if IsMarketOrderShowing then
     ShowMarketOrders;
 //Show market history
-  dmData.reqMarketHistory.Params.ParameterByName('typeid').value := inttostr(aPI.TypeID);
-  dmData.reqMarketHistory.Execute;
-  DoShowMarketHistory; //Not a Happy-Path, so we need to catch the response, parse and show it
+  if (aPI<> nil) and IsMarketHistoryShowing then
+  begin
+    dmData.reqMarketHistory.Params.ParameterByName('typeid').value := inttostr(aPI.TypeID);
+    dmData.reqMarketHistory.Execute;
+    DoShowMarketHistory; //Not a Happy-Path, so we need to catch the response, parse and show it
+  end;
+end;
 
+procedure TfrmMain.ManageStatic1Click(Sender: TObject);
+//var
+//  frm:TfrmEveStatic;
+begin
+{
+  frm:=TfrmEveStatic.create(nil);
+  try
+    frm.showmodal;
+  finally
+    frm.free;
+  end;
+  }
 end;
 
 procedure TfrmMain.ParsePriceJSON(sJSON: string);
@@ -365,18 +554,153 @@ begin
   begin
     jo := jv as TJSONObject;
     aItem := TJSON.JSONToObject<TPIPrice>(jo);
-    aItem.RawJSON := TJSON.ObjectToJsonString(aItem);
+//    aItem.RawJSON := TJSON.ObjectToJsonString(aItem);
     aItem.Name := dmData.GetNameByTypeID(aItem.TypeID);
     aItem.PILevel := dmData.GetLevelByTypeID(aItem.TypeID);
     FPrices.add(aItem);
   end;
+end;
 
+procedure TfrmMain.ParsePriceWatchList(sJSON: string);
+var
+  ja:TJSONArray;
+  jv:TJSONValue;
+  jo:TJSONObject;
+  aItem:TPIPrice;
+begin
+  ja := TJSONObject.ParseJSONValue(sJSON) as TJSONArray;
+
+  for jv in ja do
+  begin
+    jo := jv as TJSONObject;
+    aItem := TJSON.JSONToObject<TPIPrice>(jo);
+//    aItem.RawJSON := TJSON.ObjectToJsonString(aItem);
+    aItem.Name := dmData.GetNameByTypeID(aItem.TypeID);
+    with dmData.fdmWatchList do
+    begin
+      Locate('typeID',aItem.TypeID);
+      dmData.fdmWatchList.Edit;
+      FieldByName('MinSell').AsCurrency := aItem.sell.min;
+      FieldByName('MaxBuy').AsCurrency := aItem.buy.max;
+    end;
+    aItem.free;
+  end;
+  dmData.fdmWatchList.Post;
 end;
 
 procedure TfrmMain.pcMainChange(Sender: TObject);
 begin
   if pcMain.ActivePage = tsMarketOrders then
     ShowMarketOrders;
+end;
+
+procedure TfrmMain.RenderRootMarketGroupsToTree;
+begin
+  tvMarketGroups.items.clear;
+  RenderGroupToTreeNode(nil);
+end;
+
+procedure TfrmMain.RenderGroupToTreeNode(aParentNode:TTreeNode);
+var
+  aNode:TTreeNode;
+  aGroup:TMarketGroup;
+  sParentHREF:string;
+begin
+  tvMarketGroups.Items.BeginUpdate;
+  if aParentNode = nil then
+    sParentHREF:=''
+  else
+  begin
+    sparentHREF:= TMarketGroup(aParentNode.data).href;
+    if aParentNode.Item[0].Text='Loading...' then
+      aParentNode.DeleteChildren;
+  end;
+
+  for aGroup in FMarketGroups do
+  begin
+    if aGroup.parentgroup=sParentHREF then
+    begin
+      aNode := tvMarketGroups.items.addchildobject(aParentNode,aGroup.name,aGroup);
+      //Add a child stub so it can be expanded. On expansion, we'll populate the children
+      tvMarketGroups.items.addchild(aNode,'Loading...');
+    end;
+  end;
+  tvMarketGroups.items.endupdate;
+  {
+  while not cdsMarketGroups.eof do
+  begin
+    if cdsMarketGroups.fieldbyname('parentGroup').asstring = '' then
+      arelNode := nil
+    else
+      aRelNode := tvMarketGroups.Items.get
+    aNode:= tvMarketGroups.Items.Add(nil,cdsMarketGroups.FieldByName('name').AsString);
+    aNode.data := pointer(cdsMarketGroups.RecNo);
+  end;
+  }
+end;
+
+procedure TfrmMain.DoExtractMarketGroups;
+var
+  jvArr:TJSONArray;
+  jvSource:TJsonObject;
+  jvGroup:TJSONValue;
+  jvObject:TJSONObject;
+  jvPair:TJSONPair;
+  sfieldname,svalue,sRawJson,sTemp,sName:string;
+  jvValue:TJSONValue;
+  jvPairEnum:TJSONPairEnumerator;
+  fField:TField;
+  sl:TStringList;
+  ilp:integer;
+  aGroup:TMarketGroup;
+begin
+  //Use JSON utils to parse the market groups, since they have a variable
+  //number of elements and the automatic RESTtoDatasetAdapter can't handle it
+  {
+  I partly copied sample code FROM http://www.dave-gill.co.uk/blog/2013/08/13/json-and-delphi-xe4
+}
+  sRawJSON:=TFile.readalltext('rawmarketgroups.txt');
+
+  //jvSource := resMarketGroups.JSONValue;
+  jvSource := TJSONObject.ParseJSONValue(sRawJSON) as TJSONObject;
+  jvARR := jvSource.GetValue('items') as TJSONArray;
+  for jvGroup in jvArr do
+  begin
+    jvObject := TJSONObject(jvGroup);
+    //To Do later - use json to object. will need to include TJSONInterceptor to handle
+    //catching the types / href situation.
+
+    //TJSON.JSONtoObject<TMarketGroup>(jvObject
+    //parentGroup, is missing from root level groups.
+    aGroup := TMarketGroup.create;
+    for ilp := 0 to jvObject.Count-1 do
+    begin
+      sFieldName:=jvObject.pairs[ilp].jsonstring.tostring;
+      if sFieldName='"types"' then
+      begin
+        sFieldName := 'typeshref';
+        sValue := jvObject.Pairs[ilp].jsonvalue.GetValue<string>('href');
+      end
+      else if sFieldName = '"parentGroup"' then
+        sValue := jvObject.Pairs[ilp].jsonvalue.GetValue<string>('href')
+      else
+        sValue := jvObject.pairs[ilp].jsonvalue.tostring;
+      sfieldName := AnsiDeQuotedStr(sFieldName,'"');
+      sValue := AnsiDeQuotedStr(sValue,'"');
+      if sFieldName = 'href' then
+        aGroup.href := sValue
+      else if sFieldName = 'name' then
+        aGroup.name := sVAlue
+      else if sFieldName = 'description' then
+        aGroup.description:= sVAlue
+      else if sFieldName = 'typeshref' then
+        aGroup.typeshref := sVAlue
+      else if sFieldName = 'parentGroup' then
+        aGroup.parentGroup:= sVAlue;
+    end;
+    //aGroup should be fully populate now. Add it to the manager
+    FMarketGroups.Add(aGroup);
+  end;
 end;
 
 end.

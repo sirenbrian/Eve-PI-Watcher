@@ -13,10 +13,12 @@ type
     DBGrid1: TDBGrid;
     dsInputs: TDataSource;
     DBGrid2: TDBGrid;
-    dsTypes: TDataSource;
-    Memo1: TMemo;
+    dsPITypes: TDataSource;
     BindingsList1: TBindingsList;
-    LinkControlToField1: TLinkControlToField;
+    DBGrid3: TDBGrid;
+    dsAlltypes: TDataSource;
+    DataSource1: TDataSource;
+    DBGrid4: TDBGrid;
   private
     { Private declarations }
   public
@@ -29,5 +31,7 @@ var
 implementation
 
 {$R *.dfm}
+
+uses dEveStatic;
 
 end.

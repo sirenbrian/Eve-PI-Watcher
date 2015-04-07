@@ -13,44 +13,4 @@ object Form2: TForm2
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13
-  object FDBatchMove1: TFDBatchMove
-    Reader = FDBatchMoveTextReader1
-    Writer = FDBatchMoveDataSetWriter1
-    Mappings = <>
-    LogFileName = 'Data.log'
-    Left = 240
-    Top = 136
-  end
-  object FDBatchMoveTextReader1: TFDBatchMoveTextReader
-    FileName = 'C:\Source Code\PI Watcher\Data\PItypes.txt'
-    DataDef.Fields = <
-      item
-        DataType = atString
-        FieldSize = 30
-      end
-      item
-        FieldName = 'PILevel'
-        DataType = atLongInt
-        FieldSize = 1
-      end
-      item
-        FieldName = 'TypeID'
-        DataType = atLongInt
-        FieldSize = 7
-      end
-      item
-        FieldName = 'outputQty'
-        DataType = atNumber
-      end>
-    DataDef.Delimiter = '"'
-    DataDef.Separator = #9
-    DataDef.RecordFormat = rfCustom
-    Left = 144
-    Top = 104
-  end
-  object FDBatchMoveDataSetWriter1: TFDBatchMoveDataSetWriter
-    DataSet = dmData.fdmTypeIDs
-    Left = 352
-    Top = 96
-  end
 end
