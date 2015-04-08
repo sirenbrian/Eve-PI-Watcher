@@ -50,13 +50,19 @@ type
     Actions1: TMenuItem;
     InitBuildandWatch1: TMenuItem;
     btnPopulateWatchList: TButton;
+    dsAllTypes: TDataSource;
+    btnDeleteFromWatchList: TButton;
+    tvMarketGroups: TTreeView;
+    Splitter4: TSplitter;
+    Panel4: TPanel;
     txtSearch: TEdit;
     btnSearch: TButton;
     DBGrid1: TDBGrid;
-    dsAllTypes: TDataSource;
-    Button3: TButton;
-    btnDeleteFromWatchList: TButton;
-    tvMarketGroups: TTreeView;
+    btnAddToWatchList: TButton;
+    Splitter6: TSplitter;
+    rbInGroup: TRadioButton;
+    rbAllTypes: TRadioButton;
+    lblSearchCount: TLabel;
     procedure btnGetPricesClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -83,14 +89,18 @@ type
     procedure InitBuildandWatch1Click(Sender: TObject);
     procedure btnPopulateWatchListClick(Sender: TObject);
     procedure btnSearchClick(Sender: TObject);
-    procedure Button3Click(Sender: TObject);
+    procedure btnAddToWatchListClick(Sender: TObject);
     procedure txtSearchKeyPress(Sender: TObject; var Key: Char);
     procedure btnDeleteFromWatchListClick(Sender: TObject);
     procedure tvMarketGroupsExpanded(Sender: TObject; Node: TTreeNode);
     procedure tvMarketGroupsClick(Sender: TObject);
+    procedure tvMarketGroupsExpanding(Sender: TObject; Node: TTreeNode;
+      var AllowExpansion: Boolean);
   private
     { Private declarations }
     FMarketGroups:TMarketGroupManager;
+    function GetGroupSearchFilter:string;
+    procedure SetWatchlistSearchFilter(sFilter:string);
     function IsMarketOrderShowing:boolean;
     function IsMarketHistoryShowing:boolean;
     procedure DrawPrices(iParentTypeID:integer=-1);
@@ -156,12 +166,18 @@ begin
 end;
 
 procedure TfrmMain.btnSearchClick(Sender: TObject);
+var
+  sFilter :string;
 begin
+  sFilter := '';
   if length(txtSearch.text) >= 3 then
   begin
-    dmEveStatic.fdmAllTypes.Filter := 'UPPER(typeName) like ''%'+uppercase(txtSearch.text)+'%''';
-    dmEveStatic.fdmAllTypes.Filtered := true;
+    sFilter := 'UPPER(typeName) like ''%'+uppercase(txtSearch.text)+'%''';
+    if rbInGroup.checked then
+      sFilter := sFilter + ' and '+GetGroupSearchFilter;
   end;
+  if sFilter > '' then
+    SetWatchListSearchFilter(sFilter);
 end;
 
 procedure TfrmMain.btnShowChildrenClick(Sender: TObject);
@@ -205,13 +221,20 @@ begin
   ShowMarketOrders;
 end;
 
-procedure TfrmMain.Button3Click(Sender: TObject);
+procedure TfrmMain.btnAddToWatchListClick(Sender: TObject);
 begin
   if not dmData.fdmWatchList.active then
     dmData.fdmWatchList.active := true;
   dmData.fdmWatchList.Append;
   dmData.fdmWatchListtypeID.asinteger := dmEveStatic.fdmAllTypestypeID.asinteger;
   dmData.fdmWatchList.Post;
+end;
+
+procedure TfrmMain.SetWatchlistSearchFilter(sFilter: string);
+begin
+  dmEveStatic.fdmAllTypes.Filter := sFilter;
+  dmEveStatic.fdmAllTypes.Filtered := true;
+  lblSearchCount.caption := dmEveStatic.fdmAllTypes.RecordCount.ToString;
 end;
 
 procedure TfrmMain.ShowMarketORders(iTypeID:integer=0);
@@ -229,20 +252,23 @@ end;
 
 procedure TfrmMain.tvMarketGroupsClick(Sender: TObject);
 var
-  aGroup:TMarketGroup;
-  sGroupID:string;
+  sFilter:string;
 begin
   if tvMarketGroups.selected = nil then
     exit;
-  aGroup:=TMarketGroup(tvMarketGroups.selected.data);
-  sGroupID:=aGroup.GroupID;
-  dmEveStatic.fdmAllTypes.filter := 'groupID='+sGroupID;
-  dmEveStatic.fdmAllTypes.filtered := true;
+  sFilter := GetGroupSearchFilter;
+  SetWatchlistSearchFilter(sFilter);
 end;
 
 procedure TfrmMain.tvMarketGroupsExpanded(Sender: TObject; Node: TTreeNode);
 begin
   //User wants to see the contents, so draw them.
+
+end;
+
+procedure TfrmMain.tvMarketGroupsExpanding(Sender: TObject; Node: TTreeNode;
+  var AllowExpansion: Boolean);
+begin
   RenderGroupToTreeNode(Node);
 end;
 
@@ -378,6 +404,18 @@ begin
   lvMarketSell.height := lvMarketSell.Parent.Height div 2;
   lvPI.width := self.width - 400;
   btnuseLast.click;
+end;
+
+function TfrmMain.GetGroupSearchFilter: string;
+var
+  aGroup:TMarketGroup;
+begin
+  result := '';
+  if tvMarketGroups.selected <> nil then
+  begin
+    aGroup:=TMarketGroup(tvMarketGroups.selected.data);
+    result :='marketGroupID='+aGroup.GroupID;
+  end;
 end;
 
 function TfrmMain.GetSelectedPIItem: TPIPrice;
@@ -607,25 +645,28 @@ var
   sParentHREF:string;
 begin
   tvMarketGroups.Items.BeginUpdate;
-  if aParentNode = nil then
-    sParentHREF:=''
-  else
-  begin
-    sparentHREF:= TMarketGroup(aParentNode.data).href;
-    if aParentNode.Item[0].Text='Loading...' then
-      aParentNode.DeleteChildren;
-  end;
-
-  for aGroup in FMarketGroups do
-  begin
-    if aGroup.parentgroup=sParentHREF then
+  try
+    if aParentNode = nil then
+      sParentHREF:=''
+    else
     begin
-      aNode := tvMarketGroups.items.addchildobject(aParentNode,aGroup.name,aGroup);
-      //Add a child stub so it can be expanded. On expansion, we'll populate the children
-      tvMarketGroups.items.addchild(aNode,'Loading...');
+      sparentHREF:= TMarketGroup(aParentNode.data).href;
+      if aParentNode.HasChildren then
+        aParentNode.DeleteChildren;
     end;
+
+    for aGroup in FMarketGroups do
+    begin
+      if aGroup.parentgroup=sParentHREF then
+      begin
+        aNode := tvMarketGroups.items.addchildobject(aParentNode,aGroup.name,aGroup);
+        //Add a child stub so it can be expanded. On expansion, we'll populate the children
+        tvMarketGroups.items.addchild(aNode,'Loading...');
+      end;
+    end;
+  finally
+    tvMarketGroups.items.endupdate;
   end;
-  tvMarketGroups.items.endupdate;
   {
   while not cdsMarketGroups.eof do
   begin
