@@ -36,7 +36,7 @@ object frmMain: TfrmMain
     ExplicitTop = 272
     ExplicitHeight = 100
   end
-  object pcMain: TPageControl
+  object pcLower: TPageControl
     Left = 3
     Top = 317
     Width = 946
@@ -44,12 +44,9 @@ object frmMain: TfrmMain
     ActivePage = tsDetails
     Align = alClient
     TabOrder = 0
-    OnChange = pcMainChange
-    ExplicitTop = 320
-    ExplicitHeight = 203
+    OnChange = pcLowerChange
     object tsDetails: TTabSheet
       Caption = 'Details'
-      ExplicitHeight = 175
       object memDetails: TMemo
         Left = 0
         Top = 0
@@ -58,13 +55,11 @@ object frmMain: TfrmMain
         Align = alClient
         ScrollBars = ssVertical
         TabOrder = 0
-        ExplicitHeight = 175
       end
     end
     object tsMarketOrders: TTabSheet
       Caption = 'Market Orders'
       ImageIndex = 1
-      ExplicitHeight = 175
       object Splitter3: TSplitter
         Left = 0
         Top = 89
@@ -104,7 +99,6 @@ object frmMain: TfrmMain
         ViewStyle = vsReport
         OnColumnClick = lvMarketBuyColumnClick
         OnCompare = lvMarketBuyCompare
-        ExplicitHeight = 77
       end
       object lvMarketSell: TListView
         Left = 0
@@ -136,7 +130,6 @@ object frmMain: TfrmMain
     object tsMarketHistory: TTabSheet
       Caption = 'Market History'
       ImageIndex = 3
-      ExplicitHeight = 175
       object DBGrid3: TDBGrid
         Left = 0
         Top = 0
@@ -191,20 +184,21 @@ object frmMain: TfrmMain
     object tsMarketHistoryChart: TTabSheet
       Caption = 'Market History Chart'
       ImageIndex = 2
-      ExplicitHeight = 175
       object chtMarketHistory: TDBChart
         Left = 0
         Top = 0
         Width = 938
         Height = 178
         Title.Text.Strings = (
-          'TDBChart')
+          '')
+        Legend.Visible = False
+        Panning.MouseWheel = pmwNone
         View3D = False
+        Zoom.MouseWheel = pmwNormal
         Align = alClient
         Color = clSilver
         TabOrder = 0
         AutoSize = True
-        ExplicitHeight = 175
         DefaultCanvas = 'TGDIPlusCanvas'
         PrintMargins = (
           15
@@ -232,8 +226,21 @@ object frmMain: TfrmMain
         end
       end
     end
+    object tsInputs: TTabSheet
+      Caption = 'Inputs'
+      ImageIndex = 4
+      object memInputReport: TMemo
+        Left = 0
+        Top = 0
+        Width = 938
+        Height = 178
+        Align = alClient
+        ScrollBars = ssVertical
+        TabOrder = 0
+      end
+    end
   end
-  object PageControl1: TPageControl
+  object pcMain: TPageControl
     Left = 0
     Top = 0
     Width = 949
@@ -241,7 +248,7 @@ object frmMain: TfrmMain
     ActivePage = tsAnyItem
     Align = alTop
     TabOrder = 1
-    object TabSheet1: TTabSheet
+    object tsPI: TTabSheet
       Caption = 'PI Watcher'
       object Panel1: TPanel
         Left = 0
@@ -321,23 +328,12 @@ object frmMain: TfrmMain
         Height = 250
         Align = alTop
         TabOrder = 1
-        object Splitter2: TSplitter
-          Left = 451
-          Top = 1
-          Width = 7
-          Height = 248
-          Color = clMoneyGreen
-          ParentColor = False
-          ExplicitLeft = 433
-          ExplicitTop = 6
-          ExplicitHeight = 206
-        end
         object lvPI: TListView
           Left = 1
           Top = 1
-          Width = 450
+          Width = 939
           Height = 248
-          Align = alLeft
+          Align = alClient
           Columns = <
             item
               Caption = 'Lvl'
@@ -381,37 +377,20 @@ object frmMain: TfrmMain
           OnCompare = lvPICompare
           OnSelectItem = lvPISelectItem
         end
-        object memInputReport: TMemo
-          Left = 458
-          Top = 1
-          Width = 482
-          Height = 248
-          Align = alClient
-          ScrollBars = ssVertical
-          TabOrder = 1
-        end
       end
     end
     object tsAnyItem: TTabSheet
       Caption = 'Any Item'
       ImageIndex = 1
-      object Splitter4: TSplitter
-        Left = 200
+      object splB: TSplitter
+        Left = 455
         Top = 41
         Width = 6
         Height = 236
         Color = clMoneyGreen
         ParentColor = False
-      end
-      object Splitter6: TSplitter
-        Left = 436
-        Top = 41
-        Width = 6
-        Height = 236
-        Color = clMoneyGreen
-        ParentColor = False
-        ExplicitLeft = 428
-        ExplicitTop = 39
+        ExplicitLeft = 523
+        ExplicitTop = 38
       end
       object Panel2: TPanel
         Left = 0
@@ -430,7 +409,7 @@ object frmMain: TfrmMain
           OnClick = btnPopulateWatchListClick
         end
         object btnDeleteFromWatchList: TButton
-          Left = 617
+          Left = 697
           Top = 10
           Width = 75
           Height = 25
@@ -438,11 +417,38 @@ object frmMain: TfrmMain
           TabOrder = 1
           OnClick = btnDeleteFromWatchListClick
         end
+        object Button3: TButton
+          Left = 16
+          Top = 10
+          Width = 121
+          Height = 25
+          Caption = 'Show/Hide Search'
+          TabOrder = 2
+          OnClick = Button3Click
+        end
+        object btnFindGroupFromWatchlist: TButton
+          Left = 536
+          Top = 10
+          Width = 75
+          Height = 25
+          Caption = 'Find Group'
+          TabOrder = 3
+          OnClick = btnFindGroupFromWatchlistClick
+        end
+        object Button4: TButton
+          Left = 152
+          Top = 10
+          Width = 129
+          Height = 25
+          Caption = 'Read Prices From File'
+          TabOrder = 4
+          OnClick = Button4Click
+        end
       end
       object dbgWatchList: TDBGrid
-        Left = 442
+        Left = 461
         Top = 41
-        Width = 499
+        Width = 480
         Height = 236
         Align = alClient
         DataSource = dmData.dsWatchList
@@ -452,118 +458,134 @@ object frmMain: TfrmMain
         TitleFont.Height = -11
         TitleFont.Name = 'Tahoma'
         TitleFont.Style = []
+        OnCellClick = dbgWatchListCellClick
+        OnTitleClick = dbgWatchListTitleClick
       end
-      object tvMarketGroups: TTreeView
+      object pnlGroupandSearch: TPanel
         Left = 0
         Top = 41
-        Width = 200
+        Width = 455
         Height = 236
         Align = alLeft
-        Indent = 19
-        ReadOnly = True
+        Caption = 'pnlGroupandSearch'
         TabOrder = 2
-        OnClick = tvMarketGroupsClick
-        OnExpanding = tvMarketGroupsExpanding
-        OnExpanded = tvMarketGroupsExpanded
-        ExplicitLeft = 3
-        ExplicitTop = 63
-        ExplicitHeight = 194
-      end
-      object Panel4: TPanel
-        Left = 206
-        Top = 41
-        Width = 230
-        Height = 236
-        Align = alLeft
-        TabOrder = 3
-        DesignSize = (
-          230
-          236)
-        object lblSearchCount: TLabel
-          Left = 9
-          Top = 213
-          Width = 3
-          Height = 13
+        object splA: TSplitter
+          Left = 201
+          Top = 1
+          Width = 6
+          Height = 234
+          Color = clMoneyGreen
+          ParentColor = False
+          ExplicitLeft = 207
+          ExplicitTop = 0
         end
-        object txtSearch: TEdit
-          Left = 10
-          Top = 8
-          Width = 157
-          Height = 21
+        object tvMarketGroups: TTreeView
+          Left = 1
+          Top = 1
+          Width = 200
+          Height = 234
+          Align = alLeft
+          HideSelection = False
+          Indent = 19
+          ReadOnly = True
           TabOrder = 0
-          OnKeyPress = txtSearchKeyPress
+          OnClick = tvMarketGroupsClick
+          OnExpanding = tvMarketGroupsExpanding
         end
-        object btnSearch: TButton
-          Left = 179
-          Top = 6
-          Width = 44
-          Height = 25
-          Caption = 'Search'
+        object pnlSearch: TPanel
+          Left = 207
+          Top = 1
+          Width = 247
+          Height = 234
+          Align = alClient
           TabOrder = 1
-          OnClick = btnSearchClick
+          DesignSize = (
+            247
+            234)
+          object lblSearchCount: TLabel
+            Left = 9
+            Top = 213
+            Width = 3
+            Height = 13
+          end
+          object txtSearch: TEdit
+            Left = 10
+            Top = 8
+            Width = 157
+            Height = 21
+            TabOrder = 0
+            OnKeyPress = txtSearchKeyPress
+          end
+          object btnSearch: TButton
+            Left = 179
+            Top = 6
+            Width = 44
+            Height = 25
+            Caption = 'Search'
+            TabOrder = 1
+            OnClick = btnSearchClick
+          end
+          object DBGrid1: TDBGrid
+            Left = 18
+            Top = 56
+            Width = 209
+            Height = 141
+            Anchors = [akLeft, akTop, akRight, akBottom]
+            DataSource = dsAllTypes
+            TabOrder = 2
+            TitleFont.Charset = DEFAULT_CHARSET
+            TitleFont.Color = clWindowText
+            TitleFont.Height = -11
+            TitleFont.Name = 'Tahoma'
+            TitleFont.Style = []
+            OnKeyPress = DBGrid1KeyPress
+            Columns = <
+              item
+                Expanded = False
+                FieldName = 'typeName'
+                Width = 200
+                Visible = True
+              end>
+          end
+          object btnAddToWatchList: TButton
+            Left = 57
+            Top = 204
+            Width = 125
+            Height = 25
+            Anchors = [akRight, akBottom]
+            Caption = 'Add To WatchList'
+            TabOrder = 3
+            OnClick = btnAddToWatchListClick
+          end
+          object rbInGroup: TRadioButton
+            Left = 10
+            Top = 34
+            Width = 89
+            Height = 17
+            Caption = 'Within Group'
+            TabOrder = 4
+          end
+          object rbAllTypes: TRadioButton
+            Left = 98
+            Top = 33
+            Width = 89
+            Height = 17
+            Caption = 'All Types'
+            Checked = True
+            TabOrder = 5
+            TabStop = True
+          end
+          object btnFindGroup: TButton
+            Left = 6
+            Top = 204
+            Width = 19
+            Height = 25
+            Anchors = [akLeft, akBottom]
+            Caption = '<-'
+            TabOrder = 6
+            OnClick = btnFindGroupClick
+          end
         end
-        object DBGrid1: TDBGrid
-          Left = 7
-          Top = 56
-          Width = 216
-          Height = 147
-          Anchors = [akLeft, akTop, akRight, akBottom]
-          DataSource = dsAllTypes
-          TabOrder = 2
-          TitleFont.Charset = DEFAULT_CHARSET
-          TitleFont.Color = clWindowText
-          TitleFont.Height = -11
-          TitleFont.Name = 'Tahoma'
-          TitleFont.Style = []
-          Columns = <
-            item
-              Expanded = False
-              FieldName = 'typeName'
-              Width = 200
-              Visible = True
-            end>
-        end
-        object btnAddToWatchList: TButton
-          Left = 79
-          Top = 208
-          Width = 125
-          Height = 25
-          Anchors = [akRight, akBottom]
-          Caption = 'Add To WatchList'
-          TabOrder = 3
-          OnClick = btnAddToWatchListClick
-          ExplicitLeft = 34
-        end
-        object rbInGroup: TRadioButton
-          Left = 10
-          Top = 34
-          Width = 89
-          Height = 17
-          Caption = 'Within Group'
-          Checked = True
-          TabOrder = 4
-          TabStop = True
-        end
-        object rbAllTypes: TRadioButton
-          Left = 98
-          Top = 33
-          Width = 89
-          Height = 17
-          Caption = 'All Types'
-          TabOrder = 5
-        end
-      end
-    end
-    object tsManufacture: TTabSheet
-      Caption = 'Manufacture'
-      ImageIndex = 2
-      object Panel3: TPanel
-        Left = 0
-        Top = 0
-        Width = 941
-        Height = 41
-        Align = alTop
-        TabOrder = 0
       end
     end
   end

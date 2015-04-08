@@ -406,6 +406,22 @@ object dmData: TdmData
     object fdmWatchListHighBar: TCurrencyField
       FieldName = 'HighBar'
     end
+    object fdmWatchListBuildFromBuy: TCurrencyField
+      FieldName = 'BuildFromBuy'
+    end
+    object fdmWatchListBuildFromSell: TCurrencyField
+      FieldName = 'BuildFromSell'
+    end
+    object fdmWatchListBuildProfitPercent: TFloatField
+      FieldKind = fkCalculated
+      FieldName = 'BuildProfitPercent'
+      Calculated = True
+    end
+    object fdmWatchListBuildProfitISK: TCurrencyField
+      FieldKind = fkCalculated
+      FieldName = 'BuildProfitISK'
+      Calculated = True
+    end
   end
   object fdmBuildList: TFDMemTable
     FetchOptions.AssignedValues = [evMode]

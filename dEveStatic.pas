@@ -44,11 +44,18 @@ var
 
 
 implementation
-uses types,strutils;
+uses types,strutils, System.Variants;
 
 function TdmEveStatic.GetNameByTypeID(iTypeID: integer): string;
+var
+  V:variant;
 begin
-  result := fdmAllTypes.Lookup('typeid',iTypeID,'TypeName');
+  fdmAlltypes.filtered := false;
+  v := fdmAllTypes.Lookup('typeid',iTypeID,'TypeName');
+  if not varisnull(v) then
+    result := v
+  else
+    result := 'Unknown Type: '+iTypeID.ToString;
 end;
 
 function TdmEveStatic.IsParentOf(iParentTypeID, iChildTypeID: integer): boolean;

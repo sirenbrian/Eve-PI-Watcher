@@ -18,7 +18,8 @@ uses
   fSearch in 'fSearch.pas' {frmSearch},
   fEveStatic in 'fEveStatic.pas',
   dEveStatic in 'dEveStatic.pas',
-  uMarketGroups in 'uMarketGroups.pas';
+  uMarketGroups in 'uMarketGroups.pas',
+  uClientDataSetUtils in 'uClientDataSetUtils.pas';
 
 {$R *.res}
 

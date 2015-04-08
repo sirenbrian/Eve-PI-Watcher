@@ -15,6 +15,7 @@ function CostToBuildMaterialsBuy(iTypeID:integer):extended;
 var
   aInputPI:TPIPrice;
   cTotal:currency;
+  iOutQty: Integer;
 begin
 
   with dmEveStatic.fdmInputs do
@@ -31,14 +32,17 @@ begin
     end;
   end;
   //that's how much you spent to make X units of output (PI lvl 4, x=1. Lvl 3, x=3 etc)
-  dmData.fdmPITypeIDs.Locate('typeID',itypeID);
-  result := cTotal / (dmData.fdmPITypeIDsOutputQty.Value)
+  iOutQty := 1; //default
+  if dmData.fdmPITypeIDs.Locate('typeID',itypeID) then
+    iOutQty := dmData.fdmPITypeIDsOutputQty.Value;
+  result := cTotal / (ioutQty)
 end;
 
 function CostToBuildMaterialsSell(iTypeID:integer):extended;
 var
   aInputPI:TPIPrice;
   cTotal:currency;
+  iOutQty:integer;
 begin
   with dmEveStatic.fdmInputs do
   begin
@@ -54,8 +58,10 @@ begin
     end;
   end;
   //that's how much you spent to make X units of output (PI lvl 4, x=1. Lvl 3, x=3 etc)
-  dmData.fdmPITypeIDs.Locate('typeID',itypeID);
-  result := cTotal / (dmData.fdmPITypeIDsOutputQty.Value)
+  iOutQty := 1; //default
+  if dmData.fdmPITypeIDs.Locate('typeID',itypeID) then
+    iOutQty := dmData.fdmPITypeIDsOutputQty.Value;
+  result := cTotal / (ioutQty)
 
 end;
 
@@ -93,24 +99,29 @@ begin
     while not eof do
     begin
       aInputPI := GetPIByTypeID(dmEveStatic.fdmInputsChildTypeID.Value);
+      if aInputPI <> nil then
+      begin
       //sell
-      result := result + aInputPI.Name+' ('+inttostr(aInputPI.TypeID)+ ')'+#13#10;
-      cInputCost := dmEveStatic.fdmInputsQuantity.value *aInputPI.Sell.Min;
-      cInputTotalSellCost := cInputTotalSellCost+cInputCost;
-      result := result + format(sFormat,
-        [dmEveStatic.fdmInputsQuantity.value,
-        aInputPI.Sell.Min,
-        cInputCost])+#13#10;
+        result := result + aInputPI.Name+' ('+inttostr(aInputPI.TypeID)+ ')'+#13#10;
+        cInputCost := dmEveStatic.fdmInputsQuantity.value *aInputPI.Sell.Min;
+        cInputTotalSellCost := cInputTotalSellCost+cInputCost;
+        result := result + format(sFormat,
+          [dmEveStatic.fdmInputsQuantity.value,
+          aInputPI.Sell.Min,
+          cInputCost])+#13#10;
 
-      //buy
-      cInputCost := dmEveStatic.fdmInputsQuantity.value *aInputPI.buy.max;
-      cInputTotalBuyCost := cInputTotalBuyCost+cInputCost;
+        //buy
+        cInputCost := dmEveStatic.fdmInputsQuantity.value *aInputPI.buy.max;
+        cInputTotalBuyCost := cInputTotalBuyCost+cInputCost;
 
-      result := result + format(sFormat,
-        [dmEveStatic.fdmInputsQuantity.value,
-        aInputPI.Buy.Max,
-        (dmEveStatic.fdmInputsQuantity.value *aInputPI.Buy.Max)])+#13#10;
-      result := result + '- - - - - - - -'+#13#10;
+        result := result + format(sFormat,
+          [dmEveStatic.fdmInputsQuantity.value,
+          aInputPI.Buy.Max,
+          (dmEveStatic.fdmInputsQuantity.value *aInputPI.Buy.Max)])+#13#10;
+        result := result + '- - - - - - - -'+#13#10;
+      end
+      else
+        result := 'Unknown Type: '+dmEveStatic.fdmInputsChildtypeID.Value.ToString+#13#10;
       next;
     end;
     dmData.fdmPITypeIDs.locate('typeID',itypeID);

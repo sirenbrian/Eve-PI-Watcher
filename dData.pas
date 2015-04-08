@@ -50,6 +50,10 @@ type
     fdmWatchListLowBar: TCurrencyField;
     fdmWatchListHighBar: TCurrencyField;
     fdmWatchListName: TStringField;
+    fdmWatchListBuildFromBuy: TCurrencyField;
+    fdmWatchListBuildFromSell: TCurrencyField;
+    fdmWatchListBuildProfitPercent: TFloatField;
+    fdmWatchListBuildProfitISK: TCurrencyField;
     procedure fdmWatchListCalcFields(DataSet: TDataSet);
   private
     procedure FetchECPrices(sTypeIDs:string;sfilename:string='');
@@ -69,6 +73,11 @@ type
 
 var
   dmData: TdmData;
+const
+  LASTJSON='lastpijson.txt';
+  LASTWATCHJSON='lastwatchlistjson.txt';
+  WATCHLIST='watch.bin';
+  BUILDLIST='build.bin';
 
 implementation
 uses strutils,ioutils, dEveStatic, System.Types;
@@ -86,13 +95,45 @@ begin
     fdmWatchListDiffISK.AsCurrency := fdmWatchlistMinSell.ascurrency-fdmWatchlistMaxBuy.ascurrency;
     if fdmWatchlistMaxBuy.ascurrency > 0 then
       fdmWatchListDiffPercent.AsFloat := round((fdmWatchListDiffISK.AsCurrency / fdmWatchlistMaxBuy.ascurrency)*100);
+    fdmWatchListBuildProfitISK.ascurrency := fdmWatchListMinSell.AsCurrency-fdmWatchListBuildFromBuy.ascurrency;
+    if fdmWatchListBuildFromBuy.ascurrency > 0 then
+      fdmWatchListBuildProfitPercent.asfloat := round((fdmWatchListBuildProfitISK.ascurrency/fdmWatchListBuildFromBuy.ascurrency)*100);
   end;
 end;
 
 procedure TdmData.FetchECPrices(sTypeIDs, sfilename: string);
 var
   p:TRESTRequestParameter;
+  aTypes:TStringdynArray;
+  sInputID,sTypeID:string;
+  slInputs:TStringList;
 begin
+  //automatically add the inputs required to make these things
+  aTypes := SplitString(stypeIDS,',');
+  slInputs:=TStringList.create;
+  try
+    slInputs.Delimiter := ',';
+    for stypeID in atypes do
+    begin
+      dmEveStatic.fdmInputs.filter := 'ParentTypeID='+sTypeID;
+      dmEveStatic.fdmInputs.filtered := true;
+      dmEveStatic.fdmInputs.first;
+      while not dmEveStatic.fdmInputs.eof do
+      begin
+        sInputID:=dmEveStatic.fdmInputsChildTypeID.AsString;
+        //See if that input is already in the the inputs list, or in the actual type IDs list
+        if (AnsiIndexText(sInputID,aTypes) =-1) and (slInputs.indexof(sInputID) = -1) then
+          slInputs.add(dmEveStatic.fdmInputsChildtypeID.asstring);
+
+        dmEveStatic.fdmInputs.Next;
+      end;
+    end;
+  finally
+  end;
+  if slInputs.count > 0 then
+    //Fetch the inputs first
+    stypeIDs := slInputs.DelimitedText+','+sTypeIDs;
+
   p := reqPrices.Params.ParameterByName('typeid');
   p.Value:= sTypeIDs;
   reqPrices.execute;
@@ -130,7 +171,7 @@ begin
       sTypes:=sTypes+',';
     fdmWatchList.next;
   end;
-  FetchECPrices(sTypes,'lastwatchlistjson.txt');
+  FetchECPrices(sTypes,LASTWATCHJSON);
 end;
 
 function TdmData.GetLevelByTypeID(iTypeID: integer): integer;
