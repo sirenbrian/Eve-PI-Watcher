@@ -13,11 +13,6 @@ uses
 type
   TdmEveStatic = class(TDataModule)
     fdmAllTypes: TFDMemTable;
-    fdmAllTypestypeID: TIntegerField;
-    fdmAllTypesgroupID: TIntegerField;
-    fdmAllTypestypeName: TStringField;
-    fdmAllTypesmarketGroupID: TIntegerField;
-    fdmAllTypesdescription: TStringField;
     fdmInputs: TFDMemTable;
     fdmInputsParentTypeID: TIntegerField;
     fdmInputsChildTypeID: TIntegerField;
@@ -27,6 +22,10 @@ type
     fdmemGroupscategoryID: TIntegerField;
     fdmemGroupsgroupName: TStringField;
     fdmemGroupsdescription: TStringField;
+    fdmAllTypesgroupID: TLargeintField;
+    fdmAllTypestypeName: TStringField;
+    fdmAllTypesmarketGroupID: TStringField;
+    fdmAllTypestypeID: TLargeintField;
   private
     { Private declarations }
   public

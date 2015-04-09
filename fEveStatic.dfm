@@ -115,38 +115,60 @@ object frmEveStatic: TfrmEveStatic
   object FDBatchMove1: TFDBatchMove
     Reader = FDBatchMoveTextReader1
     Writer = FDBatchMoveDataSetWriter1
-    Mappings = <>
+    Mappings = <
+      item
+        SourceFieldName = 'typeID'
+        DestinationFieldName = 'typeID'
+      end
+      item
+        SourceFieldName = 'groupID'
+        DestinationFieldName = 'groupID'
+      end
+      item
+        SourceFieldName = 'typeName'
+        DestinationFieldName = 'typeName'
+      end
+      item
+        SourceFieldName = 'marketGroupID'
+        DestinationFieldName = 'marketGroupID'
+      end>
     LogFileName = 'Data.log'
-    Left = 264
-    Top = 448
+    AnalyzeSample = 500
+    Left = 248
+    Top = 400
   end
   object FDBatchMoveTextReader1: TFDBatchMoveTextReader
-    FileName = 'C:\Source Code\PI Watcher\Win32\Debug\invTypeMaterials.txt'
+    FileName = 'C:\Source Code\PI Watcher\Data\invTypes2.csv'
     DataDef.Fields = <
       item
-        FieldName = #239#187#191'typeID'
+        FieldName = 'typeID'
         DataType = atLongInt
-        FieldSize = 2
+        FieldSize = 4
       end
       item
-        FieldName = 'materialTypeID'
+        FieldName = 'groupID'
         DataType = atLongInt
-        FieldSize = 2
+        FieldSize = 4
       end
       item
-        FieldName = 'quantity'
-        DataType = atLongInt
-        FieldSize = 5
+        FieldName = 'typeName'
+        DataType = atString
+        FieldSize = 100
+      end
+      item
+        FieldName = 'marketGroupID'
+        DataType = atString
+        FieldSize = 4
       end>
     DataDef.Delimiter = '"'
-    DataDef.Separator = #9
+    DataDef.Separator = ','
     DataDef.RecordFormat = rfCustom
     DataDef.WithFieldNames = True
-    Left = 168
-    Top = 416
+    Left = 112
+    Top = 400
   end
   object FDBatchMoveDataSetWriter1: TFDBatchMoveDataSetWriter
-    DataSet = dmEveStatic.fdmInputs
+    DataSet = dmEveStatic.fdmAllTypes
     Left = 376
     Top = 408
   end
