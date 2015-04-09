@@ -380,8 +380,10 @@ object dmData: TdmData
       FieldName = 'typeID'
     end
     object fdmWatchListName: TStringField
+      DisplayWidth = 50
       FieldKind = fkCalculated
       FieldName = 'typeName'
+      Size = 100
       Calculated = True
     end
     object fdmWatchListMinSell: TCurrencyField

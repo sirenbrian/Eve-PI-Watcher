@@ -400,7 +400,7 @@ object frmMain: TfrmMain
         Align = alTop
         TabOrder = 0
         object btnPopulateWatchList: TButton
-          Left = 442
+          Left = 455
           Top = 10
           Width = 75
           Height = 25
@@ -409,7 +409,7 @@ object frmMain: TfrmMain
           OnClick = btnPopulateWatchListClick
         end
         object btnDeleteFromWatchList: TButton
-          Left = 697
+          Left = 769
           Top = 10
           Width = 75
           Height = 25
@@ -419,8 +419,8 @@ object frmMain: TfrmMain
         end
         object Button3: TButton
           Left = 16
-          Top = 10
-          Width = 121
+          Top = 11
+          Width = 105
           Height = 25
           Caption = 'Show/Hide Search'
           TabOrder = 2
@@ -436,8 +436,8 @@ object frmMain: TfrmMain
           OnClick = btnFindGroupFromWatchlistClick
         end
         object Button4: TButton
-          Left = 152
-          Top = 10
+          Left = 127
+          Top = 11
           Width = 129
           Height = 25
           Caption = 'Read Prices From File'
@@ -445,12 +445,30 @@ object frmMain: TfrmMain
           OnClick = Button4Click
         end
         object Button5: TButton
-          Left = 314
-          Top = 11
-          Width = 75
+          Left = 617
+          Top = 10
+          Width = 120
           Height = 25
-          Caption = 'Check Group'
+          Caption = 'Check Whole Group'
           TabOrder = 5
+        end
+        object rbInGroup: TRadioButton
+          Left = 262
+          Top = 13
+          Width = 89
+          Height = 17
+          Caption = 'Within Group'
+          TabOrder = 6
+        end
+        object rbAllTypes: TRadioButton
+          Left = 357
+          Top = 13
+          Width = 71
+          Height = 17
+          Caption = 'All Types'
+          Checked = True
+          TabOrder = 7
+          TabStop = True
         end
       end
       object dbgWatchList: TDBGrid
@@ -533,28 +551,6 @@ object frmMain: TfrmMain
             TabOrder = 1
             OnClick = btnSearchClick
           end
-          object DBGrid1: TDBGrid
-            Left = 18
-            Top = 56
-            Width = 209
-            Height = 141
-            Anchors = [akLeft, akTop, akRight, akBottom]
-            DataSource = dsAllTypes
-            TabOrder = 2
-            TitleFont.Charset = DEFAULT_CHARSET
-            TitleFont.Color = clWindowText
-            TitleFont.Height = -11
-            TitleFont.Name = 'Tahoma'
-            TitleFont.Style = []
-            OnKeyPress = DBGrid1KeyPress
-            Columns = <
-              item
-                Expanded = False
-                FieldName = 'typeName'
-                Width = 200
-                Visible = True
-              end>
-          end
           object btnAddToWatchList: TButton
             Left = 57
             Top = 204
@@ -562,26 +558,8 @@ object frmMain: TfrmMain
             Height = 25
             Anchors = [akRight, akBottom]
             Caption = 'Add To WatchList'
-            TabOrder = 3
+            TabOrder = 2
             OnClick = btnAddToWatchListClick
-          end
-          object rbInGroup: TRadioButton
-            Left = 10
-            Top = 34
-            Width = 89
-            Height = 17
-            Caption = 'Within Group'
-            TabOrder = 4
-          end
-          object rbAllTypes: TRadioButton
-            Left = 98
-            Top = 33
-            Width = 89
-            Height = 17
-            Caption = 'All Types'
-            Checked = True
-            TabOrder = 5
-            TabStop = True
           end
           object btnFindGroup: TButton
             Left = 6
@@ -590,8 +568,25 @@ object frmMain: TfrmMain
             Height = 25
             Anchors = [akLeft, akBottom]
             Caption = '<-'
-            TabOrder = 6
+            TabOrder = 3
             OnClick = btnFindGroupClick
+          end
+          object lvSearchResults: TListView
+            Left = 10
+            Top = 37
+            Width = 217
+            Height = 161
+            Anchors = [akLeft, akTop, akRight, akBottom]
+            Columns = <
+              item
+                AutoSize = True
+                Caption = 'Name'
+              end>
+            MultiSelect = True
+            ReadOnly = True
+            RowSelect = True
+            TabOrder = 4
+            ViewStyle = vsReport
           end
         end
       end
@@ -613,11 +608,5 @@ object frmMain: TfrmMain
         OnClick = InitBuildandWatch1Click
       end
     end
-  end
-  object dsAllTypes: TDataSource
-    AutoEdit = False
-    DataSet = dmEveStatic.fdmAllTypes
-    Left = 328
-    Top = 184
   end
 end

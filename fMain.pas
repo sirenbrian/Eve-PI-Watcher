@@ -46,7 +46,6 @@ type
     Actions1: TMenuItem;
     InitBuildandWatch1: TMenuItem;
     btnPopulateWatchList: TButton;
-    dsAllTypes: TDataSource;
     btnDeleteFromWatchList: TButton;
     splB: TSplitter;
     tsInputs: TTabSheet;
@@ -59,14 +58,14 @@ type
     lblSearchCount: TLabel;
     txtSearch: TEdit;
     btnSearch: TButton;
-    DBGrid1: TDBGrid;
     btnAddToWatchList: TButton;
-    rbInGroup: TRadioButton;
-    rbAllTypes: TRadioButton;
     btnFindGroup: TButton;
     btnFindGroupFromWatchlist: TButton;
     Button4: TButton;
     Button5: TButton;
+    rbInGroup: TRadioButton;
+    rbAllTypes: TRadioButton;
+    lvSearchResults: TListView;
     procedure btnGetPricesClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -109,6 +108,7 @@ type
   private
     { Private declarations }
     FMarketGroups:TMarketGroupManager;
+    procedure ViewSearchResults;
     procedure ShowGroupForTypeID(iTypeID:integer);
     function GetCurrentSelectedtypeID:integer;
     function GetGroupSearchFilter:string;
@@ -149,8 +149,8 @@ var
   aNode:TTreeNode;
   aGroup:TMarketGroup;
 begin
-  ShowGroupForTypeID(dmEveStatic.fdmAllTypestypeID.value);
-
+  //ShowGroupForTypeID(dmEveStatic.fdmAllTypestypeID.value);
+  ShowGroupForTypeID(lvSearchresults.selected.subitems[0].ToInteger);
 end;
 
 procedure TfrmMain.btnFindGroupFromWatchlistClick(Sender: TObject);
@@ -195,6 +195,7 @@ end;
 procedure TfrmMain.btnSearchClick(Sender: TObject);
 var
   sFilter :string;
+  aItem:TListItem;
 begin
   sFilter := '';
   if length(txtSearch.text) >= 3 then
@@ -204,7 +205,10 @@ begin
       sFilter := sFilter + ' and '+GetGroupSearchFilter;
   end;
   if sFilter > '' then
+  begin
     SetWatchListSearchFilter(sFilter);
+    ViewSearchResults;
+  end;
 end;
 
 procedure TfrmMain.btnShowChildrenClick(Sender: TObject);
@@ -286,13 +290,21 @@ end;
 procedure TfrmMain.btnAddToWatchListClick(Sender: TObject);
 var
   iVal:integer;
+  aItem:TListItem;
 begin
   if not dmData.fdmWatchList.active then
     dmData.fdmWatchList.active := true;
-  dmData.fdmWatchList.Append;
-  iVal:=dmEveStatic.fdmAllTypestypeID.asinteger;
-  dmData.fdmWatchListtypeID.asinteger := iVal;
-  dmData.fdmWatchList.Post;
+  //iVal:=dmEveStatic.fdmAllTypestypeID.asinteger;
+  for aItem in lvSearchResults.items do
+  begin
+    if aItem.Selected then
+    begin
+      dmData.fdmWatchList.Append;
+      iVal := aItem.SubItems[0].ToInteger;
+      dmData.fdmWatchListtypeID.asinteger := iVal;
+      dmData.fdmWatchList.Post;
+    end;
+  end;
 end;
 
 procedure TfrmMain.SetWatchlistSearchFilter(sFilter: string);
@@ -323,6 +335,7 @@ begin
     exit;
   sFilter := GetGroupSearchFilter;
   SetWatchlistSearchFilter(sFilter);
+  ViewSearchResults;
   rbInGroup.checked := true;
 end;
 
@@ -336,6 +349,22 @@ procedure TfrmMain.txtSearchKeyPress(Sender: TObject; var Key: Char);
 begin
   if ord(key) = VK_RETURN then
     btnSearchclick(nil);
+end;
+
+procedure TfrmMain.ViewSearchResults;
+var
+  aItem:TListItem;
+begin
+  lvSearchResults.clear;
+  dmEveStatic.fdmAllTypes.first;
+
+  while not dmEveStatic.fdmAllTypes.eof do
+  begin
+    aItem:=lvSearchResults.Items.add;
+    aItem.caption := dmEveStatic.fdmAlltypestypename.Value;
+    aItem.subitems.add(dmEveStatic.fdmAllTypestypeID.asstring);
+    dmEveStatic.fdmAllTypes.next;
+  end;
 end;
 
 procedure TfrmMain.DoShowMarketHistory(itypeID:integer);
