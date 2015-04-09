@@ -27,7 +27,7 @@ begin
     while not eof do
     begin
       aInputPI := GetPIByTypeID(dmEveStatic.fdmInputsChildTypeID.Value);
-      cTotal:= cTotal +dmEveStatic.fdmInputsQuantity.value * aInputPI.buy.max;
+      cTotal:= cTotal +dmEveStatic.fdmInputsQuantity.value * aInputPI.maxbuy;
       next;
     end;
   end;
@@ -53,7 +53,7 @@ begin
     while not eof do
     begin
       aInputPI := GetPIByTypeID(dmEveStatic.fdmInputsChildTypeID.Value);
-      cTotal:= cTotal+dmEveStatic.fdmInputsQuantity.value * aInputPI.sell.min;
+      cTotal:= cTotal+dmEveStatic.fdmInputsQuantity.value * aInputPI.minsell;
       next;
     end;
   end;
@@ -71,7 +71,7 @@ begin
     //one level below it.
   //So we'll get the right output quantity
   dmData.fdmPITypeIDs.Locate('typeID',itypeID);
-  result := GetPIByTypeID(iTypeID).sell.min - cCost;
+  result := GetPIByTypeID(iTypeID).minsell - cCost;
 end;
 
 function InputReport(iTypeID:integer):string;
@@ -103,21 +103,21 @@ begin
       begin
       //sell
         result := result + aInputPI.Name+' ('+inttostr(aInputPI.TypeID)+ ')'+#13#10;
-        cInputCost := dmEveStatic.fdmInputsQuantity.value *aInputPI.Sell.Min;
+        cInputCost := dmEveStatic.fdmInputsQuantity.value *aInputPI.MinSell;
         cInputTotalSellCost := cInputTotalSellCost+cInputCost;
         result := result + format(sFormat,
           [dmEveStatic.fdmInputsQuantity.value,
-          aInputPI.Sell.Min,
+          aInputPI.MinSell,
           cInputCost])+#13#10;
 
         //buy
-        cInputCost := dmEveStatic.fdmInputsQuantity.value *aInputPI.buy.max;
+        cInputCost := dmEveStatic.fdmInputsQuantity.value *aInputPI.maxbuy;
         cInputTotalBuyCost := cInputTotalBuyCost+cInputCost;
 
         result := result + format(sFormat,
           [dmEveStatic.fdmInputsQuantity.value,
-          aInputPI.Buy.Max,
-          (dmEveStatic.fdmInputsQuantity.value *aInputPI.Buy.Max)])+#13#10;
+          aInputPI.MaxBuy,
+          (dmEveStatic.fdmInputsQuantity.value *aInputPI.MaxBuy)])+#13#10;
         result := result + '- - - - - - - -'+#13#10;
       end
       else

@@ -444,6 +444,14 @@ object frmMain: TfrmMain
           TabOrder = 4
           OnClick = Button4Click
         end
+        object Button5: TButton
+          Left = 314
+          Top = 11
+          Width = 75
+          Height = 25
+          Caption = 'Check Group'
+          TabOrder = 5
+        end
       end
       object dbgWatchList: TDBGrid
         Left = 461

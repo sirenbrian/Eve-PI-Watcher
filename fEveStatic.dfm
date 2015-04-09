@@ -138,7 +138,7 @@ object frmEveStatic: TfrmEveStatic
     Top = 400
   end
   object FDBatchMoveTextReader1: TFDBatchMoveTextReader
-    FileName = 'C:\Source Code\PI Watcher\Data\invTypes2.csv'
+    FileName = 'C:\Source Code\PI Watcher\Data\invTypes.txt'
     DataDef.Fields = <
       item
         FieldName = 'typeID'
@@ -157,11 +157,11 @@ object frmEveStatic: TfrmEveStatic
       end
       item
         FieldName = 'marketGroupID'
-        DataType = atString
+        DataType = atLongInt
         FieldSize = 4
       end>
     DataDef.Delimiter = '"'
-    DataDef.Separator = ','
+    DataDef.Separator = #9
     DataDef.RecordFormat = rfCustom
     DataDef.WithFieldNames = True
     Left = 112

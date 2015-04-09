@@ -24,8 +24,8 @@ type
     fdmemGroupsdescription: TStringField;
     fdmAllTypesgroupID: TLargeintField;
     fdmAllTypestypeName: TStringField;
-    fdmAllTypesmarketGroupID: TStringField;
     fdmAllTypestypeID: TLargeintField;
+    fdmAllTypesmarketGroupID: TLargeintField;
   private
     { Private declarations }
   public
@@ -49,12 +49,17 @@ function TdmEveStatic.GetNameByTypeID(iTypeID: integer): string;
 var
   V:variant;
 begin
-  fdmAlltypes.filtered := false;
-  v := fdmAllTypes.Lookup('typeid',iTypeID,'TypeName');
-  if not varisnull(v) then
-    result := v
-  else
-    result := 'Unknown Type: '+iTypeID.ToString;
+  fdmAlltypes.disablecontrols;
+  try
+    fdmAlltypes.filtered := false;
+    v := fdmAllTypes.Lookup('typeid',iTypeID,'TypeName');
+    if not varisnull(v) then
+      result := v
+    else
+      result := 'Unknown Type: '+iTypeID.ToString;
+  finally
+    fdmAlltypes.enableControls;
+  end;
 end;
 
 function TdmEveStatic.IsParentOf(iParentTypeID, iChildTypeID: integer): boolean;

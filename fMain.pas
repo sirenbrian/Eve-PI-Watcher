@@ -66,6 +66,7 @@ type
     btnFindGroup: TButton;
     btnFindGroupFromWatchlist: TButton;
     Button4: TButton;
+    Button5: TButton;
     procedure btnGetPricesClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -403,8 +404,8 @@ begin
       begin
         caption := inttostr(aPI.PILevel);
         subitems.add(dmData.GetNameByTypeID(aPI.TypeID));
-        subitems.add(format('%n',[aPI.sell.min])); //sell
-        subitems.add(format('%n',[aPI.buy.max])); //buy
+        subitems.add(format('%n',[aPI.Minsell])); //sell
+        subitems.add(format('%n',[aPI.Maxbuy])); //buy
         //make (buy mats)
         cCostB := CostToBuildMaterialsBuy(aPI.TypeID);
         cCostS := CostToBuildMaterialsSell(aPI.TypeID);
@@ -683,9 +684,10 @@ begin
   for jv in ja do
   begin
     jo := jv as TJSONObject;
-    aItem := TJSON.JSONToObject<TPIPrice>(jo);
+    //aItem := TJSON.JSONToObject<TPIPrice>(jo);
+    aItem := ParseECPrice(jo.ToJSON);
 //    aItem.RawJSON := TJSON.ObjectToJsonString(aItem);
-    aItem.Name := dmData.GetNameByTypeID(aItem.TypeID);
+    //aItem.Name := dmData.GetNameByTypeID(aItem.TypeID);
     aItem.PILevel := dmData.GetLevelByTypeID(aItem.TypeID);
     FPrices.add(aItem);
   end;
@@ -697,18 +699,17 @@ var
   jv:TJSONValue;
   jo:TJSONObject;
   aNewItem,aItem:TPIPrice;
+
 begin
   ja := TJSONObject.ParseJSONValue(sJSON) as TJSONArray;
   FPrices.clear;
   for jv in ja do
   begin
     jo := jv as TJSONObject;
-    aNewItem:= TJSON.JSONToObject<TPIPrice>(jo);
-    if aNewItem <> nil then
-    begin
-      aNewItem.Name := dmData.GetNameByTypeID(aNewItem.TypeID);
+    //aNewItem:= TJSON.JSONToObject<TPIPrice>(jo);
+    aNewItem:=ParseECPrice(jo.ToJSON);
+    if aNewItem<> nil then
       FPrices.add(aNewItem);
-    end;
   end;
     //The json will contain some items, the inputs, that aren't
     //in the watchlist. They're there for calculations profit/loss etc.
@@ -725,8 +726,8 @@ begin
         if Locate('typeID',aItem.TypeID) then
         begin
           dmData.fdmWatchList.Edit;
-          FieldByName('MinSell').AsCurrency := aItem.sell.min;
-          FieldByName('MaxBuy').AsCurrency := aItem.buy.max;
+          FieldByName('MinSell').AsCurrency := aItem.Minsell;
+          FieldByName('MaxBuy').AsCurrency := aItem.Maxbuy;
           FieldByName('BuildFromBuy').AsCurrency := CostToBuildMaterialsBuy(aItem.TypeID);
           FieldByName('BuildFromSell').AsCurrency := CostToBuildMaterialsSell(aItem.TypeID);
           dmData.fdmWatchList.Post;
