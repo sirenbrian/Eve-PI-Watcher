@@ -400,7 +400,7 @@ object frmMain: TfrmMain
         Align = alTop
         TabOrder = 0
         object btnPopulateWatchList: TButton
-          Left = 455
+          Left = 345
           Top = 10
           Width = 75
           Height = 25
@@ -409,7 +409,7 @@ object frmMain: TfrmMain
           OnClick = btnPopulateWatchListClick
         end
         object btnDeleteFromWatchList: TButton
-          Left = 769
+          Left = 855
           Top = 10
           Width = 75
           Height = 25
@@ -427,8 +427,8 @@ object frmMain: TfrmMain
           OnClick = Button3Click
         end
         object btnFindGroupFromWatchlist: TButton
-          Left = 536
-          Top = 10
+          Left = 426
+          Top = 11
           Width = 75
           Height = 25
           Caption = 'Find Group'
@@ -438,37 +438,65 @@ object frmMain: TfrmMain
         object Button4: TButton
           Left = 127
           Top = 11
-          Width = 129
+          Width = 92
           Height = 25
           Caption = 'Read Prices From File'
           TabOrder = 4
           OnClick = Button4Click
         end
-        object Button5: TButton
-          Left = 617
-          Top = 10
-          Width = 120
-          Height = 25
-          Caption = 'Check Whole Group'
-          TabOrder = 5
-        end
         object rbInGroup: TRadioButton
-          Left = 262
-          Top = 13
+          Left = 238
+          Top = 3
           Width = 89
           Height = 17
           Caption = 'Within Group'
-          TabOrder = 6
+          TabOrder = 5
         end
         object rbAllTypes: TRadioButton
-          Left = 357
-          Top = 13
+          Left = 238
+          Top = 19
           Width = 71
           Height = 17
           Caption = 'All Types'
           Checked = True
-          TabOrder = 7
+          TabOrder = 6
           TabStop = True
+        end
+        object btnSave: TButton
+          Left = 507
+          Top = 10
+          Width = 56
+          Height = 25
+          Caption = '&Save'
+          TabOrder = 7
+          OnClick = btnSaveClick
+        end
+        object btnLoad: TButton
+          Left = 569
+          Top = 10
+          Width = 42
+          Height = 25
+          Caption = '&Load'
+          TabOrder = 8
+          OnClick = btnLoadClick
+        end
+        object btnClearWatchList: TButton
+          Left = 617
+          Top = 10
+          Width = 41
+          Height = 25
+          Caption = 'Clear'
+          TabOrder = 9
+          OnClick = btnClearWatchListClick
+        end
+        object cmbFiles: TComboBox
+          Left = 672
+          Top = 14
+          Width = 191
+          Height = 21
+          Style = csDropDownList
+          TabOrder = 10
+          OnSelect = cmbFilesSelect
         end
       end
       object dbgWatchList: TDBGrid
@@ -552,7 +580,7 @@ object frmMain: TfrmMain
             OnClick = btnSearchClick
           end
           object btnAddToWatchList: TButton
-            Left = 57
+            Left = 41
             Top = 204
             Width = 125
             Height = 25
@@ -587,6 +615,16 @@ object frmMain: TfrmMain
             RowSelect = True
             TabOrder = 4
             ViewStyle = vsReport
+          end
+          object btnAddGroup: TButton
+            Left = 172
+            Top = 204
+            Width = 70
+            Height = 25
+            Anchors = [akRight, akBottom]
+            Caption = 'Add Group'
+            TabOrder = 5
+            OnClick = btnAddGroupClick
           end
         end
       end

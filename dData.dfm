@@ -319,6 +319,13 @@ object dmData: TdmData
     Top = 136
   end
   object mtMarketHistory: TFDMemTable
+    FieldDefs = <>
+    IndexDefs = <
+      item
+        Name = 'mtMarketHistoryDateDesc'
+        DescFields = 'date'
+        Options = [ixDescending]
+      end>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -326,6 +333,7 @@ object dmData: TdmData
     UpdateOptions.AssignedValues = [uvCheckRequired]
     UpdateOptions.CheckRequired = False
     AutoCommitUpdates = False
+    StoreDefs = True
     Left = 337
     Top = 240
     object mtMarketHistoryorderCount: TIntegerField

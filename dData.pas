@@ -60,13 +60,14 @@ type
     { Private declarations }
   public
     { Public declarations }
+    procedure AddTypeIDToWatchList(iTypeID:integer);
     function GetLevelByTypeID(iTypeID: integer): integer;
     procedure FetchPIPrices;
     procedure FetchWatchListPrices;
     procedure LoadGroups;
     procedure LoadTypes;
     function GetNameByTypeID(iTypeID:integer):string;
-
+    procedure ClearWatchList;
 
     function IsParentOf(iParentTypeID,iChildTypeID:integer):boolean;
   end;
@@ -86,6 +87,27 @@ uses strutils,ioutils, dEveStatic, System.Types;
 {$R *.dfm}
 
 { TdmData }
+
+procedure TdmData.AddTypeIDToWatchList(iTypeID: integer);
+begin
+  fdmWatchList.Append;
+  fdmWatchListtypeID.asinteger := iTypeID;
+  fdmWatchList.Post;
+end;
+
+procedure TdmData.ClearWatchList;
+begin
+  fdmWatchList.DisableControls;
+  try
+    fdmWatchList.first;
+    while not fdmWatchList.eof do
+    begin
+      fdmWatchList.Delete;
+    end;
+  finally
+    fdmWatchList.EnableControls;
+  end;
+end;
 
 procedure TdmData.fdmWatchListCalcFields(DataSet: TDataSet);
 begin

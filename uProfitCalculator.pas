@@ -89,14 +89,14 @@ begin
   begin
     Filter:='ParentTypeID='+inttostr(iTypeID);
     Filtered:=true;
-    first;
+    findfirst;
     result := UpperCase(dmEveStatic.GetNameByTypeID(iTypeID))+ ' ('+
       inttostr(iTypeID)+')'+
       #13#10;
     cInputTotalSellCost :=0.0;
     cInputTotalBuyCost :=0.0;
     sFormat:='%d @ %n each = %n';
-    while not eof do
+    while Found do
     begin
       aInputPI := GetPIByTypeID(dmEveStatic.fdmInputsChildTypeID.Value);
       if aInputPI <> nil then
@@ -121,8 +121,8 @@ begin
         result := result + '- - - - - - - -'+#13#10;
       end
       else
-        result := 'Unknown Type: '+dmEveStatic.fdmInputsChildtypeID.Value.ToString+#13#10;
-      next;
+        result := result + 'Unknown Type: '+dmEveStatic.fdmInputsChildtypeID.Value.ToString+#13#10;
+      findnext;
     end;
     dmData.fdmPITypeIDs.locate('typeID',itypeID);
     result := result + format('Produces %d units',[dmData.fdmPITypeIDsOutputQty.value])+#13#10;

@@ -62,10 +62,14 @@ type
     btnFindGroup: TButton;
     btnFindGroupFromWatchlist: TButton;
     Button4: TButton;
-    Button5: TButton;
     rbInGroup: TRadioButton;
     rbAllTypes: TRadioButton;
     lvSearchResults: TListView;
+    btnSave: TButton;
+    btnLoad: TButton;
+    btnClearWatchList: TButton;
+    btnAddGroup: TButton;
+    cmbFiles: TComboBox;
     procedure btnGetPricesClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -105,6 +109,11 @@ type
     procedure btnFindGroupClick(Sender: TObject);
     procedure btnFindGroupFromWatchlistClick(Sender: TObject);
     procedure Button4Click(Sender: TObject);
+    procedure btnSaveClick(Sender: TObject);
+    procedure btnLoadClick(Sender: TObject);
+    procedure btnClearWatchListClick(Sender: TObject);
+    procedure btnAddGroupClick(Sender: TObject);
+    procedure cmbFilesSelect(Sender: TObject);
   private
     { Private declarations }
     FMarketGroups:TMarketGroupManager;
@@ -125,6 +134,7 @@ type
     procedure RenderRootMarketGroupsToTree;
     procedure DoExtractMarketGroups;
     procedure ShowInformation(iTypeID:integer=-1);
+    procedure PopulateFileList;
   public
     { Public declarations }
   end;
@@ -136,6 +146,11 @@ uses uShared,dData,ioUtils,rest.json,system.json,fViewData,uProfitCalculator,
   uMarketOrders,uWatcherglobals, uMarketHistory, fSearch,
   FireDAC.Stan.Intf, dEveStatic, uClientDataSetUtils;
 {$R *.dfm}
+
+procedure TfrmMain.btnClearWatchListClick(Sender: TObject);
+begin
+  dmData.ClearWatchList;
+end;
 
 procedure TfrmMain.btnDeleteFromWatchListClick(Sender: TObject);
 begin
@@ -171,6 +186,16 @@ begin
   DrawPrices;
 end;
 
+procedure TfrmMain.btnLoadClick(Sender: TObject);
+var
+  sfile: string;
+begin
+  if InputQuery('filename','filename',sfile) then
+  begin
+    dmData.fdmWatchList.LoadFromFile(sfile+'.bin',sfBinary);
+  end;
+end;
+
 procedure TfrmMain.btnNameSearchClick(Sender: TObject);
 var
   frm:TfrmSearch;
@@ -190,6 +215,17 @@ begin
   dmData.FetchWatchListPrices;
   sJSON:=dmData.respPrices.JSONValue.ToString;
   ParsePriceWatchList(sJSON);
+end;
+
+procedure TfrmMain.btnSaveClick(Sender: TObject);
+var
+  sfile: string;
+begin
+  if InputQuery('filename','filename',sfile) then
+  begin
+    dmData.fdmWatchList.SaveToFile(sfile+'.bin',sfBinary);
+    PopulateFileList;
+  end;
 end;
 
 procedure TfrmMain.btnSearchClick(Sender: TObject);
@@ -271,6 +307,11 @@ begin
 
 end;
 
+procedure TfrmMain.cmbFilesSelect(Sender: TObject);
+begin
+  dmData.fdmWatchList.LoadFromFile(cmbFiles.text,sfBinary);
+end;
+
 procedure TfrmMain.DBGrid1KeyPress(Sender: TObject; var Key: Char);
 begin
   if ord(key) = VK_RETURN then
@@ -287,6 +328,27 @@ begin
   //SortClientDataSet(dmData.fdmWatchList.,Column.FieldName);
 end;
 
+procedure TfrmMain.btnAddGroupClick(Sender: TObject);
+var
+  sFilter: string;
+begin
+  //Add all the items in a group to the current watch list
+  sFilter := GetGroupSearchFilter;
+  if sFilter = '' then
+    showmessage('No group selected, please choose one.')
+  else
+  begin
+    SetWatchlistSearchFilter(sFilter);
+    dmEveStatic.fdmAllTypes.findfirst;
+
+    while dmEveStatic.fdmAllTypes.Found do
+    begin
+      dmData.AddTypeIDToWatchList(dmEveStatic.fdmAllTypestypeID.AsInteger);
+      dmEveStatic.fdmAllTypes.findnext;
+    end;
+  end;
+end;
+
 procedure TfrmMain.btnAddToWatchListClick(Sender: TObject);
 var
   iVal:integer;
@@ -299,10 +361,7 @@ begin
   begin
     if aItem.Selected then
     begin
-      dmData.fdmWatchList.Append;
-      iVal := aItem.SubItems[0].ToInteger;
-      dmData.fdmWatchListtypeID.asinteger := iVal;
-      dmData.fdmWatchList.Post;
+      dmData.AddTypeIDToWatchList(aItem.SubItems[0].toInteger);
     end;
   end;
 end;
@@ -485,7 +544,6 @@ begin
   FMarketGroups.free;
 
   dmData.fdmBuildList.SaveToFile(BUILDLIST,sfbinary);
-  dmData.fdmWatchList.SaveToFile(WATCHLIST,sfbinary);
 end;
 
 procedure TfrmMain.FormShow(Sender: TObject);
@@ -496,6 +554,7 @@ begin
   lvMarketSell.height := lvMarketSell.Parent.Height div 2;
   lvPI.width := self.width - 400;
   btnuseLast.click;
+  PopulateFileList;
 end;
 
 function TfrmMain.GetCurrentSelectedtypeID: integer;
@@ -771,6 +830,22 @@ end;
 procedure TfrmMain.pcLowerChange(Sender: TObject);
 begin
   ShowInformation;
+end;
+
+procedure TfrmMain.PopulateFileList;
+var
+  slBins:TStringList;
+  sPath:string;
+begin
+  slBins := TStringList.Create;
+  cmbFiles.Items.Clear;
+  try
+    ExpandWildcards(ExtractFilePath(Application.ExeName)+'*.bin',slBins);
+    for sPath in slBins do
+      cmbFiles.Items.add(ExtractFileName(sPath));
+  finally
+    slBins.free;
+  end;
 end;
 
 procedure TfrmMain.RenderRootMarketGroupsToTree;
