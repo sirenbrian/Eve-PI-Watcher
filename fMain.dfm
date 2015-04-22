@@ -433,8 +433,8 @@ object frmMain: TfrmMain
           OnClick = Button3Click
         end
         object btnFindGroupFromWatchlist: TButton
-          Left = 426
-          Top = 11
+          Left = 16
+          Top = 29
           Width = 75
           Height = 25
           Caption = 'Find Group'
@@ -530,6 +530,7 @@ object frmMain: TfrmMain
         Height = 218
         Align = alClient
         DataSource = dmData.dsWatchList
+        Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgMultiSelect, dgTitleClick, dgTitleHotTrack]
         TabOrder = 1
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
@@ -652,6 +653,15 @@ object frmMain: TfrmMain
             OnClick = btnAddGroupClick
           end
         end
+      end
+      object btnCopyWatchListNames: TButton
+        Left = 426
+        Top = 12
+        Width = 75
+        Height = 24
+        Caption = 'Copy Names'
+        TabOrder = 3
+        OnClick = btnCopyWatchListNamesClick
       end
     end
   end

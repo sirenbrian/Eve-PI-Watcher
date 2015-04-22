@@ -320,12 +320,7 @@ object dmData: TdmData
   end
   object mtMarketHistory: TFDMemTable
     FieldDefs = <>
-    IndexDefs = <
-      item
-        Name = 'mtMarketHistoryDateDesc'
-        DescFields = 'date'
-        Options = [ixDescending]
-      end>
+    IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]

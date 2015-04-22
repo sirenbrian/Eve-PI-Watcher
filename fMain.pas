@@ -72,6 +72,7 @@ type
     cmbFiles: TComboBox;
     chkTech1: TCheckBox;
     rbChildGroups: TRadioButton;
+    btnCopyWatchListNames: TButton;
     procedure btnGetPricesClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -117,6 +118,7 @@ type
     procedure btnAddGroupClick(Sender: TObject);
     procedure cmbFilesSelect(Sender: TObject);
     procedure DBGrid3TitleClick(Column: TColumn);
+    procedure btnCopyWatchListNamesClick(Sender: TObject);
   private
     { Private declarations }
     FMarketGroups:TMarketGroupManager;
@@ -150,12 +152,36 @@ var
 implementation
 uses uShared,dData,ioUtils,rest.json,system.json,fViewData,uProfitCalculator,
   uMarketOrders,uWatcherglobals, uMarketHistory, fSearch,
-  FireDAC.Stan.Intf, dEveStatic, uClientDataSetUtils;
+  FireDAC.Stan.Intf, dEveStatic, uClientDataSetUtils,clipbrd;
 {$R *.dfm}
 
 procedure TfrmMain.btnClearWatchListClick(Sender: TObject);
 begin
   dmData.ClearWatchList;
+end;
+
+procedure TfrmMain.btnCopyWatchListNamesClick(Sender: TObject);
+var
+  ilp:integer;
+  sOut:string;
+begin
+  sOut := '';
+  for ilp := 0 to dbgWatchList.SelectedRows.count-1 do
+  begin
+    dmData.fdmWatchList.GotoBookmark(pointer(dbgWatchList.SelectedRows[ilp]));
+    sOut := sOut + dmData.fdmWatchListName.asstring+',';
+  end;
+  Clipboard.SetTextBuf(pchar(sOut));
+{
+if DBGrid1.SelectedRows.Count > 0 then
+    begin
+      for i:=0 to DBGrid1.SelectedRows.Count-1 do
+      begin
+        Table1.GotoBookmark(pointer(DBGrid1.SelectedRows[i]));
+        ListBox1.Items.Add(Table1Common_Name.AsString)
+      end
+    end}
+
 end;
 
 procedure TfrmMain.btnDeleteFromWatchListClick(Sender: TObject);
