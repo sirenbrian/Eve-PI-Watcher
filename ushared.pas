@@ -1,12 +1,14 @@
 unit ushared;
 //Contains handy functions not tied to any one program.
 interface
-uses comctrls;
+uses System.Classes,comctrls;
 
 procedure SetAllListViewColumnsToMaxWidth(lvListView: TListView; bFitHeader: boolean = false);
 procedure SetAllListViewColumnsToFixedWidth(lvListView: TListView;iWidth:integer=50);
 function SortListView(Item1, Item2: TListItem; bSortAscending: boolean;
                 iColumnIndex: integer; iSortType: integer = 0): integer;
+procedure ExpandWildcards(sWildPath: string; slResult: TStringList);
+function RightConTrim(sString, sTarget: string): string; //Trailing only
 
 const
     CrLf   = #13 + #10;
@@ -195,6 +197,108 @@ begin
 
   if not bSortAscending then
     Result := -(Result);
+end;
+
+function RightConTrim(sString, sTarget: string): string; //Trailing only
+begin
+  Result := sString;
+  if comparetext(rightstr(sString, length(sTarget)), sTarget) = 0 then
+    Result := copy(sString, 1, length(sString) - length(sTarget));
+end;
+
+function LeftConTrim(sString, sTarget: string): string; //Left only
+begin
+  Result := sString;
+  if comparetext(copy(sString, 0, length(sTarget)), sTarget) = 0 then
+    begin
+      delete(sString,1,length(sTarget)); //MidStr(sString, length(sTarget) + 1, );
+      result := sString;
+    end;
+end;
+
+function FilePath(sDir, sFile: string): string;
+//Copes with DOS or URL style paths.  Actually this just joins ANY two
+//items together, defaulting to DOS style unless it finds a URL slash in
+//the sDir parameter.
+var
+  sSlash: string;
+begin
+  //Special case - if sDir is blank then
+  //just return sFile, otherwise we're saying that
+  //it defaults to root (ie /foobar.txt)
+  if sDir = '' then
+    begin
+      Result := sFile;
+      exit;
+    end;
+
+  if Pos('/', sDir) > 0 then
+    sSlash := '/'
+  else
+    sSlash := '\';
+
+  //this could be rightcontrim now
+  sDir := rightcontrim(sdir,sSlash);
+
+  sFile := leftcontrim(sFile,sSlash);
+
+  Result := sDir + sSlash + sFile;
+end;
+
+
+procedure ExpandWildcards(sWildPath: string; slResult: TStringList);
+// Originall from sausage.bas / BSMITH
+// Give a directory/file wildcard, populate a TStringList with all the matching filenames.
+var
+  Result:      TSearchRec;
+  sWildcard, sPath: string;
+  slSubDirs:   TStringList;
+  iDirLP, iOK: integer;
+
+  sExt: string;
+  bCheckExt, bUseIt: boolean;
+begin
+  //Bsmith
+  //Expand a wildcard and return the list of files that match it.
+
+  bUseIt    := true;
+  sPath     := extractfilepath(sWildpath);
+  sExt      := extractfileext(sWildpath);
+  sWildcard := extractfilename(sWildpath);
+  bCheckExt := false;
+  if Pos('*', sExt) = 0 then
+    bCheckExt := true;
+
+  slSubDirs := TStringList.Create;
+  try
+    slSubDirs.add(sPath);
+
+    for iDirLP := 0 to slSubDirs.Count - 1 do
+      begin
+        iOK := findfirst(filepath(slSubDirs[iDirLP], sWildcard), 0, Result);
+          if iOK = 0 then
+            begin
+              repeat
+{ TODO : JAC:  Why is the BEGIN/END pair here? }
+                begin
+                  if bCheckExt then
+                    begin
+                      bUseIt := true;
+                      if comparetext(extractfileext(Result.Name), sExt) <> 0 then
+                        bUseIt := false;
+                    end;
+                end;
+                if bUseIt then
+                  slResult.add(filepath(slSubDirs[iDirLP], Result.Name));
+
+                iOK := findNext(Result);
+              until iOK <> 0;
+            end;
+      end;
+    findclose(Result);
+  finally
+    slSubDirs.Free;
+  end;
 end;
 
 end.

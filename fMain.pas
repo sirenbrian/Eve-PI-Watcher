@@ -70,6 +70,8 @@ type
     btnClearWatchList: TButton;
     btnAddGroup: TButton;
     cmbFiles: TComboBox;
+    chkTech1: TCheckBox;
+    rbChildGroups: TRadioButton;
     procedure btnGetPricesClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -114,13 +116,16 @@ type
     procedure btnClearWatchListClick(Sender: TObject);
     procedure btnAddGroupClick(Sender: TObject);
     procedure cmbFilesSelect(Sender: TObject);
+    procedure DBGrid3TitleClick(Column: TColumn);
   private
     { Private declarations }
     FMarketGroups:TMarketGroupManager;
+    aSearchRoot:TTreeNode;
+    sAllSearchString: string;
     procedure ViewSearchResults;
     procedure ShowGroupForTypeID(iTypeID:integer);
     function GetCurrentSelectedtypeID:integer;
-    function GetGroupSearchFilter:string;
+    function GetGroupSearchFilter(aNode:TTreeNode;bRecurse:boolean;var sSearchString:string): boolean;
     procedure SetWatchlistSearchFilter(sFilter:string);
     function IsMarketOrderShowing:boolean;
     function IsMarketHistoryShowing:boolean;
@@ -135,6 +140,7 @@ type
     procedure DoExtractMarketGroups;
     procedure ShowInformation(iTypeID:integer=-1);
     procedure PopulateFileList;
+    procedure GetMarketChildIDs(aThisnode: TTreeNode);
   public
     { Public declarations }
   end;
@@ -230,15 +236,20 @@ end;
 
 procedure TfrmMain.btnSearchClick(Sender: TObject);
 var
-  sFilter :string;
+  sGroupFilter,sFilter :string;
   aItem:TListItem;
 begin
   sFilter := '';
   if length(txtSearch.text) >= 3 then
   begin
     sFilter := 'UPPER(typeName) like ''%'+uppercase(txtSearch.text)+'%''';
-    if rbInGroup.checked then
-      sFilter := sFilter + ' and '+GetGroupSearchFilter;
+    if rbInGroup.checked or rbChildGroups.checked then
+    begin
+      GetGroupSearchFilter(nil,rbChildGroups.Checked,sGroupFilter);
+      //If nothing was selected in the group list, we'll search all names
+      if sGroupFilter > '' then
+        sFilter := sFilter + ' and '+sGroupFilter;
+    end;
   end;
   if sFilter > '' then
   begin
@@ -310,12 +321,18 @@ end;
 procedure TfrmMain.cmbFilesSelect(Sender: TObject);
 begin
   dmData.fdmWatchList.LoadFromFile(cmbFiles.text,sfBinary);
+  btnPopulateWatchList.click;
 end;
 
 procedure TfrmMain.DBGrid1KeyPress(Sender: TObject; var Key: Char);
 begin
   if ord(key) = VK_RETURN then
     btnAddToWatchList.click;
+end;
+
+procedure TfrmMain.DBGrid3TitleClick(Column: TColumn);
+begin
+  SortFDMemTable(dmData.mtMarketHistory,Column);
 end;
 
 procedure TfrmMain.dbgWatchListCellClick(Column: TColumn);
@@ -325,7 +342,11 @@ end;
 
 procedure TfrmMain.dbgWatchListTitleClick(Column: TColumn);
 begin
-  //SortClientDataSet(dmData.fdmWatchList.,Column.FieldName);
+  //SortClientDataSet(dmData.fdmWatchList.data,Column.FieldName);
+//  if Column.Field.FieldKind = fkData then
+  SortFDMemTable(dmData.fdmWatchList,Column);
+ // else
+   // ShowMessage('Cannot sort by that column because of the FieldKind being not fkData.');
 end;
 
 procedure TfrmMain.btnAddGroupClick(Sender: TObject);
@@ -333,7 +354,7 @@ var
   sFilter: string;
 begin
   //Add all the items in a group to the current watch list
-  sFilter := GetGroupSearchFilter;
+  GetGroupSearchFilter(nil,rbChildGroups.Checked,sFilter);
   if sFilter = '' then
     showmessage('No group selected, please choose one.')
   else
@@ -392,10 +413,10 @@ var
 begin
   if tvMarketGroups.selected = nil then
     exit;
-  sFilter := GetGroupSearchFilter;
+  GetGroupSearchFilter(nil,false,sFilter);
+//  memDetails.Text := sFilter;
   SetWatchlistSearchFilter(sFilter);
   ViewSearchResults;
-  rbInGroup.checked := true;
 end;
 
 procedure TfrmMain.tvMarketGroupsExpanding(Sender: TObject; Node: TTreeNode;
@@ -527,11 +548,12 @@ begin
     dmData.fdmBuildList.LoadFromFile(BUILDLIST);
   end;
   }
-  if FileExists(WATCHLIST) then
+{  if FileExists(WATCHLIST) then
   begin
     dmData.fdmWatchList.CreateDataSet;
     dmData.fdmWatchList.LoadFromFile(WATCHLIST);
   end;
+  }
   DoExtractMarketGroups;
 //  cdsMarketGroups.LoadFromFile('marketgroups.xml');
   RenderRootMarketGroupsToTree; //Draw just the root nodes to the tree
@@ -571,16 +593,75 @@ begin
     result := dmData.fdmWatchListtypeID.asinteger;
 end;
 
-function TfrmMain.GetGroupSearchFilter: string;
+procedure TfrmMain.GetMarketChildIDs(aThisnode:TTreeNode);
+var
+  NextNode:TTreeNode;
+begin
+  if aThisnode <> nil then
+  begin
+    sAllSearchString := sAllSearchString + TMarketGroup(aThisNode.data).GroupID+',';
+    //sAllSearchString := sAllSearchString+ aThisNode.text+crlf;
+    NextNode := nil;
+    if aThisNode.HasChildren then
+    begin
+      NextNode := aThisNode.getfirstchild;
+      GetMarketChildIDs(NextNode);
+    end;
+    if (aThisNode <> aSearchRoot) and (aThisNode.getNextSibling <> nil) then
+    begin
+      NextNode := aThisNode.getnextsibling;
+      GetMarketChildIDs(NextNode);
+    end
+    else
+    {    NextNode := aThisNode.getfirstchild;
+    while NextNode <> nil do
+    begin
+      sAllSearchString := sAllSearchString+ NextNode.text+crlf;
+      GetMarketChildIDs(NextNode.getFirstChild);
+      NextNode := NextNode.getNextSibling;
+    end;
+    }
+  end;
+end;
+
+function TfrmMain.GetGroupSearchFilter(aNode:TTreeNode;bRecurse:boolean;var sSearchString:string): boolean;
 var
   aGroup:TMarketGroup;
 begin
-  result := '';
-  if tvMarketGroups.selected <> nil then
+  //I can use "IN" construct to look for many marketGroupIDs
+  result := false;
+  if aNode = nil then
+    aNode := tvMarketGroups.Selected;
+  if aNode <> nil then
   begin
-    aGroup:=TMarketGroup(tvMarketGroups.selected.data);
-    result :='marketGroupID='+aGroup.GroupID;
-  end;
+  aSearchRoot := aNode; //Mark our stopping point.
+  sAllSearchString:='';
+    if bRecurse then
+    begin
+      GetMarketChildIDs(aNode);
+      sSearchString := 'marketGroupID in ('+rightcontrim(sAllSearchString,',')+')';
+      //sSearchString := sSearchString + aNode.text+',';
+      {
+      if aNode.HasChildren then
+        aNode := aNode.getfirstchild
+      else if aNode.getNextSibling <> nil then
+        aNode := aNode.getnextsibling
+      else
+        aNode := nil;
+      if aNode <> nil then
+        GetGroupSearchFilter(aNode,bRecurse,sSearchString)
+      else
+        sSearchString := 'marketGroupID in ('+rightcontrim(sSearchString,',')+')';
+        }
+    end
+    else
+    begin
+      aGroup:=TMarketGroup(aNode.data);
+      sSearchString :='marketGroupID='+aGroup.GroupID;
+    end;
+  end
+  else
+    result := False;
 end;
 
 function TfrmMain.GetSelectedPIItem: TPIPrice;

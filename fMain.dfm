@@ -41,7 +41,7 @@ object frmMain: TfrmMain
     Top = 317
     Width = 946
     Height = 206
-    ActivePage = tsDetails
+    ActivePage = tsMarketHistory
     Align = alClient
     TabOrder = 0
     OnChange = pcLowerChange
@@ -143,6 +143,7 @@ object frmMain: TfrmMain
         TitleFont.Height = -11
         TitleFont.Name = 'Tahoma'
         TitleFont.Style = []
+        OnTitleClick = DBGrid3TitleClick
         Columns = <
           item
             Expanded = False
@@ -384,21 +385,25 @@ object frmMain: TfrmMain
       ImageIndex = 1
       object splB: TSplitter
         Left = 455
-        Top = 41
+        Top = 59
         Width = 6
-        Height = 236
+        Height = 218
         Color = clMoneyGreen
         ParentColor = False
         ExplicitLeft = 523
         ExplicitTop = 38
+        ExplicitHeight = 236
       end
       object Panel2: TPanel
         Left = 0
         Top = 0
         Width = 941
-        Height = 41
+        Height = 59
         Align = alTop
         TabOrder = 0
+        DesignSize = (
+          941
+          59)
         object btnPopulateWatchList: TButton
           Left = 345
           Top = 10
@@ -410,9 +415,10 @@ object frmMain: TfrmMain
         end
         object btnDeleteFromWatchList: TButton
           Left = 855
-          Top = 10
+          Top = 28
           Width = 75
           Height = 25
+          Anchors = [akRight, akBottom]
           Caption = 'Delete Item'
           TabOrder = 1
           OnClick = btnDeleteFromWatchListClick
@@ -458,9 +464,7 @@ object frmMain: TfrmMain
           Width = 71
           Height = 17
           Caption = 'All Types'
-          Checked = True
           TabOrder = 6
-          TabStop = True
         end
         object btnSave: TButton
           Left = 507
@@ -491,19 +495,39 @@ object frmMain: TfrmMain
         end
         object cmbFiles: TComboBox
           Left = 672
-          Top = 14
-          Width = 191
+          Top = 12
+          Width = 177
           Height = 21
           Style = csDropDownList
           TabOrder = 10
           OnSelect = cmbFilesSelect
         end
+        object chkTech1: TCheckBox
+          Left = 345
+          Top = 38
+          Width = 97
+          Height = 17
+          Caption = 'Tech 1 Only'
+          Checked = True
+          State = cbChecked
+          TabOrder = 11
+        end
+        object rbChildGroups: TRadioButton
+          Left = 238
+          Top = 36
+          Width = 89
+          Height = 17
+          Caption = 'Child Groups'
+          Checked = True
+          TabOrder = 12
+          TabStop = True
+        end
       end
       object dbgWatchList: TDBGrid
         Left = 461
-        Top = 41
+        Top = 59
         Width = 480
-        Height = 236
+        Height = 218
         Align = alClient
         DataSource = dmData.dsWatchList
         TabOrder = 1
@@ -517,9 +541,9 @@ object frmMain: TfrmMain
       end
       object pnlGroupandSearch: TPanel
         Left = 0
-        Top = 41
+        Top = 59
         Width = 455
-        Height = 236
+        Height = 218
         Align = alLeft
         Caption = 'pnlGroupandSearch'
         TabOrder = 2
@@ -527,17 +551,18 @@ object frmMain: TfrmMain
           Left = 201
           Top = 1
           Width = 6
-          Height = 234
+          Height = 216
           Color = clMoneyGreen
           ParentColor = False
           ExplicitLeft = 207
           ExplicitTop = 0
+          ExplicitHeight = 234
         end
         object tvMarketGroups: TTreeView
           Left = 1
           Top = 1
           Width = 200
-          Height = 234
+          Height = 216
           Align = alLeft
           HideSelection = False
           Indent = 19
@@ -550,12 +575,12 @@ object frmMain: TfrmMain
           Left = 207
           Top = 1
           Width = 247
-          Height = 234
+          Height = 216
           Align = alClient
           TabOrder = 1
           DesignSize = (
             247
-            234)
+            216)
           object lblSearchCount: TLabel
             Left = 9
             Top = 213
@@ -581,7 +606,7 @@ object frmMain: TfrmMain
           end
           object btnAddToWatchList: TButton
             Left = 41
-            Top = 204
+            Top = 186
             Width = 125
             Height = 25
             Anchors = [akRight, akBottom]
@@ -591,7 +616,7 @@ object frmMain: TfrmMain
           end
           object btnFindGroup: TButton
             Left = 6
-            Top = 204
+            Top = 186
             Width = 19
             Height = 25
             Anchors = [akLeft, akBottom]
@@ -603,7 +628,7 @@ object frmMain: TfrmMain
             Left = 10
             Top = 37
             Width = 217
-            Height = 161
+            Height = 143
             Anchors = [akLeft, akTop, akRight, akBottom]
             Columns = <
               item
@@ -618,7 +643,7 @@ object frmMain: TfrmMain
           end
           object btnAddGroup: TButton
             Left = 172
-            Top = 204
+            Top = 186
             Width = 70
             Height = 25
             Anchors = [akRight, akBottom]

@@ -2,12 +2,26 @@ unit uClientDataSetUtils;
 
 interface
 
-uses Datasnap.DBClient, Data.DB;
+uses Datasnap.DBClient, Data.DB,FireDAC.Comp.Client, Vcl.DBGrids;
 
 function SortClientDataSet(ClientDataSet: TClientDataSet;
   const FieldName: String): Boolean;
+function SortFDMemTable(fdm:TFDMemTable;Column:TColumn):boolean;
 
 implementation
+uses uShared;
+
+function SortFDMemTable(fdm:TFDMemTable;Column:TColumn):boolean;
+var
+  sNewIndex: string;
+begin
+  if Column.Title.Caption= fdm.IndexFieldNames then
+    sNewIndex := Column.Title.Caption+':D'
+  else
+    sNewIndex := Column.Title.Caption;
+  sNewIndex := rightcontrim(sNewIndex,':D:D');
+  fdm.IndexFieldNames := sNewIndex;
+end;
 
 function SortClientDataSet(ClientDataSet: TClientDataSet;
   const FieldName: String): Boolean;

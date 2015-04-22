@@ -389,10 +389,9 @@ object dmData: TdmData
     end
     object fdmWatchListName: TStringField
       DisplayWidth = 50
-      FieldKind = fkCalculated
+      FieldKind = fkInternalCalc
       FieldName = 'typeName'
       Size = 100
-      Calculated = True
     end
     object fdmWatchListMinSell: TCurrencyField
       FieldName = 'MinSell'
@@ -401,14 +400,12 @@ object dmData: TdmData
       FieldName = 'MaxBuy'
     end
     object fdmWatchListDiffPercent: TFloatField
-      FieldKind = fkCalculated
+      FieldKind = fkInternalCalc
       FieldName = 'DiffPercent'
-      Calculated = True
     end
     object fdmWatchListDiffISK: TCurrencyField
-      FieldKind = fkCalculated
+      FieldKind = fkInternalCalc
       FieldName = 'DiffISK'
-      Calculated = True
     end
     object fdmWatchListLowBar: TCurrencyField
       FieldName = 'LowBar'
@@ -423,14 +420,12 @@ object dmData: TdmData
       FieldName = 'BuildFromSell'
     end
     object fdmWatchListBuildProfitPercent: TFloatField
-      FieldKind = fkCalculated
+      FieldKind = fkInternalCalc
       FieldName = 'BuildProfitPercent'
-      Calculated = True
     end
     object fdmWatchListBuildProfitISK: TCurrencyField
-      FieldKind = fkCalculated
+      FieldKind = fkInternalCalc
       FieldName = 'BuildProfitISK'
-      Calculated = True
     end
   end
   object fdmBuildList: TFDMemTable
