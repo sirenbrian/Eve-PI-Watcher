@@ -179,6 +179,11 @@ object frmMain: TfrmMain
             FieldName = 'volume'
             Width = 80
             Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'TotalValueAvg'
+            Visible = True
           end>
       end
     end

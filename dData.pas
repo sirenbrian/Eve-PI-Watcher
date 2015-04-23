@@ -54,7 +54,9 @@ type
     fdmWatchListBuildFromSell: TCurrencyField;
     fdmWatchListBuildProfitPercent: TFloatField;
     fdmWatchListBuildProfitISK: TCurrencyField;
+    mtMarketHistoryTotalValueAvg: TCurrencyField;
     procedure fdmWatchListCalcFields(DataSet: TDataSet);
+    procedure mtMarketHistoryCalcFields(DataSet: TDataSet);
   private
     procedure FetchECPrices(sTypeIDs:string;sfilename:string='');
     { Private declarations }
@@ -63,7 +65,7 @@ type
     procedure AddTypeIDToWatchList(iTypeID:integer);
     function GetLevelByTypeID(iTypeID: integer): integer;
     procedure FetchPIPrices;
-    procedure FetchWatchListPrices;
+    procedure FetchWatchListPrices(sFileNameToSave:string='');
     procedure LoadGroups;
     procedure LoadTypes;
     function GetNameByTypeID(iTypeID:integer):string;
@@ -81,7 +83,7 @@ const
   BUILDLIST='build.bin';
 
 implementation
-uses strutils,ioutils, dEveStatic, System.Types;
+uses strutils,ioutils, dEveStatic, System.Types, System.Variants;
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 {$R *.dfm}
@@ -179,11 +181,13 @@ begin
   FetchECPrices(sTypes,'lastpijson.txt');
 end;
 
-procedure TdmData.FetchWatchListPrices;
+procedure TdmData.FetchWatchListPrices(sFileNameToSave:string='');
   //go through fdmWatchList and use the typeIDs to get prices from eve central.
 var
   sTypes:string;
 begin
+  if sFileNameToSave ='' then
+    sFileNameToSave :=LASTWATCHJSON;
   fdmWatchList.first;
   stypes := '';
   while not fdmWatchList.eof do
@@ -193,12 +197,16 @@ begin
       sTypes:=sTypes+',';
     fdmWatchList.next;
   end;
-  FetchECPrices(sTypes,LASTWATCHJSON);
+  FetchECPrices(sTypes,sFileNameToSave);
 end;
 
 function TdmData.GetLevelByTypeID(iTypeID: integer): integer;
+var
+  vResult:Variant;
 begin
-  result := fdmPITypeIDs.Lookup('typeid',iTypeID,'PILevel')-1;
+  vresult := fdmPITypeIDs.Lookup('typeid',iTypeID,'PILevel')-1;
+  if varisnull(vResult) then
+    result := -1;
 end;
 
 function TdmData.GetNameByTypeID(iTypeID: integer): string;
@@ -274,5 +282,10 @@ begin
   end;
 end;
 
+
+procedure TdmData.mtMarketHistoryCalcFields(DataSet: TDataSet);
+begin
+  mtMarketHistoryTotalValueAvg.Value := mtMarketHistoryavgPrice.Value * mtMarketHistoryvolume.value;
+end;
 
 end.

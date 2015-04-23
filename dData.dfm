@@ -319,6 +319,7 @@ object dmData: TdmData
     Top = 136
   end
   object mtMarketHistory: TFDMemTable
+    OnCalcFields = mtMarketHistoryCalcFields
     FieldDefs = <>
     IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
@@ -348,6 +349,10 @@ object dmData: TdmData
     end
     object mtMarketHistorydate: TDateTimeField
       FieldName = 'date'
+    end
+    object mtMarketHistoryTotalValueAvg: TCurrencyField
+      FieldKind = fkInternalCalc
+      FieldName = 'TotalValueAvg'
     end
   end
   object dsMarketHistory: TDataSource

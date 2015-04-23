@@ -157,6 +157,7 @@ uses uShared,dData,ioUtils,rest.json,system.json,fViewData,uProfitCalculator,
 
 procedure TfrmMain.btnClearWatchListClick(Sender: TObject);
 begin
+  cmbFiles.ItemIndex :=-1;
   dmData.ClearWatchList;
 end;
 
@@ -244,7 +245,7 @@ procedure TfrmMain.btnPopulateWatchListClick(Sender: TObject);
 var
   sJSON:string;
 begin
-  dmData.FetchWatchListPrices;
+  dmData.FetchWatchListPrices(cmbFiles.Text+'.txt');
   sJSON:=dmData.respPrices.JSONValue.ToString;
   ParsePriceWatchList(sJSON);
 end;
@@ -345,9 +346,19 @@ begin
 end;
 
 procedure TfrmMain.cmbFilesSelect(Sender: TObject);
+var
+  sJSONFile:string;
+  sJSON: string;
 begin
-  dmData.fdmWatchList.LoadFromFile(cmbFiles.text,sfBinary);
-  btnPopulateWatchList.click;
+  //Loads the Tfdmemtable
+  dmData.fdmWatchList.LoadFromFile(cmbFiles.Text+'.bin',sfBinary);
+  //Loads the last set json objects for this set
+  sJSONFile := cmbFiles.Text+'.txt';
+  if fileexists(sJSONFile) then
+  begin
+    sJSON:=TFile.ReadAllText(sJSONfile);
+    ParsePriceJSON(sJSON);
+  end;
 end;
 
 procedure TfrmMain.DBGrid1KeyPress(Sender: TObject; var Key: Char);
@@ -949,7 +960,7 @@ begin
   try
     ExpandWildcards(ExtractFilePath(Application.ExeName)+'*.bin',slBins);
     for sPath in slBins do
-      cmbFiles.Items.add(ExtractFileName(sPath));
+      cmbFiles.Items.add(ChangeFileExt(ExtractFileName(sPath),''));
   finally
     slBins.free;
   end;
