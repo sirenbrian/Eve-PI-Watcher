@@ -183,6 +183,7 @@ object frmMain: TfrmMain
           item
             Expanded = False
             FieldName = 'TotalValueAvg'
+            Width = 64
             Visible = True
           end>
       end
@@ -536,6 +537,7 @@ object frmMain: TfrmMain
         Align = alClient
         DataSource = dmData.dsWatchList
         Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgMultiSelect, dgTitleClick, dgTitleHotTrack]
+        PopupMenu = PopupMenu1
         TabOrder = 1
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
@@ -685,6 +687,18 @@ object frmMain: TfrmMain
         Caption = 'Init Build and Watch'
         OnClick = InitBuildandWatch1Click
       end
+    end
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 552
+    Top = 200
+    object AddToOtherList1: TMenuItem
+      Caption = 'Add To Other List'
+      OnClick = AddToOtherList1Click
+    end
+    object AddToBestList1: TMenuItem
+      Caption = 'Add To Best List'
+      OnClick = AddToBestList1Click
     end
   end
 end

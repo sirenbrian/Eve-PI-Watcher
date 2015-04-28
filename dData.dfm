@@ -374,6 +374,7 @@ object dmData: TdmData
     OnCalcFields = fdmWatchListCalcFields
     FieldDefs = <>
     IndexDefs = <>
+    AggregatesActive = True
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -464,5 +465,9 @@ object dmData: TdmData
     DataSet = fdmMaterialsWeUse
     Left = 200
     Top = 424
+  end
+  object FDStanStorageXMLLink1: TFDStanStorageXMLLink
+    Left = 232
+    Top = 224
   end
 end

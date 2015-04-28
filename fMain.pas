@@ -73,6 +73,9 @@ type
     chkTech1: TCheckBox;
     rbChildGroups: TRadioButton;
     btnCopyWatchListNames: TButton;
+    PopupMenu1: TPopupMenu;
+    AddToOtherList1: TMenuItem;
+    AddToBestList1: TMenuItem;
     procedure btnGetPricesClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -119,6 +122,8 @@ type
     procedure cmbFilesSelect(Sender: TObject);
     procedure DBGrid3TitleClick(Column: TColumn);
     procedure btnCopyWatchListNamesClick(Sender: TObject);
+    procedure AddToOtherList1Click(Sender: TObject);
+    procedure AddToBestList1Click(Sender: TObject);
   private
     { Private declarations }
     FMarketGroups:TMarketGroupManager;
@@ -384,6 +389,23 @@ begin
   SortFDMemTable(dmData.fdmWatchList,Column);
  // else
    // ShowMessage('Cannot sort by that column because of the FieldKind being not fkData.');
+end;
+
+procedure TfrmMain.AddToBestList1Click(Sender: TObject);
+begin
+  dmData.addtypeidtolist(dmData.fdmWatchListtypeID.value,'Best');
+  if cmbFiles.Items.IndexOf('Best') = -1 then
+    cmbFiles.Items.add('Best');
+end;
+
+procedure TfrmMain.AddToOtherList1Click(Sender: TObject);
+var
+  sName:string;
+begin
+  if InputQuery('Enter list name','Enter list name', sName) then
+  begin
+    dmData.addtypeidtolist(dmData.fdmWatchListtypeID.value,sName);
+  end;
 end;
 
 procedure TfrmMain.btnAddGroupClick(Sender: TObject);

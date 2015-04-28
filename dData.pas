@@ -9,7 +9,7 @@ uses
   FireDAC.Comp.Client, IPPeerClient, REST.Client, Data.Bind.Components,
   Data.Bind.ObjectScope, Xml.xmldom, Xml.XMLIntf, Data.Bind.EngExt,
   Vcl.Bind.DBEngExt, System.Rtti, System.Bindings.Outputs, Xml.Win.msxmldom,
-  Xml.XMLDoc;
+  Xml.XMLDoc, FireDAC.Stan.StorageXML;
 
 type
   TdmData = class(TDataModule)
@@ -55,6 +55,7 @@ type
     fdmWatchListBuildProfitPercent: TFloatField;
     fdmWatchListBuildProfitISK: TCurrencyField;
     mtMarketHistoryTotalValueAvg: TCurrencyField;
+    FDStanStorageXMLLink1: TFDStanStorageXMLLink;
     procedure fdmWatchListCalcFields(DataSet: TDataSet);
     procedure mtMarketHistoryCalcFields(DataSet: TDataSet);
   private
@@ -62,6 +63,7 @@ type
     { Private declarations }
   public
     { Public declarations }
+    procedure addtypeidtolist(iTypeID:integer;sName:string);
     procedure AddTypeIDToWatchList(iTypeID:integer);
     function GetLevelByTypeID(iTypeID: integer): integer;
     procedure FetchPIPrices;
@@ -90,6 +92,43 @@ uses strutils,ioutils, dEveStatic, System.Types, System.Variants;
 
 { TdmData }
 
+procedure TdmData.addtypeidtolist(iTypeID: integer; sName: string);
+var
+  fdmTemp:TFDMemTable;
+  ilp:integer;
+  sFieldName: string;
+begin
+  fdmTemp:=TFDMemTable.create(nil);
+  try
+    if FileExists(sName+'.bin') then
+      fdmTemp.LoadFromFile(sName+'.bin',sfBinary)
+    else
+      fdmTemp.CopyDataSet(fdmWatchList,[coStructure]);
+    fdmTemp.AutoCalcFields:=True;
+    fdmTemp.OnCalcFields := fdmWatchList.OnCalcFields;
+    fdmTemp.append;
+
+    //fdmTemp.fields[0].value := iTypeID;
+    try
+      for ilp := 0 to fdmWatchList.fields.count-1 do
+      begin
+        //if fdmWatchList.fields[ilp].fieldkind = fkData then
+        //begin
+          sFieldName := fdmWatchList.fields[ilp].fieldname;
+          fdmTemp.fields.FieldByName(sFieldName).Value := fdmWatchList.fields[ilp].value;
+        //end;
+      end;
+    except
+      //fuck it.
+    end;
+   // fdmTemp.CopyRecord(fdmWatchList.Data as TDataSet);
+    fdmTemp.Post;
+    fdmTemp.SaveToFile(sName+'.bin',sfBinary);
+  finally
+    fdmTemp.free;
+  end;
+end;
+
 procedure TdmData.AddTypeIDToWatchList(iTypeID: integer);
 begin
   fdmWatchList.Append;
@@ -113,15 +152,16 @@ end;
 
 procedure TdmData.fdmWatchListCalcFields(DataSet: TDataSet);
 begin
-  if fdmWatchListTypeID.asinteger > 0 then
+  //Tried to make this work with other fdmemtables too, didn't work.
+  if DataSet.FieldByName('typeID').asinteger > 0 then
   begin
-    fdmWatchListName.asstring := GetNameByTypeID(fdmWatchListTypeID.asinteger);
-    fdmWatchListDiffISK.AsCurrency := fdmWatchlistMinSell.ascurrency-fdmWatchlistMaxBuy.ascurrency;
-    if fdmWatchlistMaxBuy.ascurrency > 0 then
-      fdmWatchListDiffPercent.AsFloat := round((fdmWatchListDiffISK.AsCurrency / fdmWatchlistMaxBuy.ascurrency)*100);
-    fdmWatchListBuildProfitISK.ascurrency := fdmWatchListMinSell.AsCurrency-fdmWatchListBuildFromBuy.ascurrency;
-    if fdmWatchListBuildFromBuy.ascurrency > 0 then
-      fdmWatchListBuildProfitPercent.asfloat := round((fdmWatchListBuildProfitISK.ascurrency/fdmWatchListBuildFromBuy.ascurrency)*100);
+    DataSet.FieldByName('typeName').asstring := GetNameByTypeID(DataSet.FieldByName('typeID').AsInteger);
+    DataSet.FieldByName('DiffISK').AsCurrency := DataSet.FieldByName('MinSell').ascurrency-DataSet.FieldByName('MaxBuy').ascurrency;
+    if DataSet.FieldByName('MaxBuy').ascurrency > 0 then
+      DataSet.FieldByName('DiffPercent').AsFloat := round((DataSet.FieldByName('DiffISK').AsCurrency / DataSet.FieldByName('MaxBuy').ascurrency)*100);
+    DataSet.FieldByName('BuildProfitISK').ascurrency := DataSet.FieldByName('MinSell').AsCurrency-DataSet.FieldByName('BuildFromBuy').ascurrency;
+    if DataSet.FieldByName('BuildFromBuy').ascurrency > 0 then
+      DataSet.FieldByName('BuildProfitPercent').asfloat := round((DataSet.FieldByName('BuildProfitISK').ascurrency/DataSet.FieldByName('BuildFromBuy').ascurrency)*100);
   end;
 end;
 
