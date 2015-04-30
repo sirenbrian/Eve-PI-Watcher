@@ -6,7 +6,9 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,
   Vcl.StdCtrls, FireDAC.Comp.BatchMove.DataSet, FireDAC.Comp.BatchMove,
-  FireDAC.Comp.BatchMove.Text, FireDAC.Stan.Intf;
+  FireDAC.Comp.BatchMove.Text, FireDAC.Stan.Intf, Data.Bind.EngExt,
+  Vcl.Bind.DBEngExt, System.Rtti, System.Bindings.Outputs, Vcl.Bind.Editors,
+  Data.Bind.Components;
 
 type
   TfrmEveStatic = class(TForm)
@@ -24,6 +26,7 @@ type
     FDBatchMoveTextReader1: TFDBatchMoveTextReader;
     FDBatchMoveDataSetWriter1: TFDBatchMoveDataSetWriter;
     Label1: TLabel;
+    BindingsList1: TBindingsList;
     procedure btnSaveAllTypesClick(Sender: TObject);
     procedure btnLoadAllTypesClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
@@ -45,6 +48,7 @@ uses dEveStatic;
 
 procedure TfrmEveStatic.btnLoadAllTypesClick(Sender: TObject);
 begin
+  //Old version, ignore.
   dmEveStatic.LoadTypes;
 end;
 

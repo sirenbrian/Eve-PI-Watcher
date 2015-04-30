@@ -1,0 +1,3 @@
+Pulls list of all types, including their metaGroupID (tech 1/2/3/faction/storyline etc)
+  select t.typeID,groupID, typeName,marketGroupID,metaGroupID from invTypes as t inner join invMetaTypes as m
+  on t.typeID = m.typeID;

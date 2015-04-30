@@ -41,7 +41,7 @@ object frmMain: TfrmMain
     Top = 317
     Width = 946
     Height = 206
-    ActivePage = tsMarketHistory
+    ActivePage = tsDetails
     Align = alClient
     TabOrder = 0
     OnChange = pcLowerChange
@@ -407,9 +407,6 @@ object frmMain: TfrmMain
         Height = 59
         Align = alTop
         TabOrder = 0
-        DesignSize = (
-          941
-          59)
         object btnPopulateWatchList: TButton
           Left = 345
           Top = 10
@@ -419,23 +416,13 @@ object frmMain: TfrmMain
           TabOrder = 0
           OnClick = btnPopulateWatchListClick
         end
-        object btnDeleteFromWatchList: TButton
-          Left = 855
-          Top = 28
-          Width = 75
-          Height = 25
-          Anchors = [akRight, akBottom]
-          Caption = 'Delete Item'
-          TabOrder = 1
-          OnClick = btnDeleteFromWatchListClick
-        end
         object Button3: TButton
           Left = 16
           Top = 11
           Width = 105
           Height = 25
           Caption = 'Show/Hide Search'
-          TabOrder = 2
+          TabOrder = 1
           OnClick = Button3Click
         end
         object btnFindGroupFromWatchlist: TButton
@@ -444,7 +431,7 @@ object frmMain: TfrmMain
           Width = 75
           Height = 25
           Caption = 'Find Group'
-          TabOrder = 3
+          TabOrder = 2
           OnClick = btnFindGroupFromWatchlistClick
         end
         object Button4: TButton
@@ -453,7 +440,7 @@ object frmMain: TfrmMain
           Width = 92
           Height = 25
           Caption = 'Read Prices From File'
-          TabOrder = 4
+          TabOrder = 3
           OnClick = Button4Click
         end
         object rbInGroup: TRadioButton
@@ -462,7 +449,7 @@ object frmMain: TfrmMain
           Width = 89
           Height = 17
           Caption = 'Within Group'
-          TabOrder = 5
+          TabOrder = 4
         end
         object rbAllTypes: TRadioButton
           Left = 238
@@ -470,7 +457,7 @@ object frmMain: TfrmMain
           Width = 71
           Height = 17
           Caption = 'All Types'
-          TabOrder = 6
+          TabOrder = 5
         end
         object btnSave: TButton
           Left = 507
@@ -478,7 +465,7 @@ object frmMain: TfrmMain
           Width = 56
           Height = 25
           Caption = '&Save'
-          TabOrder = 7
+          TabOrder = 6
           OnClick = btnSaveClick
         end
         object btnLoad: TButton
@@ -487,7 +474,7 @@ object frmMain: TfrmMain
           Width = 42
           Height = 25
           Caption = '&Load'
-          TabOrder = 8
+          TabOrder = 7
           OnClick = btnLoadClick
         end
         object btnClearWatchList: TButton
@@ -496,7 +483,7 @@ object frmMain: TfrmMain
           Width = 41
           Height = 25
           Caption = 'Clear'
-          TabOrder = 9
+          TabOrder = 8
           OnClick = btnClearWatchListClick
         end
         object cmbFiles: TComboBox
@@ -505,18 +492,8 @@ object frmMain: TfrmMain
           Width = 177
           Height = 21
           Style = csDropDownList
-          TabOrder = 10
+          TabOrder = 9
           OnSelect = cmbFilesSelect
-        end
-        object chkTech1: TCheckBox
-          Left = 345
-          Top = 38
-          Width = 97
-          Height = 17
-          Caption = 'Tech 1 Only'
-          Checked = True
-          State = cbChecked
-          TabOrder = 11
         end
         object rbChildGroups: TRadioButton
           Left = 238
@@ -525,7 +502,7 @@ object frmMain: TfrmMain
           Height = 17
           Caption = 'Child Groups'
           Checked = True
-          TabOrder = 12
+          TabOrder = 10
           TabStop = True
         end
       end
@@ -699,6 +676,10 @@ object frmMain: TfrmMain
     object AddToBestList1: TMenuItem
       Caption = 'Add To Best List'
       OnClick = AddToBestList1Click
+    end
+    object DeleteFromList1: TMenuItem
+      Caption = 'Delete From List'
+      OnClick = DeleteFromList1Click
     end
   end
 end

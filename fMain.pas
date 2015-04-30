@@ -46,7 +46,6 @@ type
     Actions1: TMenuItem;
     InitBuildandWatch1: TMenuItem;
     btnPopulateWatchList: TButton;
-    btnDeleteFromWatchList: TButton;
     splB: TSplitter;
     tsInputs: TTabSheet;
     memInputReport: TMemo;
@@ -70,12 +69,12 @@ type
     btnClearWatchList: TButton;
     btnAddGroup: TButton;
     cmbFiles: TComboBox;
-    chkTech1: TCheckBox;
     rbChildGroups: TRadioButton;
     btnCopyWatchListNames: TButton;
     PopupMenu1: TPopupMenu;
     AddToOtherList1: TMenuItem;
     AddToBestList1: TMenuItem;
+    DeleteFromList1: TMenuItem;
     procedure btnGetPricesClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -124,6 +123,7 @@ type
     procedure btnCopyWatchListNamesClick(Sender: TObject);
     procedure AddToOtherList1Click(Sender: TObject);
     procedure AddToBestList1Click(Sender: TObject);
+    procedure DeleteFromList1Click(Sender: TObject);
   private
     { Private declarations }
     FMarketGroups:TMarketGroupManager;
@@ -616,7 +616,7 @@ begin
   DoExtractMarketGroups;
 //  cdsMarketGroups.LoadFromFile('marketgroups.xml');
   RenderRootMarketGroupsToTree; //Draw just the root nodes to the tree
-
+  dmData.fdmWatchList.Active := True;
 end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
@@ -699,19 +699,6 @@ begin
     begin
       GetMarketChildIDs(aNode);
       sSearchString := 'marketGroupID in ('+rightcontrim(sAllSearchString,',')+')';
-      //sSearchString := sSearchString + aNode.text+',';
-      {
-      if aNode.HasChildren then
-        aNode := aNode.getfirstchild
-      else if aNode.getNextSibling <> nil then
-        aNode := aNode.getnextsibling
-      else
-        aNode := nil;
-      if aNode <> nil then
-        GetGroupSearchFilter(aNode,bRecurse,sSearchString)
-      else
-        sSearchString := 'marketGroupID in ('+rightcontrim(sSearchString,',')+')';
-        }
     end
     else
     begin
@@ -1022,6 +1009,12 @@ begin
       RenderGroupToTreeNode(aNode);
     end;
   end;
+end;
+
+procedure TfrmMain.DeleteFromList1Click(Sender: TObject);
+begin
+  if dmData.fdmWatchList.RecNo>-1 then
+    dmData.fdmWatchlist.Delete;
 end;
 
 procedure TfrmMain.DoExtractMarketGroups;

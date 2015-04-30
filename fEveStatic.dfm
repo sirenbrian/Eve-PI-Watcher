@@ -3,7 +3,7 @@ object frmEveStatic: TfrmEveStatic
   Top = 0
   Caption = 'Eve Static Data'
   ClientHeight = 519
-  ClientWidth = 680
+  ClientWidth = 929
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,8 +14,8 @@ object frmEveStatic: TfrmEveStatic
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 247
-    Top = 224
+    Left = 735
+    Top = 216
     Width = 127
     Height = 97
     AutoSize = False
@@ -25,8 +25,8 @@ object frmEveStatic: TfrmEveStatic
   object grdAllTypes: TDBGrid
     Left = 8
     Top = 8
-    Width = 217
-    Height = 153
+    Width = 417
+    Height = 369
     DataSource = dsAllTypes
     TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
@@ -36,8 +36,8 @@ object frmEveStatic: TfrmEveStatic
     TitleFont.Style = []
   end
   object btnLoadAllTypes: TButton
-    Left = 231
-    Top = 16
+    Left = 463
+    Top = 24
     Width = 75
     Height = 25
     Caption = 'Load'
@@ -45,8 +45,8 @@ object frmEveStatic: TfrmEveStatic
     OnClick = btnLoadAllTypesClick
   end
   object btnSaveAllTypes: TButton
-    Left = 231
-    Top = 47
+    Left = 463
+    Top = 55
     Width = 75
     Height = 25
     Caption = 'Save'
@@ -54,7 +54,7 @@ object frmEveStatic: TfrmEveStatic
     OnClick = btnSaveAllTypesClick
   end
   object DBGrid1: TDBGrid
-    Left = 312
+    Left = 592
     Top = 8
     Width = 217
     Height = 153
@@ -67,7 +67,7 @@ object frmEveStatic: TfrmEveStatic
     TitleFont.Style = []
   end
   object Button1: TButton
-    Left = 535
+    Left = 815
     Top = 24
     Width = 75
     Height = 25
@@ -76,7 +76,7 @@ object frmEveStatic: TfrmEveStatic
     OnClick = Button1Click
   end
   object Button2: TButton
-    Left = 535
+    Left = 815
     Top = 55
     Width = 75
     Height = 25
@@ -85,8 +85,8 @@ object frmEveStatic: TfrmEveStatic
     OnClick = Button2Click
   end
   object dbMaterials: TDBGrid
-    Left = 8
-    Top = 208
+    Left = 496
+    Top = 200
     Width = 233
     Height = 153
     DataSource = dsInputs
@@ -99,22 +99,23 @@ object frmEveStatic: TfrmEveStatic
   end
   object dsAllTypes: TDataSource
     DataSet = dmEveStatic.fdmAllTypes
-    Left = 160
-    Top = 80
+    Left = 248
+    Top = 88
   end
   object dsAllGroups: TDataSource
     DataSet = dmEveStatic.fdmemGroups
-    Left = 464
+    Left = 744
     Top = 88
   end
   object dsInputs: TDataSource
     DataSet = dmEveStatic.fdmInputs
-    Left = 160
-    Top = 280
+    Left = 648
+    Top = 272
   end
   object FDBatchMove1: TFDBatchMove
     Reader = FDBatchMoveTextReader1
     Writer = FDBatchMoveDataSetWriter1
+    Options = [poClearDest, poIdentityInsert, poCreateDest]
     Mappings = <
       item
         SourceFieldName = 'typeID'
@@ -131,10 +132,15 @@ object frmEveStatic: TfrmEveStatic
       item
         SourceFieldName = 'marketGroupID'
         DestinationFieldName = 'marketGroupID'
+      end
+      item
+        SourceFieldName = 'metaGroupID'
+        DestinationFieldName = 'metaGroupID'
       end>
-    LogFileName = 'Data.log'
+    LogFileName = 'C:\Source Code\PI Watcher\Data\mylog.txt'
+    Analyze = [taHeader]
     AnalyzeSample = 500
-    Left = 248
+    Left = 192
     Top = 400
   end
   object FDBatchMoveTextReader1: TFDBatchMoveTextReader
@@ -153,23 +159,39 @@ object frmEveStatic: TfrmEveStatic
       item
         FieldName = 'typeName'
         DataType = atString
-        FieldSize = 100
+        FieldSize = 80
       end
       item
         FieldName = 'marketGroupID'
         DataType = atLongInt
         FieldSize = 4
+      end
+      item
+        FieldName = 'metaGroupID'
+        DataType = atLongInt
+        FieldSize = 1
       end>
     DataDef.Delimiter = '"'
-    DataDef.Separator = #9
+    DataDef.Separator = ','
     DataDef.RecordFormat = rfCustom
     DataDef.WithFieldNames = True
-    Left = 112
+    DataDef.FormatSettings.DateSeparator = '-'
+    DataDef.FormatSettings.ShortDateFormat = 'yyyy/MM/dd'
+    DataDef.FormatSettings.ShortTimeFormat = 'HH:mm:ss'
+    DataDef.FormatSettings.NullVals.Strings = (
+      'NULL')
+    Left = 64
     Top = 400
   end
   object FDBatchMoveDataSetWriter1: TFDBatchMoveDataSetWriter
     DataSet = dmEveStatic.fdmAllTypes
-    Left = 376
-    Top = 408
+    Left = 312
+    Top = 400
+  end
+  object BindingsList1: TBindingsList
+    Methods = <>
+    OutputConverters = <>
+    Left = 20
+    Top = 5
   end
 end
