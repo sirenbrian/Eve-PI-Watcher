@@ -116,6 +116,10 @@
         <DCCReference Include="dEveStatic.pas"/>
         <DCCReference Include="uMarketGroups.pas"/>
         <DCCReference Include="uClientDataSetUtils.pas"/>
+        <DCCReference Include="fMetaFilter.pas">
+            <Form>frmMetafilter</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

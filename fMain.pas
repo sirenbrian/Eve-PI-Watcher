@@ -70,11 +70,12 @@ type
     btnAddGroup: TButton;
     cmbFiles: TComboBox;
     rbChildGroups: TRadioButton;
-    btnCopyWatchListNames: TButton;
     PopupMenu1: TPopupMenu;
     AddToOtherList1: TMenuItem;
     AddToBestList1: TMenuItem;
     DeleteFromList1: TMenuItem;
+    btnCopyWatchListNames: TButton;
+    Button5: TButton;
     procedure btnGetPricesClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -124,11 +125,13 @@ type
     procedure AddToOtherList1Click(Sender: TObject);
     procedure AddToBestList1Click(Sender: TObject);
     procedure DeleteFromList1Click(Sender: TObject);
+    procedure Button5Click(Sender: TObject);
   private
     { Private declarations }
     FMarketGroups:TMarketGroupManager;
     aSearchRoot:TTreeNode;
     sAllSearchString: string;
+    function GetMetafilter:string;
     procedure ViewSearchResults;
     procedure ShowGroupForTypeID(iTypeID:integer);
     function GetCurrentSelectedtypeID:integer;
@@ -157,7 +160,7 @@ var
 implementation
 uses uShared,dData,ioUtils,rest.json,system.json,fViewData,uProfitCalculator,
   uMarketOrders,uWatcherglobals, uMarketHistory, fSearch,
-  FireDAC.Stan.Intf, dEveStatic, uClientDataSetUtils,clipbrd;
+  FireDAC.Stan.Intf, dEveStatic, uClientDataSetUtils,clipbrd, fMetaFilter;
 {$R *.dfm}
 
 procedure TfrmMain.btnClearWatchListClick(Sender: TObject);
@@ -282,6 +285,7 @@ begin
       if sGroupFilter > '' then
         sFilter := sFilter + ' and '+sGroupFilter;
     end;
+    sFilter := sFilter + GetMetafilter;
   end;
   if sFilter > '' then
   begin
@@ -348,6 +352,11 @@ begin
 //    DrawPrices;
   end;
 
+end;
+
+procedure TfrmMain.Button5Click(Sender: TObject);
+begin
+  frmMetaFilter.show;
 end;
 
 procedure TfrmMain.cmbFilesSelect(Sender: TObject);
@@ -418,6 +427,7 @@ begin
     showmessage('No group selected, please choose one.')
   else
   begin
+    sFilter := sFilter + GetMetafilter;
     SetWatchlistSearchFilter(sFilter);
     dmEveStatic.fdmAllTypes.findfirst;
 
@@ -681,6 +691,11 @@ begin
     end;
     }
   end;
+end;
+
+function TfrmMain.GetMetafilter: string;
+begin
+  result := frmMetaFilter.GetFilter;
 end;
 
 function TfrmMain.GetGroupSearchFilter(aNode:TTreeNode;bRecurse:boolean;var sSearchString:string): boolean;

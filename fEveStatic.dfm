@@ -22,6 +22,13 @@ object frmEveStatic: TfrmEveStatic
     Caption = 'Use FDBatchMove to load.'
     WordWrap = True
   end
+  object Label2: TLabel
+    Left = 456
+    Top = 264
+    Width = 31
+    Height = 13
+    Caption = 'Label2'
+  end
   object grdAllTypes: TDBGrid
     Left = 8
     Top = 8
@@ -136,6 +143,10 @@ object frmEveStatic: TfrmEveStatic
       item
         SourceFieldName = 'metaGroupID'
         DestinationFieldName = 'metaGroupID'
+      end
+      item
+        SourceFieldName = 'metaLevel'
+        DestinationFieldName = 'metaLevel'
       end>
     LogFileName = 'C:\Source Code\PI Watcher\Data\mylog.txt'
     Analyze = [taHeader]
@@ -170,6 +181,11 @@ object frmEveStatic: TfrmEveStatic
         FieldName = 'metaGroupID'
         DataType = atLongInt
         FieldSize = 1
+      end
+      item
+        FieldName = 'metaLevel'
+        DataType = atLongInt
+        FieldSize = 4
       end>
     DataDef.Delimiter = '"'
     DataDef.Separator = ','

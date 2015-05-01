@@ -27,6 +27,7 @@ type
     FDBatchMoveDataSetWriter1: TFDBatchMoveDataSetWriter;
     Label1: TLabel;
     BindingsList1: TBindingsList;
+    Label2: TLabel;
     procedure btnSaveAllTypesClick(Sender: TObject);
     procedure btnLoadAllTypesClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);

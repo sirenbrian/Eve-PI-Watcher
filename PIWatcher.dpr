@@ -19,7 +19,8 @@ uses
   fEveStatic in 'fEveStatic.pas',
   dEveStatic in 'dEveStatic.pas',
   uMarketGroups in 'uMarketGroups.pas',
-  uClientDataSetUtils in 'uClientDataSetUtils.pas';
+  uClientDataSetUtils in 'uClientDataSetUtils.pas',
+  fMetaFilter in 'fMetaFilter.pas' {frmMetafilter};
 
 {$R *.res}
 
@@ -30,5 +31,6 @@ begin
   Application.CreateForm(TdmEveStatic, dmEveStatic);
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TfrmViewData, frmViewData);
+  Application.CreateForm(TfrmMetafilter, frmMetafilter);
   Application.Run;
 end.

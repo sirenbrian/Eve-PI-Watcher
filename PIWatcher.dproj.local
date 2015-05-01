@@ -2,12 +2,12 @@
 <BorlandProject>
 	<Transactions>
     <Transaction>2015/03/14 16:45:01.000.201,=C:\Users\DSSDeveloper\Documents\Embarcadero\Studio\Projects\Unit4.pas</Transaction>
-    <Transaction>2015/03/14 16:45:52.000.967,C:\Source Code\PI Watcher\fMain.pas=C:\Users\DSSDeveloper\Documents\Embarcadero\Studio\Projects\Unit4.pas</Transaction>
     <Transaction>2015/03/14 16:45:52.000.967,C:\Source Code\PI Watcher\fMain.dfm=C:\Users\DSSDeveloper\Documents\Embarcadero\Studio\Projects\Unit4.dfm</Transaction>
+    <Transaction>2015/03/14 16:45:52.000.967,C:\Source Code\PI Watcher\fMain.pas=C:\Users\DSSDeveloper\Documents\Embarcadero\Studio\Projects\Unit4.pas</Transaction>
     <Transaction>2015/03/14 16:45:57.000.990,C:\Source Code\PI Watcher\PIWatcher.dproj=C:\Users\DSSDeveloper\Documents\Embarcadero\Studio\Projects\Project3.dproj</Transaction>
     <Transaction>2015/03/15 16:53:31.000.651,=C:\Source Code\PI Watcher\dData.pas</Transaction>
-    <Transaction>2015/03/15 16:54:00.000.365,=C:\Source Code\PI Watcher\uEveCentralPrice.pas</Transaction>
     <Transaction>2015/03/15 16:54:00.000.251,=C:\Source Code\PI Watcher\fImportData.pas</Transaction>
+    <Transaction>2015/03/15 16:54:00.000.365,=C:\Source Code\PI Watcher\uEveCentralPrice.pas</Transaction>
     <Transaction>2015/03/15 16:54:00.000.356,=C:\Source Code\PI Watcher\fViewData.pas</Transaction>
     <Transaction>2015/03/15 17:48:42.000.478,=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
     <Transaction>2015/03/15 17:49:02.000.719,C:\Source Code\PI Watcher\uPIPrice.pas=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
@@ -35,8 +35,8 @@
     <Transaction>2015/03/22 17:46:22.000.553,C:\Source Code\PI Watcher\fSearch.pas=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
     <Transaction>2015/03/22 17:46:22.000.553,C:\Source Code\PI Watcher\fSearch.dfm=C:\Source Code\PI Watcher\Unit1.dfm</Transaction>
     <Transaction>2015/04/04 15:18:53.000.662,=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
-    <Transaction>2015/04/04 15:19:28.000.006,C:\Source Code\Shared\dEveStatic.dfm=C:\Source Code\PI Watcher\Unit1.dfm</Transaction>
     <Transaction>2015/04/04 15:19:28.000.006,C:\Source Code\Shared\dEveStatic.pas=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
+    <Transaction>2015/04/04 15:19:28.000.006,C:\Source Code\Shared\dEveStatic.dfm=C:\Source Code\PI Watcher\Unit1.dfm</Transaction>
     <Transaction>2015/04/04 15:44:43.000.135,=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
     <Transaction>2015/04/04 15:49:13.000.193,C:\Source Code\Shared\fEveStatic.pas=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
     <Transaction>2015/04/04 15:49:13.000.193,C:\Source Code\Shared\fEveStatic.dfm=C:\Source Code\PI Watcher\Unit1.dfm</Transaction>
@@ -52,5 +52,8 @@
     <Transaction>2015/04/05 14:51:21.000.908,=C:\Source Code\PI Watcher\dEveStatic.pas</Transaction>
     <Transaction>2015/04/07 16:57:44.000.312,=C:\Source Code\PI Watcher\uMarketGroups.pas</Transaction>
     <Transaction>2015/04/08 11:53:34.000.481,=C:\Source Code\PI Watcher\uClientDataSetUtils.pas</Transaction>
+    <Transaction>2015/05/01 10:01:31.033,=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
+    <Transaction>2015/05/01 10:04:20.240,C:\Source Code\PI Watcher\fMetaFilter.pas=C:\Source Code\PI Watcher\Unit1.pas</Transaction>
+    <Transaction>2015/05/01 10:04:20.240,C:\Source Code\PI Watcher\fMetaFilter.dfm=C:\Source Code\PI Watcher\Unit1.dfm</Transaction>
   </Transactions>
 </BorlandProject>

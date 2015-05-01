@@ -27,6 +27,7 @@ type
     fdmAllTypestypeID: TLargeintField;
     fdmAllTypesmarketGroupID: TLargeintField;
     fdmAllTypesmetaGroupID: TLargeintField;
+    fdmAllTypesmetaLevel: TLargeintField;
   private
     { Private declarations }
   public

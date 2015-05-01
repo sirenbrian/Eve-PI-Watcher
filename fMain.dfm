@@ -409,9 +409,9 @@ object frmMain: TfrmMain
         TabOrder = 0
         object btnPopulateWatchList: TButton
           Left = 345
-          Top = 10
+          Top = 2
           Width = 75
-          Height = 25
+          Height = 21
           Caption = 'Populate'
           TabOrder = 0
           OnClick = btnPopulateWatchListClick
@@ -461,27 +461,27 @@ object frmMain: TfrmMain
         end
         object btnSave: TButton
           Left = 507
-          Top = 10
+          Top = 2
           Width = 56
-          Height = 25
+          Height = 21
           Caption = '&Save'
           TabOrder = 6
           OnClick = btnSaveClick
         end
         object btnLoad: TButton
           Left = 569
-          Top = 10
+          Top = 2
           Width = 42
-          Height = 25
+          Height = 21
           Caption = '&Load'
           TabOrder = 7
           OnClick = btnLoadClick
         end
         object btnClearWatchList: TButton
           Left = 617
-          Top = 10
+          Top = 2
           Width = 41
-          Height = 25
+          Height = 21
           Caption = 'Clear'
           TabOrder = 8
           OnClick = btnClearWatchListClick
@@ -504,6 +504,24 @@ object frmMain: TfrmMain
           Checked = True
           TabOrder = 10
           TabStop = True
+        end
+        object btnCopyWatchListNames: TButton
+          Left = 426
+          Top = 3
+          Width = 75
+          Height = 20
+          Caption = 'Copy Names'
+          TabOrder = 11
+          OnClick = btnCopyWatchListNamesClick
+        end
+        object Button5: TButton
+          Left = 345
+          Top = 29
+          Width = 75
+          Height = 21
+          Caption = 'Meta Filter'
+          TabOrder = 12
+          OnClick = Button5Click
         end
       end
       object dbgWatchList: TDBGrid
@@ -637,15 +655,6 @@ object frmMain: TfrmMain
             OnClick = btnAddGroupClick
           end
         end
-      end
-      object btnCopyWatchListNames: TButton
-        Left = 426
-        Top = 12
-        Width = 75
-        Height = 24
-        Caption = 'Copy Names'
-        TabOrder = 3
-        OnClick = btnCopyWatchListNamesClick
       end
     end
   end
